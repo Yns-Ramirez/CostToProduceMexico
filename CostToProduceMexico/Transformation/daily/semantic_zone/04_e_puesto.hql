@@ -1,0 +1,5 @@
+-- ======================================================
+-- e_puesto
+insert into table cp_app_costoproducir.e_puesto partition(entidadlegal_id) select a.std_id_job_code as puesto_id,coalesce(a.std_n_job_codeesp,'s/i') as descpuesto,"peoplenet v7" as sistema_fuente,from_unixtime(unix_timestamp()) as fecha_alta, from_unixtime(unix_timestamp()), el.std_id_leg_ent as entidadlegal_id from  erp_mexico_sz.std_job a inner join erp_mexico_sz.std_leg_ent el on a.id_organization = el.id_organization;
+     
+insert overwrite table cp_app_costoproducir.e_puesto partition(entidadlegal_id) select tmp.* from cp_app_costoproducir.e_puesto tmp join (select  entidadlegal_id, puesto_id, max(storeday) as first_record from cp_app_costoproducir.e_puesto group by entidadlegal_id, puesto_id) sec on tmp.entidadlegal_id = sec.entidadlegal_id and tmp.puesto_id = sec.puesto_id and tmp.storeday = sec.first_record;

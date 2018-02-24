@@ -1,0 +1,9 @@
+drop database if exists cp_stg_src_mxprod;
+drop database if exists cp_sys_calendar;
+drop database if exists cp_flat_files;
+drop database if exists cp_dwh;
+drop database if exists cp_dwh_mf;
+drop database if exists cp_wkrt;
+drop database if exists cp_view;
+drop database if exists cp_app_costoproducir;
+drop database if exists Jedox;

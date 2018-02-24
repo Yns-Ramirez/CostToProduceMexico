@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS cp_sys_calendar.calendar(
+  calendar_date string, 
+  day_of_week string, 
+  day_of_month string, 
+  day_of_year string, 
+  day_of_calendar string, 
+  weekday_of_month string, 
+  week_of_month string, 
+  week_of_year string, 
+  week_of_calendar string, 
+  month_of_quarter string, 
+  month_of_year string, 
+  month_of_calendar string, 
+  quarter_of_year string, 
+  quarter_of_calendar string, 
+  year_of_calendar string);

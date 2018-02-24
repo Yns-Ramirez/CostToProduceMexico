@@ -1,0 +1,74 @@
+hadoop fs -ls /user/hive/warehouse/cp_dwh.db/cp_control_entidadeslegales/
+hadoop fs -copyToLocal /user/hive/warehouse/cp_dwh.db/cp_control_entidadeslegales .
+
+hadoop fs -ls /user/hive/warehouse/cp_dwh.db/gx_control_el_peoplenet/
+hadoop fs -copyToLocal /user/hive/warehouse/cp_dwh.db/gx_control_el_peoplenet .
+
+hadoop fs -ls /user/hive/warehouse/cp_dwh.db/gx_control_entidades_app/
+hadoop fs -copyToLocal /user/hive/warehouse/cp_dwh.db/gx_control_entidades_app .
+
+hadoop fs -ls /user/hive/warehouse/cp_dwh.db/gx_control_entidadeslegales/
+hadoop fs -copyToLocal /user/hive/warehouse/cp_dwh.db/gx_control_entidadeslegales .
+
+hadoop fs -ls /user/hive/warehouse/cp_dwh.db/g_organizacion_geografica/
+hadoop fs -copyToLocal /user/hive/warehouse/cp_dwh.db/g_organizacion_geografica .
+
+hadoop fs -ls /user/hive/warehouse/cp_dwh.db/wip_repetitive_items/
+hadoop fs -copyToLocal /user/hive/warehouse/cp_dwh.db/wip_repetitive_items .
+
+hadoop fs -ls /user/hive/warehouse/cp_dwh.db/mtl_referencia_cruzada_mat/
+hadoop fs -copyToLocal /user/hive/warehouse/cp_dwh.db/mtl_referencia_cruzada_mat .
+
+
+
+
+hadoop fs -ls /user/hive/warehouse/cp_sys_calendar.db/calendar/
+hadoop fs -copyToLocal /user/hive/warehouse/cp_sys_calendar.db/calendar .
+
+
+
+hadoop fs -ls /user/hive/warehouse/cp_dwh_mf.db/mf_turno_default/
+hadoop fs -copyToLocal /user/hive/warehouse/cp_dwh_mf.db/mf_turno_default .
+
+hadoop fs -ls /user/hive/warehouse/cp_dwh_mf.db/mf_unidad_medida/
+hadoop fs -copyToLocal /user/hive/warehouse/cp_dwh_mf.db/mf_unidad_medida .
+
+hadoop fs -ls /user/hive/warehouse/cp_dwh_mf.db/mf_linea/
+hadoop fs -copyToLocal /user/hive/warehouse/cp_dwh_mf.db/mf_linea .
+
+hadoop fs -ls /user/hive/warehouse/cp_dwh_mf.db/mf_marca/
+hadoop fs -copyToLocal /user/hive/warehouse/cp_dwh_mf.db/mf_marca .
+
+hadoop fs -ls /user/hive/warehouse/cp_dwh_mf.db/mf_presentacion/
+hadoop fs -copyToLocal /user/hive/warehouse/cp_dwh_mf.db/mf_presentacion .
+
+hadoop fs -ls /user/hive/warehouse/cp_dwh_mf.db/mf_categoria/
+hadoop fs -copyToLocal /user/hive/warehouse/cp_dwh_mf.db/mf_categoria .
+
+hadoop fs -ls /user/hive/warehouse/cp_dwh_mf.db/mf_sublinea/
+hadoop fs -copyToLocal /user/hive/warehouse/cp_dwh_mf.db/mf_sublinea .
+
+
+
+hadoop fs -ls /user/hive/warehouse/cp_app_costoproducir.db/mf_tipo_costo/
+hadoop fs -copyToLocal /user/hive/warehouse/cp_app_costoproducir.db/mf_tipo_costo .
+
+hadoop fs -ls /user/hive/warehouse/cp_app_costoproducir.db/a_pago_empleado/
+hadoop fs -copyToLocal /user/hive/warehouse/cp_app_costoproducir.db/a_pago_empleado .
+
+
+
+hadoop fs -ls /user/hive/warehouse/cp_flat_files.db/cp_factores/
+hadoop fs -copyToLocal /user/hive/warehouse/cp_flat_files.db/cp_factores .
+
+hadoop fs -ls /user/hive/warehouse/cp_flat_files.db/ft_jer_producto/
+hadoop fs -copyToLocal /user/hive/warehouse/cp_flat_files.db/ft_jer_producto .
+
+hadoop fs -ls /user/hive/warehouse/cp_flat_files.db/ft_producto/
+hadoop fs -copyToLocal /user/hive/warehouse/cp_flat_files.db/ft_producto .
+
+hadoop fs -ls /user/hive/warehouse/cp_flat_files.db/ic_calendario_dim/
+hadoop fs -copyToLocal /user/hive/warehouse/cp_flat_files.db/ic_calendario_dim .
+
+hadoop fs -ls /user/hive/warehouse/cp_flat_files.db/v_organizacion_inactiva_mf/
+hadoop fs -copyToLocal /user/hive/warehouse/cp_flat_files.db/v_organizacion_inactiva_mf .
