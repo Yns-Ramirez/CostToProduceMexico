@@ -1,3 +1,4 @@
+---cambiando esquema 
 CREATE TABLE IF NOT EXISTS cp_dwh.acum_gl_daily_rates(
   fuente_mak int, 
   from_currency string, 
