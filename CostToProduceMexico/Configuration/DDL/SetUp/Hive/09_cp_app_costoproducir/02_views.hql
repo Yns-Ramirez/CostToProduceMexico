@@ -1,9 +1,9 @@
-CREATE VIEW IF NOT EXISTS cp_app_costoproducir.v_mf_plantas AS SELECT p.mf_organizacion_id,p.planta_id,p.gerencia_id,p.planta_ds,p.sistema_fuente,p.organizacioninventario,p.siglas,p.storeday,p.entidadlegal_id
-FROM cp_dwh_mf.MF_Plantas P
+CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.v_mf_plantas AS SELECT p.mf_organizacion_id,p.planta_id,p.gerencia_id,p.planta_ds,p.sistema_fuente,p.organizacioninventario,p.siglas,p.storeday,p.entidadlegal_id
+FROM gb_mdl_mexico_manufactura.MF_Plantas P
 WHERE p.sistema_fuente = 'CP';
 
 
-CREATE VIEW IF NOT EXISTS cp_app_costoproducir.a_rubros_fsg AS SELECT
+CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.a_rubros_fsg AS SELECT
 sld.aniosaldo
 ,sld.messaldo
 ,fsg.linea_id
@@ -20,7 +20,7 @@ ELSE sld.actividaddelperiodo END) TOT_mActividaddelPeriodo
 FROM 
 (
 SELECT a_saldo.aniosaldo, a_saldo.messaldo, a_saldo.areanegocio_id, a_saldo.cuentanatural_id, a_saldo.analisislocal_id, a_saldo.centrocostos_id, a_saldo.intercost_id, a_saldo.segment8, a_saldo.segment9, a_saldo.segment10, a_saldo.juegolibros_id, a_saldo.marca_id, a_saldo.presupuesto, a_saldo.balanceinicial, a_saldo.actividaddelperiodo, a_saldo.balancefinal, a_saldo.creditodelperiodo, a_saldo.debitodelperiodo, a_saldo.storeday, a_saldo.entidadlegal_id 
-FROM cp_dwh.A_SALDO 
+FROM gb_mdl_mexico_costoproducir.A_SALDO 
 WHERE  a_saldo.presupuesto = 0
 AND 
 (
@@ -40,9 +40,9 @@ rfd.reporte_id
 ,COALESCE(rfd.i_centrocostos_id,'0000') I_CentroCostos_IDD, COALESCE(rfd.f_centrocostos_id,'9999') F_CentroCostos_IDD
 ,COALESCE(rfd.i_marca_id,'000') I_Marca_IDD, COALESCE(rfd.f_marca_id,'999') F_Marca_IDD
 ,COALESCE(rfd.i_analisislocal_id,'0000') I_AnalisisLocal_IDD, COALESCE(rfd.f_analisislocal_id,'9999') F_AnalisisLocal_IDD
-FROM cp_view.VDW_A_REPORTE_FINANCIERO_DTL RFD, 
+FROM gb_mdl_mexico_costoproducir_views.VDW_A_REPORTE_FINANCIERO_DTL RFD, 
 (  SELECT vdw_a_reporte_financiero.reporte_id, vdw_a_reporte_financiero.linea_id, vdw_a_reporte_financiero.codigoconcepto, vdw_a_reporte_financiero.nombreconcepto, vdw_a_reporte_financiero.displayflag 
-FROM cp_view.VDW_A_REPORTE_FINANCIERO 
+FROM gb_mdl_mexico_costoproducir_views.VDW_A_REPORTE_FINANCIERO 
 WHERE TRIM(vdw_a_reporte_financiero.displayflag) = 'Y' 
 AND vdw_a_reporte_financiero.reporte_id = 10001
 AND vdw_a_reporte_financiero.linea_id IN (25,30,45,95)
@@ -60,7 +60,7 @@ AND sld.analisislocal_id BETWEEN fsg.i_analisislocal_idd AND fsg.f_analisislocal
 GROUP BY sld.aniosaldo,sld.messaldo,sld.entidadlegal_id,fsg.linea_id,fsg.nombreconcepto,sld.areanegocio_id,sld.cuentanatural_id,sld.centrocostos_id,sld.analisislocal_id,sld.storeday;
 
 
-CREATE VIEW IF NOT EXISTS cp_app_costoproducir.cs_gllines_sf_s3 AS select  
+CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.cs_gllines_sf_s3 AS select  
  c.je_source 
 ,c.name
 ,b.segment1
@@ -90,16 +90,16 @@ AND ( lower(c.name) <> lower('JRUIZESQ290808-2')    ----- eliminamos reclasifica
 AND lower(c.status) <> lower('U');
 
 
-CREATE VIEW IF NOT EXISTS cp_app_costoproducir.d_lineas AS select 
+CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.d_lineas AS select 
     coalesce(pla.entidadlegal_id,'-1') as entidadlegal_id,
     pla.mf_organizacion_id as planta_id,
     pla.planta_id as codigoplanta,
     wl.line_id  as linea_id,
     upper(max(wl.description)) as linea_ds,
     wl.storeday
-  from cp_dwh.wip_lineas wl
-  left join cp_dwh_mf.mf_plantas pla on wl.organization_id = pla.mf_organizacion_id
-  where pla.entidadlegal_id in (select entidadlegal_id from cp_view.v_entidadeslegales_activas_mf group by entidadlegal_id)
+  from gb_mdl_mexico_costoproducir.wip_lineas wl
+  left join gb_mdl_mexico_manufactura.mf_plantas pla on wl.organization_id = pla.mf_organizacion_id
+  where pla.entidadlegal_id in (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadeslegales_activas_mf group by entidadlegal_id)
   group by 
   coalesce(pla.entidadlegal_id,'-1') ,
   pla.mf_organizacion_id,
@@ -108,7 +108,7 @@ CREATE VIEW IF NOT EXISTS cp_app_costoproducir.d_lineas AS select
   wl.storeday;
 
 
-  CREATE VIEW IF NOT EXISTS cp_app_costoproducir.v_mf_producto_organizacion AS SELECT po.mf_organizacion_id, po.planta_id, 
+  CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.v_mf_producto_organizacion AS SELECT po.mf_organizacion_id, po.planta_id, 
 po.mf_producto_id, po.producto_id, 
 po.tipo_producto_id, po.descripcion, 
 po.marca_id, po.presentacion_id, 
@@ -119,43 +119,43 @@ po.contenedor_desc, po.cupo_contenedor,
 po.cupo_envase, po.tope_devolucion, 
 po.indicador_eye, po.origen, po.fecha_alta, 
 po.fecha_mod, po.storeday, po.entidadlegal_id
-FROM cp_dwh_mf.mf_producto_organizacion PO
-INNER JOIN cp_app_costoproducir.V_MF_Plantas P 
+FROM gb_mdl_mexico_manufactura.mf_producto_organizacion PO
+INNER JOIN gb_smntc_mexico_costoproducir.V_MF_Plantas P 
 ON po.entidadlegal_id = p.entidadlegal_id 
 AND po.mf_organizacion_id = p.mf_organizacion_id 
 AND po.planta_id = p.planta_id;
 
 
-CREATE VIEW IF NOT EXISTS cp_app_costoproducir.d_materias_primas AS select
+CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.d_materias_primas AS select
      p.entidadlegal_id          as entidadlegal_id
      ,p.mf_producto_id          as materiaprima_id
      ,trim(p.producto_id)       as codigomp
      ,trim(max(p.descripcion))  as materiaprima_ds
-from cp_app_costoproducir.v_mf_producto_organizacion p
+from gb_smntc_mexico_costoproducir.v_mf_producto_organizacion p
 where p.tipo_producto_id in (1,2,3)
 group by p.entidadlegal_id,p.mf_producto_id,trim(p.producto_id);
 
 
-CREATE VIEW IF NOT EXISTS cp_app_costoproducir.d_plantas AS select
+CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.d_plantas AS select
     p.entidadlegal_id   as entidadlegal_id 
     ,p.mf_organizacion_id  as planta_id
     ,p.planta_id as codigoplanta
     ,p.planta_ds as planta_ds
-from cp_app_costoproducir.v_mf_plantas p;
+from gb_smntc_mexico_costoproducir.v_mf_plantas p;
 
 
-CREATE VIEW IF NOT EXISTS cp_app_costoproducir.d_productos AS select
+CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.d_productos AS select
      p.entidadlegal_id           as entidadlegal_id
      ,p.mf_producto_id           as producto_id
      ,trim(p.producto_id)        as codigoproducto
      ,p.mf_organizacion_id       as mf_organizacion_id
      ,trim(max(p.descripcion))   as producto_ds
-from cp_app_costoproducir.v_mf_producto_organizacion p
+from gb_smntc_mexico_costoproducir.v_mf_producto_organizacion p
 where p.tipo_producto_id in (1,2)
 group by p.entidadlegal_id,p.mf_producto_id,trim(p.producto_id),p.mf_organizacion_id;
 
 
-CREATE VIEW IF NOT EXISTS cp_app_costoproducir.v_entidadlegal_tipomoneda AS select 
+CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.v_entidadlegal_tipomoneda AS select 
 o.entidadlegal_id
 ,coalesce(el.nombreentidadlegal,'s/i')                 as entidadlegal_ds
 ,coalesce(m.tipomoneda_id,-1)                          as tipomoneda_id
@@ -168,15 +168,15 @@ o.entidadlegal_id
 ,coalesce(cast(g.organizacion_id as string),'s/i')     as organizaciong_id
 ,coalesce(og.nombreorganizacion,'s/i')                 as organizaciong_ds
 ,o.storeday
-from cp_dwh.o_entidadlegal_organizacion o
-left outer join cp_dwh.o_entidad_legal el on o.entidadlegal_id = el.entidadlegal_id
-left outer join cp_dwh.v_tipo_moneda m on m.pais_id = o.pais_id
-left outer join cp_dwh.g_pais g on o.pais_id = g.pais_id
-left outer join cp_dwh.g_organizacion_geografica og on g.organizacion_id = og.organizacion_id
-left outer join cp_dwh.e_organizacion e on e.organizacion_id = o.organizacion_id;
+from gb_mdl_mexico_costoproducir.o_entidadlegal_organizacion o
+left outer join gb_mdl_mexico_costoproducir.o_entidad_legal el on o.entidadlegal_id = el.entidadlegal_id
+left outer join gb_mdl_mexico_costoproducir.v_tipo_moneda m on m.pais_id = o.pais_id
+left outer join gb_mdl_mexico_costoproducir.g_pais g on o.pais_id = g.pais_id
+left outer join gb_mdl_mexico_costoproducir.g_organizacion_geografica og on g.organizacion_id = og.organizacion_id
+left outer join gb_mdl_mexico_costoproducir.e_organizacion e on e.organizacion_id = o.organizacion_id;
 
 
-CREATE VIEW IF NOT EXISTS cp_app_costoproducir.v_mf_formulas AS select 
+CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.v_mf_formulas AS select 
 substr(f.fecha,1, 7) as periodo
 ,f.fecha 
 ,f.entidadlegal_id
@@ -192,14 +192,14 @@ substr(f.fecha,1, 7) as periodo
 ,f.fecha_alta
 ,f.fecha_mod
 ,f.storeday
-from cp_dwh_mf.mf_formulas f
-inner join cp_app_costoproducir.v_mf_plantas  p 
+from gb_mdl_mexico_manufactura.mf_formulas f
+inner join gb_smntc_mexico_costoproducir.v_mf_plantas  p 
 on f.entidadlegal_id = p.entidadlegal_id 
 and f.mf_organizacion_id = p.mf_organizacion_id
 and f.planta_id = p.planta_id;
 
 
-CREATE VIEW IF NOT EXISTS cp_app_costoproducir.v_mf_formulas_se AS select
+CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.v_mf_formulas_se AS select
 substr(f.fecha, 1, 7) as periodo,
 f.fecha, 
 f.entidadlegal_id, 
@@ -213,8 +213,8 @@ f.tipomoneda_id,
 f.fecha_alta, 
 f.fecha_mod,
 f.storeday
-from cp_dwh_mf.mf_formulas_se f
-inner join cp_app_costoproducir.v_mf_plantas p 
+from gb_mdl_mexico_manufactura.mf_formulas_se f
+inner join gb_smntc_mexico_costoproducir.v_mf_plantas p 
 on f.entidadlegal_id = p.entidadlegal_id 
 and f.mf_organizacion_id = p.mf_organizacion_id 
 and f.planta_id = p.planta_id;
@@ -222,7 +222,7 @@ and f.planta_id = p.planta_id;
 
 
 
-CREATE VIEW IF NOT EXISTS cp_app_costoproducir.f_formulas AS select
+CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.f_formulas AS select
      f.periodo              as periodo
      ,f.entidadlegal_id     as entidadlegal_id
      ,f.mf_organizacion_id  as planta_id
@@ -234,11 +234,11 @@ CREATE VIEW IF NOT EXISTS cp_app_costoproducir.f_formulas AS select
      ,tm.tipomoneda_id       as tmoneda_id
     ,concat(substr(f.periodo,1,4),substr(f.periodo,6,2)) as aniomes
     ,f.fecha_mod            as fecha_carga
-from cp_app_costoproducir.v_mf_formulas f 
-     inner join cp_app_costoproducir.v_entidadlegal_tipomoneda tm  on f.entidadlegal_id = tm.entidadlegal_id;
+from gb_smntc_mexico_costoproducir.v_mf_formulas f 
+     inner join gb_smntc_mexico_costoproducir.v_entidadlegal_tipomoneda tm  on f.entidadlegal_id = tm.entidadlegal_id;
 
 
-CREATE VIEW IF NOT EXISTS cp_app_costoproducir.v_a_rubros_fsg AS SELECT v_a_rubros_fsg.aniosaldo AS aniosaldo, v_a_rubros_fsg.messaldo AS messaldo, v_a_rubros_fsg.linea_id AS linea_id, v_a_rubros_fsg.nombreconcepto AS nombreconcepto, v_a_rubros_fsg.areanegocio_id AS areanegocio_id, v_a_rubros_fsg.cuentanatural_id AS cuentanatural_id, v_a_rubros_fsg.centrocostos_id AS centrocostos_id, v_a_rubros_fsg.analisislocal_id AS analisislocal_id, v_a_rubros_fsg.tot_mactividaddelperiodo AS tot_mactividaddelperiodo, v_a_rubros_fsg.storeday AS storeday, v_a_rubros_fsg.entidadlegal_id AS entidadlegal_id FROM (SELECT
+CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.v_a_rubros_fsg AS SELECT v_a_rubros_fsg.aniosaldo AS aniosaldo, v_a_rubros_fsg.messaldo AS messaldo, v_a_rubros_fsg.linea_id AS linea_id, v_a_rubros_fsg.nombreconcepto AS nombreconcepto, v_a_rubros_fsg.areanegocio_id AS areanegocio_id, v_a_rubros_fsg.cuentanatural_id AS cuentanatural_id, v_a_rubros_fsg.centrocostos_id AS centrocostos_id, v_a_rubros_fsg.analisislocal_id AS analisislocal_id, v_a_rubros_fsg.tot_mactividaddelperiodo AS tot_mactividaddelperiodo, v_a_rubros_fsg.storeday AS storeday, v_a_rubros_fsg.entidadlegal_id AS entidadlegal_id FROM (SELECT
 fsg.aniosaldo
 ,fsg.messaldo
 ,fsg.linea_id
@@ -253,18 +253,18 @@ END AS AreaNegocio_ID
 ,fsg.tot_mactividaddelperiodo
 ,fsg.storeday
 ,fsg.entidadlegal_id
-FROM cp_app_costoproducir.A_RUBROS_FSG FSG
+FROM gb_smntc_mexico_costoproducir.A_RUBROS_FSG FSG
 WHERE fsg.linea_id IN (25,30,45)
 AND FSG.EntidadLegal_Id IN
 (
 SELECT Condicion AS EntidadLegal_ID
-FROM cp_app_costoproducir.CP_Parametros
+FROM gb_smntc_mexico_costoproducir.CP_Parametros
 WHERE lower(EntidadLegal_ID) = lower('MEX') AND Subrubro_ID IS NULL AND lower(Objeto) = lower('V_A_Rubros_FSG') AND lower(Campo) = lower('EntidadLegal_ID')
 GROUP BY Condicion
 )) v_a_rubros_fsg;
 
 
-CREATE VIEW IF NOT EXISTS cp_app_costoproducir.v_estructura_jerarquica AS select
+CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.v_estructura_jerarquica AS select
 coalesce(og.organizacion_id,-1)             as organizaciong_id 
 ,coalesce(og.nombreorganizacion,'s/i')      as organizaciong_ds
 ,coalesce(r.pais_id,-1)                     as pais_id
@@ -279,16 +279,16 @@ coalesce(og.organizacion_id,-1)             as organizaciong_id
 ,coalesce(o.organizacion_tipo, 's/i')       as mf_organizacion_tipo
 ,p.planta_id
 ,p.planta_ds
-from cp_app_costoproducir.v_mf_plantas p
-left outer join cp_dwh.o_entidad_legal el on p.entidadlegal_id = el.entidadlegal_id
-left outer join cp_dwh_mf.mf_organizacion o on p.entidadlegal_id = o.entidadlegal_id and p.mf_organizacion_id = o.mf_organizacion_id 
-left outer join cp_dwh_mf.mf_gerencias g on p.entidadlegal_id = g.entidadlegal_id and p.gerencia_id = g.gerencia_id
-left outer join cp_dwh_mf.mf_regiones r on g.entidadlegal_id = r.entidadlegal_id and g.region_id = r.region_id
-left outer join cp_dwh.g_pais gp on r.pais_id = gp.pais_id 
-left outer join cp_dwh.g_organizacion_geografica og on og.organizacion_id = gp.organizacion_id;
+from gb_smntc_mexico_costoproducir.v_mf_plantas p
+left outer join gb_mdl_mexico_costoproducir.o_entidad_legal el on p.entidadlegal_id = el.entidadlegal_id
+left outer join gb_mdl_mexico_manufactura.mf_organizacion o on p.entidadlegal_id = o.entidadlegal_id and p.mf_organizacion_id = o.mf_organizacion_id 
+left outer join gb_mdl_mexico_manufactura.mf_gerencias g on p.entidadlegal_id = g.entidadlegal_id and p.gerencia_id = g.gerencia_id
+left outer join gb_mdl_mexico_manufactura.mf_regiones r on g.entidadlegal_id = r.entidadlegal_id and g.region_id = r.region_id
+left outer join gb_mdl_mexico_costoproducir.g_pais gp on r.pais_id = gp.pais_id 
+left outer join gb_mdl_mexico_costoproducir.g_organizacion_geografica og on og.organizacion_id = gp.organizacion_id;
 
 
-CREATE VIEW IF NOT EXISTS cp_app_costoproducir.v_mf_compras AS select 
+CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.v_mf_compras AS select 
 regexp_replace(substr(c.fecha, 1, 7),'/','-') as periodo
 ,regexp_replace(c.fecha,'/','-') as fecha
 ,c.entidadlegal_id               
@@ -305,17 +305,17 @@ end as codigo_sub
 ,c.tipomoneda_id                 
 ,c.fecha_alta                    
 ,c.fecha_mod                     
-from cp_dwh_mf.MF_Compras c
-join cp_app_costoproducir.V_MF_Plantas p on c.entidadlegal_id = p.entidadlegal_id and c.mf_organizacion_id = p.mf_organizacion_id and c.planta_id = p.planta_id;
+from gb_mdl_mexico_manufactura.MF_Compras c
+join gb_smntc_mexico_costoproducir.V_MF_Plantas p on c.entidadlegal_id = p.entidadlegal_id and c.mf_organizacion_id = p.mf_organizacion_id and c.planta_id = p.planta_id;
 
 
-CREATE VIEW IF NOT EXISTS cp_app_costoproducir.v_mf_costo_prod AS select cp.mf_organizacion_id, cp.planta_id, cp.mf_producto_id, cp.periodo, cp.tipomoneda_id, cp.tipo_costo_id, cp.costo, cp.fecha_alta, cp.fecha_mod, cp.storeday, cp.entidadlegal_id
-from cp_dwh_mf.mf_costo_prod cp
-inner join cp_app_costoproducir.v_mf_plantas p on cp.entidadlegal_id = p.entidadlegal_id and cp.mf_organizacion_id = p.mf_organizacion_id and cp.planta_id = p.planta_id;
+CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.v_mf_costo_prod AS select cp.mf_organizacion_id, cp.planta_id, cp.mf_producto_id, cp.periodo, cp.tipomoneda_id, cp.tipo_costo_id, cp.costo, cp.fecha_alta, cp.fecha_mod, cp.storeday, cp.entidadlegal_id
+from gb_mdl_mexico_manufactura.mf_costo_prod cp
+inner join gb_smntc_mexico_costoproducir.v_mf_plantas p on cp.entidadlegal_id = p.entidadlegal_id and cp.mf_organizacion_id = p.mf_organizacion_id and cp.planta_id = p.planta_id;
 
 
 
-CREATE VIEW IF NOT EXISTS cp_app_costoproducir.v_mf_lineas_prod_centro_costos AS select 
+CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.v_mf_lineas_prod_centro_costos AS select 
 lc.mf_organizacion_id,
 lc.planta_id,
 lc.centrocostos_id,
@@ -325,8 +325,8 @@ substr(lc.fecha_ini, 1, 10) as fecha_ini,
 lc.fecha_fin,
 lc.storeday,
 lc.entidadlegal_id
-from cp_dwh_mf.mf_lineas_prod_centro_costos lc
-join cp_app_costoproducir.v_mf_plantas p on 
+from gb_mdl_mexico_manufactura.mf_lineas_prod_centro_costos lc
+join gb_smntc_mexico_costoproducir.v_mf_plantas p on 
 lc.entidadlegal_id = p.entidadlegal_id and 
 lc.mf_organizacion_id = p.mf_organizacion_id and 
 lc.planta_id = p.planta_id
@@ -342,7 +342,7 @@ lc.storeday,
 lc.entidadlegal_id;
 
 
-CREATE VIEW IF NOT EXISTS cp_app_costoproducir.v_mx_depreciacion_equipo_cta AS select
+CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.v_mx_depreciacion_equipo_cta AS select
 x.activoequipoerp_id
 ,x.fecha
 ,x.segment1 as entidadlegal_id
@@ -383,12 +383,12 @@ end as segment2
 ,x_.montodepreciadoacumulado
 ,x_.valorrevaluadoactivo
 ,x_.storeday
-from cp_dwh.mx_depreciacion_equipo_cuenta x_
+from gb_mdl_mexico_costoproducir.mx_depreciacion_equipo_cuenta x_
 ) x
 group by x.activoequipoerp_id, x.fecha, x.segment1, x.segment2, x.segment3, x.segment4, x.segment5, x.segment6, x.segment7, x.segment8, x.segment9, x.segment10, x.book_type_code, x.storeday;
 
 
-CREATE VIEW IF NOT EXISTS cp_app_costoproducir.v_producto_maquilado AS select 
+CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.v_producto_maquilado AS select 
      pm.periodo as periodo,
      pm.entidadlegal_id as entidadlegal_id,
      pm.mf_organizacion_id as mf_organizacion_id,
@@ -396,7 +396,7 @@ CREATE VIEW IF NOT EXISTS cp_app_costoproducir.v_producto_maquilado AS select
      pm.mf_producto_id as mf_producto_id,
      sum(pm.costo) as costo,
      'real' as tipo_costo
-from cp_dwh.cp_producto_maquilado  pm
+from gb_mdl_mexico_costoproducir.cp_producto_maquilado  pm
 where pm.fecha_fin is null
 group by pm.periodo, pm.entidadlegal_id, pm.mf_organizacion_id, pm.planta_id, pm.mf_producto_id
 
@@ -410,10 +410,10 @@ select
      cp.mf_producto_id, 
      sum(cp.costo) as costo, 
      'estandar' as tipo_costo
-from cp_app_costoproducir.v_mf_costo_prod cp
+from gb_smntc_mexico_costoproducir.v_mf_costo_prod cp
 left outer join(
      select pm2.periodo, pm2.entidadlegal_id, pm2.mf_organizacion_id, pm2.mf_producto_id
-          from cp_dwh.cp_producto_maquilado pm2
+          from gb_mdl_mexico_costoproducir.cp_producto_maquilado pm2
           where pm2.fecha_fin is null
           and pm2.costo <> 0
 ) cpm on
@@ -425,7 +425,7 @@ where
 group by cp.periodo, cp.entidadlegal_id, cp.mf_organizacion_id, cp.planta_id, cp.mf_producto_id;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.v_rubro81_inventarios AS select   
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.v_rubro81_inventarios AS select   
 cal.periodo             as periodo
 ,pl.entidadlegal_id
 ,pl.mf_organizacion_id
@@ -433,10 +433,10 @@ cal.periodo             as periodo
 ,onh.subinventory_code   as codigosubinv
 ,sum(onh.primary_transaction_quantity)   as cantidad
 ,onh.storeday as storeday
-from   cp_dwh.mtl_onhand_diario onh,  cp_app_costoproducir.v_mf_plantas pl,
+from   gb_mdl_mexico_costoproducir.mtl_onhand_diario onh,  gb_smntc_mexico_costoproducir.v_mf_plantas pl,
 (
 select  mp.periodo, mp.entidadlegal_id, mp.mf_organizacion_id
-from  cp_app_costoproducir.cp_medidas_prorrateo mp
+from  gb_smntc_mexico_costoproducir.cp_medidas_prorrateo mp
 where mp.tipomedida_id = 1
 group by mp.periodo, mp.entidadlegal_id, mp.mf_organizacion_id
 ) mp, 
@@ -444,7 +444,7 @@ group by mp.periodo, mp.entidadlegal_id, mp.mf_organizacion_id
 select 
 mp2.periodo as periodo,
 date_sub(add_months(concat(mp2.periodo,'-01'),1), 1) as fecha_max
-from cp_app_costoproducir.cp_medidas_prorrateo mp2
+from gb_smntc_mexico_costoproducir.cp_medidas_prorrateo mp2
 group by mp2.periodo, date_sub(add_months(concat(mp2.periodo,'-01'),1), 1)
 ) cal
 where pl.mf_organizacion_id = onh.organization_id 
@@ -457,7 +457,7 @@ group by cal.periodo, pl.entidadlegal_id, pl.mf_organizacion_id, onh.inventory_i
 
 
 
-CREATE VIEW IF NOT EXISTS cp_app_costoproducir.v_rubro81_costo_inv_view AS select  
+CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.v_rubro81_costo_inv_view AS select  
 cp.entidadlegal_id, 
 cp.mf_organizacion_id, 
 cp.planta_id, 
@@ -474,17 +474,17 @@ sum(distinct cp.costo) as costo,
 sum(distinct inv.cantidad) as cantidad,
 sum(cp.costo*inv.cantidad) * c.costo_capital as importe,
 cp.storeday
-from  cp_app_costoproducir.v_mf_costo_prod cp, cp_view.v_rubro81_inventarios inv ,
+from  gb_smntc_mexico_costoproducir.v_mf_costo_prod cp, gb_mdl_mexico_costoproducir_views.v_rubro81_inventarios inv ,
 (
 select a.entidadlegal_id ,  a.valor/100 as costo_capital
-from cp_dwh_mf.mf_parametro  a 
+from gb_mdl_mexico_manufactura.mf_parametro  a 
 inner join 
 (
 select 
 mf_parametro.entidadlegal_id
 ,mf_parametro.tipo_parametro_id
 ,max(mf_parametro.fecha)  as fecha 
-from cp_dwh_mf.mf_parametro 
+from gb_mdl_mexico_manufactura.mf_parametro 
 where (mf_parametro.tipo_parametro_id=12) 
 group by mf_parametro.entidadlegal_id,mf_parametro.tipo_parametro_id
 ) b
@@ -505,7 +505,7 @@ end,
 c.costo_capital,cp.storeday;
 
 
-CREATE VIEW IF NOT EXISTS cp_app_costoproducir.v_rubro81_ing_se AS select 
+CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.v_rubro81_ing_se AS select 
 a.periodo, 
 a.entidadlegal_id,
 a.mf_organizacion_id, 
@@ -513,7 +513,7 @@ a.planta_id,
 a.subensamble_id, 
 a.costoestandar as monto,
 sum( a.cantidad * b.total_registrado) as medida
-from cp_app_costoproducir.v_mf_formulas_se a, 
+from gb_smntc_mexico_costoproducir.v_mf_formulas_se a, 
 (
 select 
 cp_medidas_prorrateo.periodo
@@ -522,7 +522,7 @@ cp_medidas_prorrateo.periodo
 ,cp_medidas_prorrateo.planta_id
 ,cp_medidas_prorrateo.mf_producto_id
 ,cp_medidas_prorrateo.medida_producto as total_registrado
-from cp_app_costoproducir.cp_medidas_prorrateo 
+from gb_smntc_mexico_costoproducir.cp_medidas_prorrateo 
 where cp_medidas_prorrateo.tipomedida_id = 5 
 ) b
 where a.periodo               =    b.periodo  
@@ -533,7 +533,7 @@ and a.cantidad * b.total_registrado <> 0
 group by a.periodo, a.entidadlegal_id, a.mf_organizacion_id, a.planta_id, a.subensamble_id, a.costoestandar;
 
 
-CREATE VIEW IF NOT EXISTS cp_app_costoproducir.v_rubro81_plantas AS select  
+CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.v_rubro81_plantas AS select  
 pro.periodo, 
 pro.entidadlegal_id, 
 pro.mf_organizacion_id, 
@@ -541,7 +541,7 @@ pro.planta_id,
 vform.ingrediente_id, 
 rb2.importe as costo,
 sum(pro.factor*vform.cantidad) as medida
-from  cp_app_costoproducir.cp_medidas_prorrateo pro, cp_app_costoproducir.v_mf_formulas vform, cp_app_costoproducir.v_rubro81_costo_inv rb2
+from  gb_smntc_mexico_costoproducir.cp_medidas_prorrateo pro, gb_smntc_mexico_costoproducir.v_mf_formulas vform, gb_smntc_mexico_costoproducir.v_rubro81_costo_inv rb2
 where pro.entidadlegal_id          = vform.entidadlegal_id 
 and pro.mf_organizacion_id    = vform.mf_organizacion_id 
 and pro.mf_producto_id        = vform.mf_producto_id 
@@ -556,7 +556,7 @@ group by pro.periodo, pro.entidadlegal_id, pro.mf_organizacion_id, pro.planta_id
 
 
 
-CREATE VIEW IF NOT EXISTS cp_app_costoproducir.v_rubro81_prods AS select  
+CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.v_rubro81_prods AS select  
 pro.periodo, 
 pro.entidadlegal_id, 
 pro.mf_organizacion_id, 
@@ -568,7 +568,7 @@ vform.ingrediente_id,
 rb2.importe as costo,
 sum(pro.factor*vform.cantidad) as medida
 --,pro.storeday
-from cp_app_costoproducir.cp_medidas_prorrateo pro,  cp_app_costoproducir.v_mf_formulas vform,  cp_app_costoproducir.v_rubro81_costo_inv rb2
+from gb_smntc_mexico_costoproducir.cp_medidas_prorrateo pro,  gb_smntc_mexico_costoproducir.v_mf_formulas vform,  gb_smntc_mexico_costoproducir.v_rubro81_costo_inv rb2
 where pro.entidadlegal_id = vform.entidadlegal_id 
 and pro.mf_organizacion_id    = vform.mf_organizacion_id 
 and pro.mf_producto_id        = vform.mf_producto_id 
@@ -582,7 +582,7 @@ and lower(rb2.tsubinven)      = lower('mp')
 group by pro.periodo, pro.entidadlegal_id, pro.mf_organizacion_id, pro.planta_id, pro.linea_prod_id, pro.turno_id, vform.mf_producto_id, vform.ingrediente_id, rb2.importe;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.a_pago_empleado AS select 
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.a_pago_empleado AS select 
 a_pago_empleado.tiponomina_id    
 ,a_pago_empleado.empleado_id     
 ,a_pago_empleado.fechapago       
@@ -593,9 +593,9 @@ a_pago_empleado.tiponomina_id
 ,a_pago_empleado.montopago       
 ,a_pago_empleado.tipomoneda_id
 ,a_pago_empleado.storeday
-from cp_app_costoproducir.a_pago_empleado;
+from gb_smntc_mexico_costoproducir.a_pago_empleado;
 
-CREATE VIEW IF NOT EXISTS cp_view.v_a_pago_empleado AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.v_a_pago_empleado AS select
 ae1.tiponomina_id
 ,ae1.empleado_id
 ,ae1.fechapago
@@ -606,16 +606,16 @@ ae1.tiponomina_id
 ,ae1.montopago
 ,ae1.tipomoneda_id
 ,ae1.storeday
-from cp_view.a_pago_empleado ae1;
+from gb_mdl_mexico_costoproducir_views.a_pago_empleado ae1;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.v_mf_produccion AS select pr.mf_organizacion_id, pr.planta_id, pr.mf_producto_id, pr.linea_prod_id, pr.turno_id, pr.tipomoneda_id, pr.fecha, pr.total_registrado, pr.total_embarcado, pr.bajas, pr.valor_produccion, pr.costo_prod_teorico, pr.costo_prod_real, pr.costo_actual, pr.toneladas, pr.ritmo, pr.costo_precio, pr.gramaje, pr.fecha_alta, pr.fecha_mod, pr.storeday, pr.entidadlegal_id
-from cp_dwh_mf.mf_produccion pr
-inner join cp_app_costoproducir.v_mf_plantas p on pr.entidadlegal_id = p.entidadlegal_id and pr.mf_organizacion_id = p.mf_organizacion_id and pr.planta_id = p.planta_id
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.v_mf_produccion AS select pr.mf_organizacion_id, pr.planta_id, pr.mf_producto_id, pr.linea_prod_id, pr.turno_id, pr.tipomoneda_id, pr.fecha, pr.total_registrado, pr.total_embarcado, pr.bajas, pr.valor_produccion, pr.costo_prod_teorico, pr.costo_prod_real, pr.costo_actual, pr.toneladas, pr.ritmo, pr.costo_precio, pr.gramaje, pr.fecha_alta, pr.fecha_mod, pr.storeday, pr.entidadlegal_id
+from gb_mdl_mexico_manufactura.mf_produccion pr
+inner join gb_smntc_mexico_costoproducir.v_mf_plantas p on pr.entidadlegal_id = p.entidadlegal_id and pr.mf_organizacion_id = p.mf_organizacion_id and pr.planta_id = p.planta_id
 where pr.turno_id != -1;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_mf_compras AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mf_compras AS select
      tbl.periodo as periodo
      ,tbl.mf_organizacion_id as mf_organizacion_id
      ,coalesce(p.planta_id,'s/i') as planta_id
@@ -649,9 +649,9 @@ from
                     cast(a.primary_quantity as float) as cantidad,
                     (a.transaction_cost * a.primary_quantity) as costo,
                     a.storeday
-                    from cp_dwh.mtl_transaccion_materiales a, cp_app_costoproducir.V_MF_Plantas b
-                    ,cp_view.v_entidadeslegales_activas_mf veam
-                    ,cp_view.v_fechas_extraccion prm
+                    from gb_mdl_mexico_costoproducir.mtl_transaccion_materiales a, gb_smntc_mexico_costoproducir.V_MF_Plantas b
+                    ,gb_mdl_mexico_costoproducir_views.v_entidadeslegales_activas_mf veam
+                    ,gb_mdl_mexico_costoproducir_views.v_fechas_extraccion prm
                     where 
                     a.transaction_date between prm.fechaini and prm.fechafin
                     and a.organization_id = b.mf_organizacion_id 
@@ -661,7 +661,7 @@ from
           where cast(c.cantidad as decimal(18,5)) <> 0
           group by c.periodo,c.mf_organizacion_id,c.producto_id,c.codigo_sub,c.storeday
          ) tbl
-          left outer join cp_app_costoproducir.v_mf_plantas p 
+          left outer join gb_smntc_mexico_costoproducir.v_mf_plantas p 
           on tbl.mf_organizacion_id = p.mf_organizacion_id 
           left outer join 
             (
@@ -670,21 +670,21 @@ from
                ,coalesce(m.tipomoneda_id,-1) as tipomoneda_id
                ,o.organizacion_id
                ,coalesce(m.pais_id,-1) as pais_id
-          from cp_dwh.o_entidadlegal_organizacion o
-               left outer join cp_dwh.o_entidad_legal el on o.entidadlegal_id = el.entidadlegal_id
-               left outer join cp_dwh.v_tipo_moneda m on m.pais_id = o.pais_id
-               left outer join cp_dwh.g_pais g on o.pais_id = g.pais_id
-               left outer join cp_dwh.e_organizacion e on e.organizacion_id = o.organizacion_id
+          from gb_mdl_mexico_costoproducir.o_entidadlegal_organizacion o
+               left outer join gb_mdl_mexico_costoproducir.o_entidad_legal el on o.entidadlegal_id = el.entidadlegal_id
+               left outer join gb_mdl_mexico_costoproducir.v_tipo_moneda m on m.pais_id = o.pais_id
+               left outer join gb_mdl_mexico_costoproducir.g_pais g on o.pais_id = g.pais_id
+               left outer join gb_mdl_mexico_costoproducir.e_organizacion e on e.organizacion_id = o.organizacion_id
             ) tm
          on p.entidadlegal_id = tm.entidadlegal_id
           where tbl.cantidad<>0
           and p.entidadlegal_id in 
           (select entidadlegal_id 
-            from cp_view.v_entidadeslegales_activas_mf 
+            from gb_mdl_mexico_costoproducir_views.v_entidadeslegales_activas_mf 
             group by entidadlegal_id);
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_mf_costo_prod AS select 
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mf_costo_prod AS select 
      p.mf_organizacion_id as mf_organizacion_id
      ,p.planta_id as planta_id
      ,cst.inventory_item_id as mf_producto_id
@@ -707,14 +707,14 @@ CREATE VIEW IF NOT EXISTS cp_view.vdw_mf_costo_prod AS select
      ,from_unixtime(unix_timestamp()) as fecha_mod
      ,from_unixtime(unix_timestamp()) as storeday
      ,p.entidadlegal_id as entidadlegal_id
-from cp_view.vwh_cst_item_cost_details cst, 
+from gb_mdl_mexico_costoproducir_views.vwh_cst_item_cost_details cst, 
       (select bom_resources.resource_id, bom_resources.resource_type, max(bom_resources.last_update_date) as last_update_date
-                from cp_dwh.bom_resources 
+                from gb_mdl_mexico_costoproducir.bom_resources 
                 group by bom_resources.resource_id, bom_resources.resource_type
       ) bom, 
-      cp_dwh.mtl_catalogo_materiales mat, 
-      cp_app_costoproducir.v_mf_plantas p,
-      cp_view.v_fechas_extraccion prm
+      gb_mdl_mexico_costoproducir.mtl_catalogo_materiales mat, 
+      gb_smntc_mexico_costoproducir.v_mf_plantas p,
+      gb_mdl_mexico_costoproducir_views.v_fechas_extraccion prm
   where 
       cst.resource_id = bom.resource_id 
       and cst.organization_id = mat.organization_id  
@@ -723,7 +723,7 @@ from cp_view.vwh_cst_item_cost_details cst,
       and cst.fecha_actualizacion between prm.fechaini and date_sub(add_months(concat(prm.fechafin),1), 1)
       and trim(lower(mat.item_type)) in ('pt','semiter','mp' ) 
       and cst.cost_type_id = 1 
-      and p.entidadlegal_id in (select entidadlegal_id from cp_view.v_entidadeslegales_activas_mf group by entidadlegal_id)
+      and p.entidadlegal_id in (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadeslegales_activas_mf group by entidadlegal_id)
       and case
           when cst.cost_type_id = 1 and cst.cost_element_id = 1 then 1
           when cst.cost_type_id = 1 and cst.cost_element_id = 3 and bom.resource_type = 2 then 2
@@ -753,7 +753,7 @@ from cp_view.vwh_cst_item_cost_details cst,
    p.entidadlegal_id;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_v_tipo_moneda AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_v_tipo_moneda AS select
 case when vtm.tipomoneda_id is null then rank()over (order by vtm.tipomoneda_id,vtm.nombrecorto) + c.tipomoneda_id else vtm.tipomoneda_id end as tipomoneda_id
 ,vtm.nombretipomoneda   as nombretipomoneda
 ,vtm.nombrecorto        as nombrecorto     
@@ -845,7 +845,7 @@ from
 select 
 dwh.monedaorigen_id as pais,
 dwh.storeday
-from cp_app_costoproducir.a_tipo_cambio  dwh
+from gb_smntc_mexico_costoproducir.a_tipo_cambio  dwh
 where dwh.sistemafuente = 'oracle-mx-r11'
 and lower(dwh.monedaorigen_id)  not in  ('cad','mxn','pyg','vef')
 group by dwh.monedaorigen_id, dwh.storeday
@@ -872,7 +872,7 @@ when lower(sb.currency_code) = 'pag' then 600 else -1
 end as pais_id
 ,max(sb.storeday) as storeday
 from erp_mexico_sz.gl_sets_of_books sb
-where sb.currency_code not in (select nombrecorto from cp_dwh.v_tipo_moneda group by nombrecorto)
+where sb.currency_code not in (select nombrecorto from gb_mdl_mexico_costoproducir.v_tipo_moneda group by nombrecorto)
 group by 
 
 null,
@@ -892,10 +892,10 @@ when lower(sb.currency_code) = 'nlg' then 528
 when lower(sb.currency_code) = 'pag' then 600 else -1
 end
 )vtm
-,(select coalesce(max(v_tipo_moneda.tipomoneda_id),0) as tipomoneda_id from cp_dwh.v_tipo_moneda where v_tipo_moneda.tipomoneda_id > -1) c;
+,(select coalesce(max(v_tipo_moneda.tipomoneda_id),0) as tipomoneda_id from gb_mdl_mexico_costoproducir.v_tipo_moneda where v_tipo_moneda.tipomoneda_id > -1) c;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vt_cp_beneficios_vol AS SELECT 
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vt_cp_beneficios_vol AS SELECT 
     VT_CP_Beneficios_Vol.periodo AS periodo,
     VT_CP_Beneficios_Vol.mf_organizacion_id AS mf_organizacion_id,
     VT_CP_Beneficios_Vol.planta_id AS planta_id,
@@ -925,16 +925,16 @@ FROM
         FROM_UNIXTIME(UNIX_TIMESTAMP()) AS storeday ,
         bv.entidadlegal_id AS EntidadLegal_ID
    FROM cp_flat_files.cp_beneficios_volumen bv
-   LEFT OUTER JOIN cp_app_costoproducir.V_MF_Plantas P ON bv.entidadlegal_id = p.entidadlegal_id
+   LEFT OUTER JOIN gb_smntc_mexico_costoproducir.V_MF_Plantas P ON bv.entidadlegal_id = p.entidadlegal_id
         AND SUBSTRING(TRIM(bv.cuenta),5,4) = p.planta_id
-   LEFT OUTER JOIN cp_app_costoproducir.V_MF_Producto_Organizacion PR ON bv.entidadlegal_id = pr.entidadlegal_id
+   LEFT OUTER JOIN gb_smntc_mexico_costoproducir.V_MF_Producto_Organizacion PR ON bv.entidadlegal_id = pr.entidadlegal_id
         AND p.mf_organizacion_id = pr.mf_organizacion_id
         AND SUBSTRING(TRIM(bv.cuenta),5,4) = pr.planta_id
         AND TRIM(bv.item)=pr.producto_id
         AND pr.tipo_producto_id=3) VT_CP_Beneficios_Vol;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vt_cp_gastos_fletes AS SELECT VT_CP_Gastos_Fletes.periodo AS periodo, VT_CP_Gastos_Fletes.mf_organizacion_id AS mf_organizacion_id, VT_CP_Gastos_Fletes.planta_id AS planta_id, VT_CP_Gastos_Fletes.ingrediente_id AS ingrediente_id, VT_CP_Gastos_Fletes.cuentanatural_id AS cuentanatural_id, VT_CP_Gastos_Fletes.analisislocal_id AS analisislocal_id, VT_CP_Gastos_Fletes.importe AS importe, VT_CP_Gastos_Fletes.fecha_ini AS fecha_ini, VT_CP_Gastos_Fletes.fecha_fin AS fecha_fin, VT_CP_Gastos_Fletes.storeday AS storeday, VT_CP_Gastos_Fletes.entidadlegal_id AS entidadlegal_id FROM (SELECT f.periodo AS periodo
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vt_cp_gastos_fletes AS SELECT VT_CP_Gastos_Fletes.periodo AS periodo, VT_CP_Gastos_Fletes.mf_organizacion_id AS mf_organizacion_id, VT_CP_Gastos_Fletes.planta_id AS planta_id, VT_CP_Gastos_Fletes.ingrediente_id AS ingrediente_id, VT_CP_Gastos_Fletes.cuentanatural_id AS cuentanatural_id, VT_CP_Gastos_Fletes.analisislocal_id AS analisislocal_id, VT_CP_Gastos_Fletes.importe AS importe, VT_CP_Gastos_Fletes.fecha_ini AS fecha_ini, VT_CP_Gastos_Fletes.fecha_fin AS fecha_fin, VT_CP_Gastos_Fletes.storeday AS storeday, VT_CP_Gastos_Fletes.entidadlegal_id AS entidadlegal_id FROM (SELECT f.periodo AS periodo
 ,p.mf_organizacion_id AS MF_Organizacion_ID
 ,p.planta_id AS Planta_ID
 ,CAST(CASE 
@@ -950,10 +950,10 @@ END AS INT) as Ingrediente_ID
 ,FROM_UNIXTIME(UNIX_TIMESTAMP()) as storeday
 ,f.entidadlegal_id as entidadlegal_id
 from cp_flat_files.cp_gastos_fletes F
-LEFT OUTER JOIN cp_app_costoproducir.V_MF_Plantas P
+LEFT OUTER JOIN gb_smntc_mexico_costoproducir.V_MF_Plantas P
 ON f.entidadlegal_id = p.entidadlegal_id 
 AND SUBSTRING(TRIM(f.cuenta),5,4) = p.planta_id
-LEFT OUTER JOIN cp_app_costoproducir.V_MF_Producto_Organizacion PR 
+LEFT OUTER JOIN gb_smntc_mexico_costoproducir.V_MF_Producto_Organizacion PR 
 ON f.entidadlegal_id = pr.entidadlegal_id 
 AND p.mf_organizacion_id = pr.mf_organizacion_id 
 AND SUBSTRING(TRIM(f.cuenta),5,4) = pr.planta_id 
@@ -972,7 +972,7 @@ WHEN f.item IS NOT NULL AND pr.mf_producto_id IS NULL THEN 0                    
 END AS INT)) <> 0) VT_CP_Gastos_Fletes;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vt_cp_gastos_importaciones AS SELECT VT_CP_Gastos_Importaciones.periodo AS periodo, VT_CP_Gastos_Importaciones.mf_organizacion_id AS mf_organizacion_id, VT_CP_Gastos_Importaciones.planta_id AS planta_id, VT_CP_Gastos_Importaciones.ingrediente_id AS ingrediente_id, VT_CP_Gastos_Importaciones.cuentanatural_id AS cuentanatural_id, VT_CP_Gastos_Importaciones.importe AS importe, VT_CP_Gastos_Importaciones.fecha_ini AS fecha_ini, VT_CP_Gastos_Importaciones.fecha_fin AS fecha_fin, VT_CP_Gastos_Importaciones.storeday AS storeday, VT_CP_Gastos_Importaciones.entidadlegal_id AS entidadlegal_id FROM (select ei.periodo AS periodo
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vt_cp_gastos_importaciones AS SELECT VT_CP_Gastos_Importaciones.periodo AS periodo, VT_CP_Gastos_Importaciones.mf_organizacion_id AS mf_organizacion_id, VT_CP_Gastos_Importaciones.planta_id AS planta_id, VT_CP_Gastos_Importaciones.ingrediente_id AS ingrediente_id, VT_CP_Gastos_Importaciones.cuentanatural_id AS cuentanatural_id, VT_CP_Gastos_Importaciones.importe AS importe, VT_CP_Gastos_Importaciones.fecha_ini AS fecha_ini, VT_CP_Gastos_Importaciones.fecha_fin AS fecha_fin, VT_CP_Gastos_Importaciones.storeday AS storeday, VT_CP_Gastos_Importaciones.entidadlegal_id AS entidadlegal_id FROM (select ei.periodo AS periodo
 ,p.mf_organizacion_id AS mf_organizacion_id
 ,p.planta_id AS planta_id
 ,CAST(CASE 
@@ -988,10 +988,10 @@ AS INT) AS Ingrediente_ID
 , FROM_UNIXTIME(UNIX_TIMESTAMP()) AS storeday
 , ei.entidadlegal_id AS entidadlegal_id
 from cp_flat_files.cp_importacion_items EI
-INNER JOIN cp_app_costoproducir.V_MF_Plantas P 
+INNER JOIN gb_smntc_mexico_costoproducir.V_MF_Plantas P 
 ON TRIM(ei.entidadlegal_id) = p.entidadlegal_id 
 AND SUBSTRING(TRIM(ei.cuenta),5,4) = p.planta_id
-LEFT OUTER JOIN cp_app_costoproducir.V_MF_Producto_Organizacion PR 
+LEFT OUTER JOIN gb_smntc_mexico_costoproducir.V_MF_Producto_Organizacion PR 
 ON ei.entidadlegal_id = pr.entidadlegal_id 
 AND p.mf_organizacion_id = pr.mf_organizacion_id 
 AND SUBSTRING(TRIM(ei.cuenta),5,4) = pr.planta_id 
@@ -1010,7 +1010,7 @@ END
 AS INT)) <> 0) VT_CP_Gastos_Importaciones;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vt_cp_lineas_prod_metros AS SELECT VT_CP_Lineas_Prod_Metros.entidadlegal_id AS entidadlegal_id, VT_CP_Lineas_Prod_Metros.mf_organizacion_id AS mf_organizacion_id, VT_CP_Lineas_Prod_Metros.planta_id AS planta_id, VT_CP_Lineas_Prod_Metros.linea_prod_id AS linea_prod_id, VT_CP_Lineas_Prod_Metros.metros2 AS metros2, VT_CP_Lineas_Prod_Metros.fecha_ini AS fecha_ini, VT_CP_Lineas_Prod_Metros.fecha_fin AS fecha_fin FROM (SELECT
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vt_cp_lineas_prod_metros AS SELECT VT_CP_Lineas_Prod_Metros.entidadlegal_id AS entidadlegal_id, VT_CP_Lineas_Prod_Metros.mf_organizacion_id AS mf_organizacion_id, VT_CP_Lineas_Prod_Metros.planta_id AS planta_id, VT_CP_Lineas_Prod_Metros.linea_prod_id AS linea_prod_id, VT_CP_Lineas_Prod_Metros.metros2 AS metros2, VT_CP_Lineas_Prod_Metros.fecha_ini AS fecha_ini, VT_CP_Lineas_Prod_Metros.fecha_fin AS fecha_fin FROM (SELECT
  p.entidadlegal_id as EntidadLegal_ID
  ,p.mf_organizacion_id as MF_Organizacion_ID
  ,p.planta_id as Planta_ID
@@ -1019,10 +1019,10 @@ CREATE VIEW IF NOT EXISTS cp_view.vt_cp_lineas_prod_metros AS SELECT VT_CP_Linea
  ,FROM_UNIXTIME(UNIX_TIMESTAMP()) as Fecha_Ini
  ,NULL as Fecha_Fin
 FROM cp_flat_files.CP_Lineas_Prod_Metros M
- INNER JOIN cp_app_costoproducir.V_MF_Plantas P 
+ INNER JOIN gb_smntc_mexico_costoproducir.V_MF_Plantas P 
  ON m.entidadlegal_id=p.entidadlegal_id 
  AND m.codigoplanta = p.planta_id
- INNER JOIN cp_dwh_mf.MF_Lineas_Prod LP 
+ INNER JOIN gb_mdl_mexico_manufactura.MF_Lineas_Prod LP 
  ON m.entidadlegal_id=lp.entidadlegal_id 
  AND m.linea_id=lp.linea_prod_id
 WHERE m.linea_id IS NOT NULL) VT_CP_Lineas_Prod_Metros;

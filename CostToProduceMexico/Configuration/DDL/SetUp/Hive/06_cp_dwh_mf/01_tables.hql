@@ -1,11 +1,11 @@
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_categoria(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_categoria(
   categoria_id int, 
   tipo_categ_id int, 
   categoria_desc string, 
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_compras(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_compras(
   fecha string, 
   mf_organizacion_id int, 
   planta_id string, 
@@ -21,7 +21,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_costo_prod(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_costo_prod(
   mf_organizacion_id int, 
   planta_id string, 
   mf_producto_id int, 
@@ -36,7 +36,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_formulas(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_formulas(
   fecha string, 
   mf_organizacion_id int, 
   planta_id string, 
@@ -54,7 +54,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_formulas_se(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_formulas_se(
   fecha string, 
   mf_organizacion_id int, 
   planta_id string, 
@@ -70,7 +70,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_gerencias(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_gerencias(
   gerencia_id int, 
   region_id int, 
   gerencia_ds string, 
@@ -79,7 +79,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_gestion(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_gestion(
   periodo string, 
   entidadlegal_id string, 
   mf_organizacion_id int, 
@@ -92,20 +92,20 @@ PARTITIONED BY (
   entidad string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_gramajes(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_gramajes(
   item string, 
   contenido_neto float, 
   storeday string, 
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_linea(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_linea(
   linea_id int, 
   linea_desc string, 
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_lineas_prod(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_lineas_prod(
   linea_prod_id int, 
   grupo_lineas_prod_id int, 
   linea_prod_ds string, 
@@ -114,7 +114,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_lineas_prod_centro_costos(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_lineas_prod_centro_costos(
   mf_organizacion_id int, 
   planta_id string, 
   centrocostos_id string, 
@@ -127,13 +127,13 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_marca(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_marca(
   marca_id int, 
   marca_desc string, 
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_organizacion(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_organizacion(
   mf_organizacion_id int, 
   host_id string, 
   organizacion_desc string, 
@@ -143,7 +143,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_parametro(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_parametro(
   tipo_parametro_id int, 
   fecha string, 
   parametro_desc string, 
@@ -153,7 +153,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_plantas(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_plantas(
   mf_organizacion_id int, 
   planta_id string, 
   gerencia_id int, 
@@ -166,13 +166,13 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_presentacion(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_presentacion(
   presentacion_id int, 
   presentacion_desc string, 
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_produccion(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_produccion(
   mf_organizacion_id int, 
   planta_id string, 
   mf_producto_id int, 
@@ -198,7 +198,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_producto_organizacion(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_producto_organizacion(
   mf_organizacion_id int, 
   planta_id string, 
   mf_producto_id int, 
@@ -227,7 +227,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_regiones(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_regiones(
   region_id int, 
   pais_id int, 
   region_ds string, 
@@ -236,13 +236,13 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_sublinea(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_sublinea(
   sublinea_id int, 
   sublinea_desc string, 
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_transferencias(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_transferencias(
   fecha string, 
   mf_organizacion_id int, 
   planta_id string, 
@@ -261,7 +261,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_turno_default(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_turno_default(
   entidadlegal_id string, 
   mf_organizacion_id int, 
   planta_id string, 
@@ -272,7 +272,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_turno_default(
 row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile;
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_turnos(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_turnos(
   mf_organizacion_id int, 
   planta_id string, 
   linea_prod_id int, 
@@ -292,7 +292,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_turnos_espejo(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_turnos_espejo(
   mf_organizacion_id int, 
   planta_id string, 
   linea_prod_id int, 
@@ -312,7 +312,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh_mf.mf_unidad_medida(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_manufactura.mf_unidad_medida(
   mf_unidadmedida_id int, 
   host_codigo string, 
   desc_corta string, 

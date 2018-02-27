@@ -1,4 +1,4 @@
-CREATE VIEW IF NOT EXISTS jedox.v_validate_exec AS Select
+CREATE VIEW IF NOT EXISTS jedoxMexico.v_validate_exec AS Select
 substr(dt.periodo,1,4) as anio,
 substr(dt.periodo,6,2) as mes,
 substr(dt.periodo,1,8) as periodo,
@@ -25,8 +25,8 @@ when dt.rubro_id  like '4%' then '4'
 when dt.rubro_id  like '5%' then '5'
 end as Chapter_ID
   
-from JEDOX.cp_data_detalle dt
-left join JEDOX.cp_data_piezas pz on 
+from jedoxMexico.cp_data_detalle dt
+left join jedoxMexico.cp_data_piezas pz on 
 pz.periodo= dt.periodo and
 pz.execution_date= dt.execution_date  and 
 pz.entidadlegal_id=dt.entidadlegal_id and
@@ -62,8 +62,8 @@ when dt.rubro_id  like '3%' then '3'
 when dt.rubro_id  like '4%' then '4'
 when dt.rubro_id  like '5%' then '5'
 end as Chapter_ID
-from JEDOX.cp_data_sumario dt
-left join JEDOX.cp_data_piezas pz on 
+from jedoxMexico.cp_data_sumario dt
+left join jedoxMexico.cp_data_piezas pz on 
 pz.periodo= dt.periodo and
 pz.execution_date= dt.execution_date  and 
 pz.entidadlegal_id=dt.entidadlegal_id and

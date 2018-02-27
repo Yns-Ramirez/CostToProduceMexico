@@ -7,19 +7,19 @@
 --              Enero 20,2012   Se cambia la regla para el campo de Valor_Bajas. La formula es: El total del valor de la produccion, entre total registrado por las bajas
 --                              Se corrige el calculo de TipoMoneda_ID          
 --              Marzo 23, 2012. Se agrego manejo de Entidades Legales Parametrizables
---              Mayo  16, 2012. Se Reemplaza tabla cp_dwh.WIP_REPETITIVE_ITEMS por cp_dwh.V_WIP_REPETITIVE_ITEMS_HIST, para procesar con datos correspondientes a cada mes. Cambio hecho por Marcos Diaz. CC 52-12
+--              Mayo  16, 2012. Se Reemplaza tabla gb_mdl_mexico_costoproducir.WIP_REPETITIVE_ITEMS por gb_mdl_mexico_costoproducir.V_WIP_REPETITIVE_ITEMS_HIST, para procesar con datos correspondientes a cada mes. Cambio hecho por Marcos Diaz. CC 52-12
 --              Agosto 16, 2012. Para los campos Bajas y Costo_Bajas se agrega el transaction_type_id 92
 --             Septiembre, 2012. Se cambian los turnos.
 --                              Se eliminan campos de Valor_Bajas, MF_UnidadMedida_ID
 --                              Los campos de Fecha_alta y Fecha_Mod cambian a timestamp
 --              Enero, 2014. Marcos Diaz. CC 14-09 Bajas Produccion. Se agregan los campos Costo_Precio y Gramaje
---              Mayo,2014 Valeria Mtz. Se hace hace un join con la WRKT cp_view.WRKT_MF_CROSS_REFERENCES que se materializa en el mf_procedure_procedure
+--              Mayo,2014 Valeria Mtz. Se hace hace un join con la WRKT gb_mdl_mexico_costoproducir_views.WRKT_MF_CROSS_REFERENCES que se materializa en el mf_procedure_procedure
 --              Agosto 2014, Valeria Mtz. Se agrega manejo de Fechas Carga parametrizadas.
 
 
 -- Se eliminan previos de ejecucion de acuerdo al periodo a ejecutar en mf_produccion
-insert overwrite table cp_dwh_mf.mf_produccion partition(entidadlegal_id)
-    select p.* from cp_dwh_mf.mf_produccion p
+insert overwrite table gb_mdl_mexico_manufactura.mf_produccion partition(entidadlegal_id)
+    select p.* from gb_mdl_mexico_manufactura.mf_produccion p
     left join 
         (select 
             0 as mf_organizacion_id ,
@@ -51,21 +51,21 @@ insert overwrite table cp_dwh_mf.mf_produccion partition(entidadlegal_id)
         0 as fecha_mod ,
         from_unixtime(unix_timestamp()) as storeday ,
         el.entidadlegal_id
-        from (select distinct entidadlegal_id from cp_dwh_mf.mf_produccion) el;
+        from (select distinct entidadlegal_id from gb_mdl_mexico_manufactura.mf_produccion) el;
 
-insert overwrite table cp_dwh_mf.mf_produccion partition(entidadlegal_id)
-  select p.* from cp_dwh_mf.mf_produccion p, cp_view.v_fechas_extraccion e
+insert overwrite table gb_mdl_mexico_manufactura.mf_produccion partition(entidadlegal_id)
+  select p.* from gb_mdl_mexico_manufactura.mf_produccion p, gb_mdl_mexico_costoproducir_views.v_fechas_extraccion e
   where p.fecha not between e.fechaini and e.fechafin;
 
 -- step1
--- Se materializa cp_view.vdw_mf_cross_references
-insert overwrite table cp_view.wrkt_mf_cross_reference
+-- Se materializa gb_mdl_mexico_costoproducir_views.vdw_mf_cross_references
+insert overwrite table gb_mdl_mexico_costoproducir_views.wrkt_mf_cross_reference
      select vmcr.*
-     from cp_view.vdw_mf_cross_references vmcr;
+     from gb_mdl_mexico_costoproducir_views.vdw_mf_cross_references vmcr;
 
 
 -- step1
-insert overwrite table cp_view.vdw_mf_produccion_mt_1
+insert overwrite table gb_mdl_mexico_costoproducir_views.vdw_mf_produccion_mt_1
 select 
      t2.transaction_source_id
      ,t2.organization_id
@@ -97,9 +97,9 @@ select
      ,0                                                                             as pt_costoproduccionreal  
      ,0                                                                             as toneladas
      ,0                                                                             as pt_valor_produccion
-from  cp_dwh.mtl_transaccion_materiales t2, cp_view.v_fechas_extraccion fe
+from  gb_mdl_mexico_costoproducir.mtl_transaccion_materiales t2, gb_mdl_mexico_costoproducir_views.v_fechas_extraccion fe
 
-left outer join cp_dwh.wip_flow_schedules ws
+left outer join gb_mdl_mexico_costoproducir.wip_flow_schedules ws
     on t2.transaction_source_id    =   ws.wip_entity_id 
     and t2.organization_id         =   ws.organization_id
     and t2.inventory_item_id       =   ws.primary_item_id
@@ -119,11 +119,11 @@ left outer join
                   when h.attribute6 is not null then h.attribute6
                   else 0 
                end)                                       as attribute6
-        from cp_view.v_wip_repetitive_items_hist h
+        from gb_mdl_mexico_costoproducir_views.v_wip_repetitive_items_hist h
              inner join 
              (
                   select h_.aniobimbo, h_.mesbimbo, h_.organization_id, h_.primary_item_id, max(h_.fecha_actualizacion) as fecha_actualizacion
-                  from cp_view.v_wip_repetitive_items_hist h_
+                  from gb_mdl_mexico_costoproducir_views.v_wip_repetitive_items_hist h_
                   group by h_.aniobimbo, h_.mesbimbo, h_.organization_id, h_.primary_item_id
              ) hm on  h.aniobimbo = hm.aniobimbo and h.mesbimbo = hm.mesbimbo and h.organization_id = hm.organization_id and h.primary_item_id = hm.primary_item_id and h.fecha_actualizacion = hm.fecha_actualizacion
       group by h.aniobimbo
@@ -149,7 +149,7 @@ left outer join
                         when wri_.attribute6 is not null then wri_.attribute6
                         else 0 
                      end)                                     as attribute6
-         from cp_dwh.wip_repetitive_items wri_
+         from gb_mdl_mexico_costoproducir.wip_repetitive_items wri_
          group by 
               wri_.organization_id
               ,wri_.primary_item_id
@@ -171,11 +171,11 @@ left outer join
                         when h.attribute6 is not null then h.attribute6
                         else 0
                  end)                                       as attribute6
-        from cp_view.v_wip_repetitive_items_hist h
+        from gb_mdl_mexico_costoproducir_views.v_wip_repetitive_items_hist h
                inner join 
                (
                     select vwrih.aniobimbo, vwrih.mesbimbo, vwrih.organization_id, vwrih.primary_item_id, max(vwrih.fecha_actualizacion) as fecha_actualizacion
-                    from cp_view.v_wip_repetitive_items_hist vwrih
+                    from gb_mdl_mexico_costoproducir_views.v_wip_repetitive_items_hist vwrih
                     group by vwrih.aniobimbo, vwrih.mesbimbo, vwrih.organization_id, vwrih.primary_item_id
                ) hm  on  h.aniobimbo = hm.aniobimbo and h.mesbimbo = hm.mesbimbo and h.organization_id = hm.organization_id and h.primary_item_id = hm.primary_item_id and h.fecha_actualizacion = hm.fecha_actualizacion
         group by 
@@ -199,13 +199,13 @@ LEFT outer JOIN
                            WHEN wri2_.ATTRIBUTE6 IS NOT NULL THEN wri2_.ATTRIBUTE6
                            ELSE 0
                     END)                                     AS ATTRIBUTE6
-           FROM cp_dwh.WIP_REPETITIVE_ITEMS wri2_
+           FROM gb_mdl_mexico_costoproducir.WIP_REPETITIVE_ITEMS wri2_
                GROUP BY 
                     wri2_.ORGANIZATION_ID,
                     wri2_.PRIMARY_ITEM_ID
     ) WRIP
     ON T2.ORGANIZATION_ID =  WRIP.ORGANIZATION_ID  AND T2.INVENTORY_ITEM_ID = WRIP.PRIMARY_ITEM_ID
-    JOIN  cp_dwh.mtl_catalogo_materiales  MAT
+    JOIN  gb_mdl_mexico_costoproducir.mtl_catalogo_materiales  MAT
     ON T2.ORGANIZATION_ID                                 =   MAT.ORGANIZATION_ID
     AND T2.INVENTORY_ITEM_ID                              =   MAT.INVENTORY_ITEM_ID
     AND MAT.ITEM_TYPE                                     =   'PT'
@@ -271,7 +271,7 @@ COALESCE(case when t2.transaction_type_id in (44,17) and t2.transaction_source_t
 
 
 -- step2
-insert overwrite table cp_view.vdw_mf_produccion_p1_2
+insert overwrite table gb_mdl_mexico_costoproducir_views.vdw_mf_produccion_p1_2
 select  
      mt.transaction_source_id
      ,mt.transaction_date               as  transaction_date
@@ -299,18 +299,18 @@ select
      ,mt.toneladas
      ,mt.pt_valor_produccion
     --step 1
-from cp_view.vdw_mf_produccion_mt_1 mt,
+from gb_mdl_mexico_costoproducir_views.vdw_mf_produccion_mt_1 mt,
   (
-    select entidadlegal_id from cp_view.v_entidadeslegales_activas_mf group by entidadlegal_id
+    select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadeslegales_activas_mf group by entidadlegal_id
   )ela
 
-left outer join cp_view.v_mf_turno_dia mf_turno_0
+left outer join gb_mdl_mexico_costoproducir_views.v_mf_turno_dia mf_turno_0
      on mt.organization_id  =  mf_turno_0.mf_organizacion_id
           and mt.line_id = mf_turno_0.linea_prod_id
           and mt.transaction_date =  mf_turno_0.fechaini
           and mf_turno_0.entidadlegal_id = ela.entidadlegal_id
 
-left outer join cp_view.v_mf_turno_dia mf_turno_1
+left outer join gb_mdl_mexico_costoproducir_views.v_mf_turno_dia mf_turno_1
      on mt.organization_id  =  mf_turno_1.mf_organizacion_id
           and mt.line_id = mf_turno_1.linea_prod_id
           and mt.transaction_date =  mf_turno_1.fechafin
@@ -321,7 +321,7 @@ left outer join cp_view.v_mf_turno_dia mf_turno_1
 
 
 -- Se eliminan duplicados
-insert overwrite table cp_view.vdw_mf_produccion_p1_2 
+insert overwrite table gb_mdl_mexico_costoproducir_views.vdw_mf_produccion_p1_2 
 select 
 transaction_source_id,
 transaction_date,
@@ -339,7 +339,7 @@ pt_bajas_,
 pt_costoproduccionreal,
 toneladas,
 pt_valor_produccion
-from cp_view.vdw_mf_produccion_p1_2 
+from gb_mdl_mexico_costoproducir_views.vdw_mf_produccion_p1_2 
 group by 
 transaction_source_id,
 transaction_date,
@@ -359,7 +359,7 @@ pt_valor_produccion;
 
 
 -- step3
-insert overwrite table cp_view.vdw_mf_produccion_principal_3
+insert overwrite table gb_mdl_mexico_costoproducir_views.vdw_mf_produccion_principal_3
 select
  p1.transaction_source_id       as transaction_source_id
  ,p1.transaction_date           as transaction_date
@@ -390,23 +390,23 @@ select
  ,p1.toneladas
  ,p1.pt_valor_produccion
  --step2
-from cp_view.vdw_mf_produccion_p1_2 p1,(
-        select entidadlegal_id from  cp_view.v_entidadeslegales_activas_mf group by entidadlegal_id
+from gb_mdl_mexico_costoproducir_views.vdw_mf_produccion_p1_2 p1,(
+        select entidadlegal_id from  gb_mdl_mexico_costoproducir_views.v_entidadeslegales_activas_mf group by entidadlegal_id
       ) ela2
-left outer join cp_view.t_mf_turno_default_dia mf_turno2_0
+left outer join gb_mdl_mexico_costoproducir_views.t_mf_turno_default_dia mf_turno2_0
       on p1.organization_id  =  mf_turno2_0.mf_organizacion_id
       and p1.transaction_date =  mf_turno2_0.fechaini
       and p1.turno_id = -1
       and mf_turno2_0.entidadlegal_id = ela2.entidadlegal_id
                                    
-left outer join cp_view.t_mf_turno_default_dia mf_turno2_1
+left outer join gb_mdl_mexico_costoproducir_views.t_mf_turno_default_dia mf_turno2_1
       on p1.organization_id  =  mf_turno2_1.mf_organizacion_id
       and p1.transaction_date =  mf_turno2_1.fechafin
       and p1.turno_id = -1
       and mf_turno2_1.entidadlegal_id = ela2.entidadlegal_id;
 
 
-insert overwrite table cp_view.vdw_mf_produccion_principal_3
+insert overwrite table gb_mdl_mexico_costoproducir_views.vdw_mf_produccion_principal_3
   select
   transaction_source_id,
   transaction_date,
@@ -424,7 +424,7 @@ insert overwrite table cp_view.vdw_mf_produccion_principal_3
   pt_costoproduccionreal,
   toneladas,
   pt_valor_produccion
-  from cp_view.vdw_mf_produccion_principal_3
+  from gb_mdl_mexico_costoproducir_views.vdw_mf_produccion_principal_3
   group by
   transaction_source_id,
   transaction_date,
@@ -444,7 +444,7 @@ insert overwrite table cp_view.vdw_mf_produccion_principal_3
   pt_valor_produccion;
 
 -- step4
-insert into table cp_dwh_mf.mf_produccion partition(entidadlegal_id)
+insert into table gb_mdl_mexico_manufactura.mf_produccion partition(entidadlegal_id)
 SELECT 
       Fin.MF_Organizacion_ID                                              AS MF_Organizacion_ID 
       ,Fin.Planta_ID                                                       AS Planta_ID          
@@ -528,19 +528,19 @@ FROM
                          ,COALESCE(SUM(Principal.Toneladas ),0)                         AS Toneladas
                          ,COALESCE(SUM(Principal.PT_Valor_Produccion ),0)               AS PT_Valor_Produccion
                          --step3
-                    FROM cp_view.vdw_mf_produccion_principal_3 Principal
+                    FROM gb_mdl_mexico_costoproducir_views.vdw_mf_produccion_principal_3 Principal
                     GROUP BY 
                           Principal.transaction_date
                          ,Principal.Organization_ID
                          ,Principal.Inventory_Item_ID
                          ,Principal.Turno_ID
                          ,Principal.Line_ID
-               )Uno, cp_view.v_fechas_extraccion vfe
+               )Uno, gb_mdl_mexico_costoproducir_views.v_fechas_extraccion vfe
           
-               JOIN cp_dwh_mf.mf_organizacion MF_Plantas_0 
+               JOIN gb_mdl_mexico_manufactura.mf_organizacion MF_Plantas_0 
                     ON uno.organization_id = MF_Plantas_0.MF_Organizacion_ID
           
-               LEFT outer JOIN cp_view.wrkt_mf_cross_reference     CREF
+               LEFT outer JOIN gb_mdl_mexico_costoproducir_views.wrkt_mf_cross_reference     CREF
                ON MF_Plantas_0.EntidadLegal_ID         =   CREF.EntidadLegal_ID
                AND uno.inventory_item_id               =   CREF.MF_Producto_ID
 
@@ -551,21 +551,21 @@ FROM
                                 ,COALESCE(M.TipoMoneda_ID,-1)           AS TipoMoneda_ID
                                 ,O.Organizacion_ID
                                 ,COALESCE(M.Pais_ID,-1)                 AS Pais_ID
-                           FROM cp_dwh.O_ENTIDADLEGAL_ORGANIZACION O
-                                LEFT OUTER JOIN cp_dwh.O_ENTIDAD_LEGAL El ON O.EntidadLegal_ID = EL.EntidadLegal_ID
-                                LEFT OUTER JOIN cp_dwh.V_TIPO_MONEDA M ON M.Pais_ID = O.Pais_ID
-                                LEFT OUTER JOIN cp_dwh.G_PAIS G ON O.Pais_ID = G.Pais_ID
-                                LEFT OUTER JOIN cp_dwh.E_ORGANIZACION E ON E.Organizacion_ID = O.Organizacion_ID
+                           FROM gb_mdl_mexico_costoproducir.O_ENTIDADLEGAL_ORGANIZACION O
+                                LEFT OUTER JOIN gb_mdl_mexico_costoproducir.O_ENTIDAD_LEGAL El ON O.EntidadLegal_ID = EL.EntidadLegal_ID
+                                LEFT OUTER JOIN gb_mdl_mexico_costoproducir.V_TIPO_MONEDA M ON M.Pais_ID = O.Pais_ID
+                                LEFT OUTER JOIN gb_mdl_mexico_costoproducir.G_PAIS G ON O.Pais_ID = G.Pais_ID
+                                LEFT OUTER JOIN gb_mdl_mexico_costoproducir.E_ORGANIZACION E ON E.Organizacion_ID = O.Organizacion_ID
                       ) TM
                ON MF_Plantas_0.EntidadLegal_ID = TM.EntidadLegal_ID
                where 
-                  MF_Plantas_0.EntidadLegal_ID IN (SELECT EntidadLegal_ID FROM  cp_view.V_ENTIDADESLEGALES_ACTIVAS_MF GROUP BY EntidadLegal_ID)
+                  MF_Plantas_0.EntidadLegal_ID IN (SELECT EntidadLegal_ID FROM  gb_mdl_mexico_costoproducir_views.V_ENTIDADESLEGALES_ACTIVAS_MF GROUP BY EntidadLegal_ID)
                   AND lower(MF_Plantas_0.Organizacion_Tipo) = lower('PLANTA')
 )Fin;
 
 -- step5
--- Eliminar duplicados de cp_dwh_mf.mf_produccion
-insert overwrite table cp_dwh_mf.mf_produccion partition(entidadlegal_id)
+-- Eliminar duplicados de gb_mdl_mexico_manufactura.mf_produccion
+insert overwrite table gb_mdl_mexico_manufactura.mf_produccion partition(entidadlegal_id)
   select 
 mf_organizacion_id,
 max(planta_id),
@@ -589,11 +589,11 @@ max(fecha_alta),
 max(fecha_mod),
 max(storeday),
 entidadlegal_id
-from cp_dwh_mf.mf_produccion
+from gb_mdl_mexico_manufactura.mf_produccion
 group by mf_organizacion_id, mf_producto_id, linea_prod_id, turno_id, fecha, entidadlegal_id;
 
 
-insert overwrite table cp_dwh_mf.mf_produccion partition(entidadlegal_id)
+insert overwrite table gb_mdl_mexico_manufactura.mf_produccion partition(entidadlegal_id)
 select 
 mf_organizacion_id,
 (planta_id),
@@ -617,11 +617,11 @@ COALESCE(total_registrado * gramaje,0) as toneladas,
 (fecha_mod),
 (storeday),
 entidadlegal_id
-from cp_dwh_mf.mf_produccion;
+from gb_mdl_mexico_manufactura.mf_produccion;
 
 
 -- Agregamos a la tabla de MF_Turnos, los turnos por default que se generaron en la MF_Produccion 
-insert into table cp_dwh_mf.mf_turnos partition(entidadlegal_id)
+insert into table gb_mdl_mexico_manufactura.mf_turnos partition(entidadlegal_id)
      select 
           p.mf_organizacion_id
           ,p.planta_id
@@ -643,7 +643,7 @@ insert into table cp_dwh_mf.mf_turnos partition(entidadlegal_id)
           ,null                                                  as fecha_vigencia
           ,from_unixtime(unix_timestamp())                       as storeday
           ,p.entidadlegal_id
-     from cp_dwh_mf.mf_produccion p
+     from gb_mdl_mexico_manufactura.mf_produccion p
           inner join
                (
                     select 
@@ -651,7 +651,7 @@ insert into table cp_dwh_mf.mf_turnos partition(entidadlegal_id)
                          ,td.turno_id
                          ,td.turnohraini
                          ,td.turnohrafinal
-                    from cp_dwh_mf.mf_turno_default td
+                    from gb_mdl_mexico_manufactura.mf_turno_default td
                     group by 
                          trim(td.entidadlegal_id)
                          ,td.turno_id
@@ -683,13 +683,13 @@ insert into table cp_dwh_mf.mf_turnos partition(entidadlegal_id)
           left join 
           (
                select t_.entidadlegal_id, t_.mf_organizacion_id, t_.planta_id, t_.linea_prod_id, t_.periodo
-               from cp_dwh_mf.mf_turnos t_
-               where t_.entidadlegal_id in (select entidadlegal_id from cp_view.v_entidadeslegales_activas_mf group by entidadlegal_id) 
+               from gb_mdl_mexico_manufactura.mf_turnos t_
+               where t_.entidadlegal_id in (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadeslegales_activas_mf group by entidadlegal_id) 
                     and t_.fecha_vigencia is null 
                group by t_.entidadlegal_id, t_.mf_organizacion_id, t_.planta_id, t_.linea_prod_id, t_.periodo
           ) t on p.entidadlegal_id = t.entidadlegal_id and p.mf_organizacion_id = t.mf_organizacion_id and p.planta_id = t.planta_id and p.linea_prod_id = t.linea_prod_id and substr(p.fecha, 1, 7) = t.periodo
 
-     where p.entidadlegal_id in (select entidadlegal_id from cp_view.v_entidadeslegales_activas_mf group by entidadlegal_id)
+     where p.entidadlegal_id in (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadeslegales_activas_mf group by entidadlegal_id)
      and p.linea_prod_id <> -1
 
      and t.entidadlegal_id is null

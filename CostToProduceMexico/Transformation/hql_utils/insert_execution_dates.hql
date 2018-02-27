@@ -1,1 +1,1 @@
-insert overwrite table cp_view.v_fechas_extraccion select concat('${hiveconf:speriod}','-01'),to_date(from_unixtime(unix_timestamp()));
+insert overwrite table gb_mdl_mexico_costoproducir_views.v_fechas_extraccion select concat('${hiveconf:speriod}','-01'),to_date(from_unixtime(unix_timestamp()));

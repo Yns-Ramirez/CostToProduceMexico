@@ -1,7 +1,7 @@
 -- ======================================================
 --  a_saldo_nomina
 
-INSERT INTO cp_app_costoproducir.a_saldo_nomina partition(entidadlegal_id)
+INSERT INTO gb_smntc_mexico_costoproducir.a_saldo_nomina partition(entidadlegal_id)
 SELECT g_t1.je_header_id AS encabezado_id,
        g_t1.je_line_num AS detalle_id,
        g_t1.effective_date AS fechamovimiento,
@@ -34,9 +34,9 @@ SELECT g_t1.je_header_id AS encabezado_id,
        g_t0.posted_date AS hdr_posted_date,
        from_unixtime(unix_timestamp()) AS storeday,
        g_t2.segment1 AS entidadlegal_id
-FROM cp_dwh.gl_je_headers g_t0,
-     cp_dwh.gl_je_lines g_t1,
-     cp_dwh.gl_estructura_contable g_t2
+FROM gb_mdl_mexico_costoproducir.gl_je_headers g_t0,
+     gb_mdl_mexico_costoproducir.gl_je_lines g_t1,
+     gb_mdl_mexico_costoproducir.gl_estructura_contable g_t2
 WHERE g_t1.code_combination_id = g_t2.code_combination_id
   AND g_t1.je_header_id = g_t0.je_header_id
   AND g_t1.set_of_books_id IN (141,
@@ -50,9 +50,9 @@ WHERE g_t1.code_combination_id = g_t2.code_combination_id
   
 
 
-INSERT overwrite TABLE cp_app_costoproducir.a_saldo_nomina partition(entidadlegal_id)
+INSERT overwrite TABLE gb_smntc_mexico_costoproducir.a_saldo_nomina partition(entidadlegal_id)
 SELECT tmp.*
-FROM cp_app_costoproducir.a_saldo_nomina tmp
+FROM gb_smntc_mexico_costoproducir.a_saldo_nomina tmp
 JOIN
   (SELECT encabezado_id,
           detalle_id,
@@ -66,7 +66,7 @@ JOIN
           centrocostos_id,
           tipomoneda_id,
           max(storeday) AS first_record
-   FROM cp_app_costoproducir.a_saldo_nomina
+   FROM gb_smntc_mexico_costoproducir.a_saldo_nomina
    GROUP BY encabezado_id,
             detalle_id,
             fechamovimiento,

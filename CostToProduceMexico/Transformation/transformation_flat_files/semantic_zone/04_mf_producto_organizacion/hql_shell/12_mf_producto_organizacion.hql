@@ -2,14 +2,14 @@
 -- Author / Autor             : Francisco Martinez
 -- Date / Fecha               : December 2016
 -- Project /Proyecto          : Costo Producir-Big Data
--- Objective / Objetivo       : Update "MF_Producto_organizacion" information on table cp_dwh_mf.MF_Producto_organizacion
+-- Objective / Objetivo       : Update "MF_Producto_organizacion" information on table gb_mdl_mexico_manufactura.MF_Producto_organizacion
 -- Subject Area / Area Sujeto : Manufacture 
 --                              Organization products
 
 
--- Load all registers into cp_dwh_mf.mf_producto_organizacion
+-- Load all registers into gb_mdl_mexico_manufactura.mf_producto_organizacion
 
-INSERT INTO cp_dwh_mf.MF_Producto_Organizacion partition(entidadlegal_id) 
+INSERT INTO gb_mdl_mexico_manufactura.MF_Producto_Organizacion partition(entidadlegal_id) 
 SELECT 
 DELT.MF_Organizacion_ID
 ,COALESCE(HIST.Planta_ID, DELT.Planta_ID)
@@ -84,8 +84,8 @@ END
 ,DELT.Fecha_Mod
 ,FROM_UNIXTIME(UNIX_TIMESTAMP())
 ,DELT.EntidadLegal_ID
-FROM cp_view.VDW_MF_PRODUCTO_ORGANIZACION DELT
-LEFT OUTER JOIN cp_dwh_mf.MF_Producto_Organizacion HIST
+FROM gb_mdl_mexico_costoproducir_views.VDW_MF_PRODUCTO_ORGANIZACION DELT
+LEFT OUTER JOIN gb_mdl_mexico_manufactura.MF_Producto_Organizacion HIST
    ON DELT.EntidadLegal_ID = HIST.EntidadLegal_ID
    AND DELT.MF_Organizacion_ID = HIST.MF_Organizacion_ID
    AND DELT.MF_Producto_ID=HIST.MF_Producto_ID
@@ -113,10 +113,10 @@ OR COALESCE(HIST.Origen,'MEXICO') <> COALESCE(DELT.Origen,'MEXICO')));
 
 -- delete duplicades rows process
 
-insert overwrite table cp_dwh_mf.mf_producto_organizacion partition(entidadlegal_id)
-select tmp.* from cp_dwh_mf.mf_producto_organizacion tmp 
+insert overwrite table gb_mdl_mexico_manufactura.mf_producto_organizacion partition(entidadlegal_id)
+select tmp.* from gb_mdl_mexico_manufactura.mf_producto_organizacion tmp 
 join (select EntidadLegal_ID,mf_organizacion_id,MF_Producto_ID,max(storeday) as first_record 
-from cp_dwh_mf.mf_producto_organizacion group by EntidadLegal_ID ,MF_Organizacion_ID ,MF_Producto_ID) sec 
+from gb_mdl_mexico_manufactura.mf_producto_organizacion group by EntidadLegal_ID ,MF_Organizacion_ID ,MF_Producto_ID) sec 
 on tmp.EntidadLegal_ID=sec.EntidadLegal_ID 
 and tmp.MF_Organizacion_ID=sec.MF_Organizacion_ID
 and tmp.MF_Producto_ID=sec.MF_Producto_ID

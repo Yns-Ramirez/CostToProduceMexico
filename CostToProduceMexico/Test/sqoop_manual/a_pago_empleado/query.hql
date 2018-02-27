@@ -1,4 +1,4 @@
-insert overwrite table cp_app_costoproducir.a_pago_empleado
+insert overwrite table gb_smntc_mexico_costoproducir.a_pago_empleado
     select 
         tiponomina_id
         ,empleado_id
@@ -14,4 +14,4 @@ insert overwrite table cp_app_costoproducir.a_pago_empleado
         ,fechacarga
         ,fechacambio
         ,from_unixtime(unix_timestamp()) as storeday
-        from cp_wkrt.a_pago_empleado;
+        from gb_mdl_mexico_costoproducir_wrkt.a_pago_empleado;

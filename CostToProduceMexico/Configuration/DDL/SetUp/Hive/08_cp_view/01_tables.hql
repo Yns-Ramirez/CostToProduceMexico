@@ -1,5 +1,5 @@
 
-CREATE TABLE IF NOT EXISTS cp_view.t_mf_turno_default_dia(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir_views.t_mf_turno_default_dia(
   entidadlegal_id string, 
   mf_organizacion_id int, 
   planta_id string, 
@@ -13,13 +13,13 @@ CREATE TABLE IF NOT EXISTS cp_view.t_mf_turno_default_dia(
   turnohrafin string);
 
 
-CREATE TABLE IF NOT EXISTS cp_view.v_fechas_extraccion(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir_views.v_fechas_extraccion(
   fechaini string, 
   fechafin string);
 
 
 
-CREATE TABLE IF NOT EXISTS cp_view.vdw_mf_produccion_mt_1(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mf_produccion_mt_1(
   transaction_source_id int, 
   organization_id int, 
   inventory_item_id int, 
@@ -37,26 +37,7 @@ CREATE TABLE IF NOT EXISTS cp_view.vdw_mf_produccion_mt_1(
   pt_valor_produccion int);
 
 
-CREATE TABLE IF NOT EXISTS cp_view.vdw_mf_produccion_p1_2(
-  transaction_source_id int, 
-  transaction_date string, 
-  transaction_date_h string, 
-  organization_id int, 
-  inventory_item_id int, 
-  turno_id int, 
-  line_id int, 
-  production_line_rate float, 
-  pt_productoregistrado decimal(15,5), 
-  pt_productoembarcado decimal(17,5), 
-  pt_productoregistrado_ decimal(31,10), 
-  pt_bajas decimal(15,5), 
-  pt_bajas_ decimal(31,10), 
-  pt_costoproduccionreal int, 
-  toneladas int, 
-  pt_valor_produccion int);
-
-
-CREATE TABLE IF NOT EXISTS cp_view.vdw_mf_produccion_principal_3(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mf_produccion_p1_2(
   transaction_source_id int, 
   transaction_date string, 
   transaction_date_h string, 
@@ -75,7 +56,26 @@ CREATE TABLE IF NOT EXISTS cp_view.vdw_mf_produccion_principal_3(
   pt_valor_produccion int);
 
 
-CREATE TABLE IF NOT EXISTS cp_view.wrkt_mf_cross_reference(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mf_produccion_principal_3(
+  transaction_source_id int, 
+  transaction_date string, 
+  transaction_date_h string, 
+  organization_id int, 
+  inventory_item_id int, 
+  turno_id int, 
+  line_id int, 
+  production_line_rate float, 
+  pt_productoregistrado decimal(15,5), 
+  pt_productoembarcado decimal(17,5), 
+  pt_productoregistrado_ decimal(31,10), 
+  pt_bajas decimal(15,5), 
+  pt_bajas_ decimal(31,10), 
+  pt_costoproduccionreal int, 
+  toneladas int, 
+  pt_valor_produccion int);
+
+
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir_views.wrkt_mf_cross_reference(
   entidadlegal_id string, 
   mf_producto_id int, 
   pe_fechaini string, 
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS cp_view.wrkt_mf_cross_reference(
   fechafin string);
 
 
-CREATE TABLE IF NOT EXISTS cp_view.wrkt_mf_turnos(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir_views.wrkt_mf_turnos(
   mf_organizacion_id int, 
   planta_id string, 
   linea_prod_id int, 
@@ -120,7 +120,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_view.wrkt_mf_turnos_default(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir_views.wrkt_mf_turnos_default(
   mf_organizacion_id int, 
   planta_id string, 
   linea_prod_id int, 
@@ -140,7 +140,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_view.wrkt_mf_turnos_rotativos(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir_views.wrkt_mf_turnos_rotativos(
   mf_organizacion_id int, 
   planta_id string, 
   linea_prod_id int, 

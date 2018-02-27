@@ -1,4 +1,4 @@
-CREATE VIEW IF NOT EXISTS cp_view.vdw_mtl_transaction_accounts AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_transaction_accounts AS select
     mtl_transaction_accounts.transaction_id            
     ,mtl_transaction_accounts.reference_account  
     ,regexp_replace(mtl_transaction_accounts.last_update_date, '-', '/')        
@@ -42,7 +42,7 @@ CREATE VIEW IF NOT EXISTS cp_view.vdw_mtl_transaction_accounts AS select
 from erp_mexico_sz.mtl_transaction_accounts;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_mtl_transaccion_materiales AS select mtl_material_transactions.transaction_id,  
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_transaccion_materiales AS select mtl_material_transactions.transaction_id,  
     mtl_material_transactions.last_update_date,
     mtl_material_transactions.last_update_date_h,  
     mtl_material_transactions.creation_date,
@@ -90,7 +90,7 @@ CREATE VIEW IF NOT EXISTS cp_view.vdw_mtl_transaccion_materiales AS select mtl_m
 from erp_mexico_sz.mtl_material_transactions;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_mtl_categorias AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_categorias AS select
 mtl_categories_b.category_id 
 ,mtl_categories_b.structure_id 
 ,mtl_categories_b.description 
@@ -140,7 +140,7 @@ mtl_categories_b.category_id
 from erp_mexico_sz.MTL_CATEGORIES_b;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_mtl_flexfields_materiales AS SELECT   mtl_item_flexfields.item_id                       
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_flexfields_materiales AS SELECT   mtl_item_flexfields.item_id                       
 , mtl_item_flexfields.inventory_item_id             
 , mtl_item_flexfields.organization_id         
 ,regexp_replace(substr(mtl_item_flexfields.last_update_date, 3, 10), '-', '/')       
@@ -447,7 +447,7 @@ CREATE VIEW IF NOT EXISTS cp_view.vdw_mtl_flexfields_materiales AS SELECT   mtl_
 FROM erp_mexico_sz.MTL_ITEM_FLEXFIELDS;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_mtl_catalogo_materiales AS select mtl_system_items_b.inventory_item_id   
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_catalogo_materiales AS select mtl_system_items_b.inventory_item_id   
 , mtl_system_items_b.organization_id
 ,regexp_replace(mtl_system_items_b.last_update_date, '-', '/')      
 , mtl_system_items_b.last_updated_by
@@ -757,7 +757,7 @@ CREATE VIEW IF NOT EXISTS cp_view.vdw_mtl_catalogo_materiales AS select mtl_syst
 from erp_mexico_sz.MTL_SYSTEM_ITEMS_B;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_mtl_categoria_materiales AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_categoria_materiales AS select
 mtl_item_categories.inventory_item_id 
 ,mtl_item_categories.organization_id 
 ,mtl_item_categories.category_set_id 
@@ -781,7 +781,7 @@ from erp_mexico_sz.MTL_ITEM_CATEGORIES;
 
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_mtl_unidad_medida AS SELECT   mtl_units_of_measure_tl.unit_of_measure       
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_unidad_medida AS SELECT   mtl_units_of_measure_tl.unit_of_measure       
 , mtl_units_of_measure_tl.uom_code              
 , mtl_units_of_measure_tl.uom_class             
 , mtl_units_of_measure_tl.base_uom_flag         
@@ -822,7 +822,7 @@ CREATE VIEW IF NOT EXISTS cp_view.vdw_mtl_unidad_medida AS SELECT   mtl_units_of
 FROM erp_mexico_sz.MTL_UNITS_OF_MEASURE_TL;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_mtl_conversiones_udm AS SELECT   mtl_uom_conversions.unit_of_measure        
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_conversiones_udm AS SELECT   mtl_uom_conversions.unit_of_measure        
 , mtl_uom_conversions.uom_code               
 , mtl_uom_conversions.uom_class              
 , mtl_uom_conversions.inventory_item_id      
@@ -849,7 +849,7 @@ CREATE VIEW IF NOT EXISTS cp_view.vdw_mtl_conversiones_udm AS SELECT   mtl_uom_c
 FROM erp_mexico_sz.MTL_UOM_CONVERSIONS;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_hr_location AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_hr_location AS select
 hr_locations_all.location_id 
 ,hr_locations_all.location_code 
 ,hr_locations_all.business_group_id 
@@ -902,7 +902,7 @@ hr_locations_all.location_id
 from  erp_mexico_sz.HR_LOCATIONS_ALL;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_bom_resources AS SELECT 
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_bom_resources AS SELECT 
 bom_resources.resource_id                   
 ,bom_resources.resource_code                 
 ,bom_resources.organization_id
@@ -965,7 +965,7 @@ bom_resources.resource_id
 FROM erp_mexico_sz.BOM_RESOURCES;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_hr_organizacion AS select 
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_hr_organizacion AS select 
 hr_all_organization_units.organization_id 
 ,regexp_replace(hr_all_organization_units.last_update_date, '-', '/')
 ,hr_all_organization_units.last_update_date_h 
@@ -1001,7 +1001,7 @@ hr_all_organization_units.organization_id
 from erp_mexico_sz.hr_all_organization_units;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_mtl_referencia_cruzada_mat AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_referencia_cruzada_mat AS select
 mtl_cross_references.inventory_item_id
 ,mtl_cross_references.organization_id
 ,mtl_cross_references.cross_reference_type
@@ -1045,7 +1045,7 @@ end as cross_reference
 from erp_mexico_sz.mtl_cross_references;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_wip_lineas AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_wip_lineas AS select
 wip_lines.line_id
 ,wip_lines.organization_id
 ,substr(wip_lines.last_update_date, 3, 10) as LAST_UPDATE_DATE
@@ -1079,7 +1079,7 @@ wip_lines.line_id
 from erp_mexico_sz.WIP_LINES;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_wip_flow_schedules AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_wip_flow_schedules AS select
 wip_flow_schedules.scheduled_flag
 , wip_flow_schedules.wip_entity_id
 , wip_flow_schedules.organization_id
@@ -1152,7 +1152,7 @@ wip_flow_schedules.scheduled_flag
 from erp_mexico_sz.WIP_FLOW_SCHEDULES;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_wip_repetitive_items AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_wip_repetitive_items AS select
 wip_repetitive_items.wip_entity_id
 , wip_repetitive_items.line_id
 , wip_repetitive_items.organization_id
@@ -1186,7 +1186,7 @@ wip_repetitive_items.wip_entity_id
 from erp_mexico_sz.wip_repetitive_items;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_mtl_onhand_diario AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_onhand_diario AS select
 date_sub(to_date(from_unixtime(unix_timestamp())),1) as fecha,
 mtl_onhand_quantities_detail.organization_id,
 mtl_onhand_quantities_detail.inventory_item_id,
@@ -1202,7 +1202,7 @@ mtl_onhand_quantities_detail.inventory_item_id,
 mtl_onhand_quantities_detail.subinventory_code;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_centro_costos AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_centro_costos AS select
 vl.flex_value         as centrocostos_id
 ,vl.description        as nombrecentrocostos
 ,'oracle-mx-r11'       as sistemafuente
@@ -1222,7 +1222,7 @@ and lower(vl.flex_value) != 't'
 group by vl.flex_value, vl.description, 'oracle-mx-r11', 'user', from_unixtime(unix_timestamp()), from_unixtime(unix_timestamp()), from_unixtime(unix_timestamp());
 
 
-CREATE VIEW IF NOT EXISTS cp_view.gl_lookups AS SELECT
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.gl_lookups AS SELECT
 fnd_lookup_values_vl.lookup_type,fnd_lookup_values_vl.lookup_code,fnd_lookup_values_vl.view_application_id,fnd_lookup_values_vl.meaning,fnd_lookup_values_vl.description,fnd_lookup_values_vl.enabled_flag,fnd_lookup_values_vl.start_date_active,fnd_lookup_values_vl.end_date_active,fnd_lookup_values_vl.created_by
 ,fnd_lookup_values_vl.creation_date,fnd_lookup_values_vl.last_updated_by,fnd_lookup_values_vl.last_update_login,fnd_lookup_values_vl.last_update_date,fnd_lookup_values_vl.territory_code,fnd_lookup_values_vl.attribute_category,fnd_lookup_values_vl.attribute1
 ,fnd_lookup_values_vl.attribute2,fnd_lookup_values_vl.attribute3,fnd_lookup_values_vl.attribute4,fnd_lookup_values_vl.attribute5,fnd_lookup_values_vl.attribute6,fnd_lookup_values_vl.attribute7,fnd_lookup_values_vl.attribute8,fnd_lookup_values_vl.attribute9,fnd_lookup_values_vl.attribute10,fnd_lookup_values_vl.attribute11
@@ -1231,7 +1231,7 @@ FROM erp_mexico_sz.fnd_lookup_values_vl
 WHERE fnd_lookup_values_vl.view_application_id = 101;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_a_reporte_financiero_dtl AS SELECT 
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_a_reporte_financiero_dtl AS SELECT 
 CAST(rx.axis_set_id AS INT) AS Reporte_ID        
 ,CAST(rx.axis_seq AS INT) AS Linea_ID          
 ,rx.sign AS Signo             
@@ -1258,13 +1258,13 @@ CAST(rx.axis_set_id AS INT) AS Reporte_ID
 FROM erp_mexico_sz.RG_REPORT_AXIS_CONTENTS RX 
 LEFT OUTER JOIN erp_mexico_sz.FND_LOOKUPS LK1 
 ON lk1.lookup_type='YES_NO' AND lk1.lookup_code=rx.range_mode  
-LEFT OUTER JOIN cp_view.GL_LOOKUPS GLLK 
+LEFT OUTER JOIN gb_mdl_mexico_costoproducir_views.GL_LOOKUPS GLLK 
 ON gllk.lookup_type='DR_CR_NET_CODE' AND gllk.lookup_code=rx.dr_cr_net_code    
 LEFT OUTER JOIN erp_mexico_sz.GL_SETS_OF_BOOKS GLSOB 
 ON glsob.set_of_books_id = rx.set_of_books_id;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_a_reporte_financiero AS SELECT 
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_a_reporte_financiero AS SELECT 
 CAST(rx.axis_set_id AS INT) AS Reporte_ID
 ,CAST(rx.axis_seq AS INT) AS Linea_ID
 ,rx.axis_name AS CodigoConcepto
@@ -1283,7 +1283,7 @@ LEFT OUTER JOIN erp_mexico_sz.fnd_lookups LK6 ON lk6.lookup_code = rx.page_break
 LEFT OUTER JOIN erp_mexico_sz.fnd_lookups LK7 ON lk7.lookup_code = rx.page_break_after_flag AND lk7.lookup_type = 'YES_NO';
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_gl_je_headers AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_gl_je_headers AS select
 gl_je_headers.je_header_id                  
 ,gl_je_headers.last_update_date              
 ,gl_je_headers.last_update_date_h            
@@ -1374,7 +1374,7 @@ gl_je_headers.je_header_id
 from erp_mexico_sz.gl_je_headers;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_gl_je_lines AS select 
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_gl_je_lines AS select 
       gl_je_lines.je_header_id                  
      ,gl_je_lines.je_line_num                   
      ,gl_je_lines.last_update_date              
@@ -1477,7 +1477,7 @@ CREATE VIEW IF NOT EXISTS cp_view.vdw_gl_je_lines AS select
 from erp_mexico_sz.gl_je_lines;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.gl_balances AS SELECT glb.set_of_books_id, glb.code_combination_id
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.gl_balances AS SELECT glb.set_of_books_id, glb.code_combination_id
 , glb.currency_code, glb.period_name
 , glb.actual_flag, glb.last_update_date
 , glb.last_update_date_h, glb.last_updated_by
@@ -1499,7 +1499,7 @@ CREATE VIEW IF NOT EXISTS cp_view.gl_balances AS SELECT glb.set_of_books_id, glb
 FROM erp_mexico_sz.GL_BALANCES glb;
 
 
-create view IF NOT EXISTS cp_view.gl_code_combinations_fa_brio_tmp
+create view IF NOT EXISTS gb_mdl_mexico_costoproducir_views.gl_code_combinations_fa_brio_tmp
 as
 select 
 max(account_type) as account_type
@@ -1616,7 +1616,7 @@ from erp_mexico_sz.gl_code_combinations_fa_brio
 group by chart_of_accounts_id,code_combination_id;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_cst_tipo_costo_material AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_cst_tipo_costo_material AS select
 cst_item_cost_type_v.inventory_item_id
 ,cst_item_cost_type_v.item_number                                   
 ,cst_item_cost_type_v.padded_item_number                            
@@ -1663,7 +1663,7 @@ cst_item_cost_type_v.inventory_item_id
 from erp_mexico_sz.CST_ITEM_COST_TYPE_V;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_fnd_lookup_values AS SELECT 
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_fnd_lookup_values AS SELECT 
 fnd_lookup_values.lookup_type
 ,fnd_lookup_values.language
 ,fnd_lookup_values.lookup_code
@@ -1706,7 +1706,7 @@ fnd_lookup_values.lookup_type
 FROM erp_mexico_sz.FND_LOOKUP_VALUES;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_mtl_conjunto_categoria AS SELECT  mtl_category_sets_tl.category_set_id   
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_conjunto_categoria AS SELECT  mtl_category_sets_tl.category_set_id   
 ,mtl_category_sets_tl.language       
 ,mtl_category_sets_tl.source_lang       
 ,mtl_category_sets_tl.category_set_name 
@@ -1721,7 +1721,7 @@ CREATE VIEW IF NOT EXISTS cp_view.vdw_mtl_conjunto_categoria AS SELECT  mtl_cate
 FROM erp_mexico_sz.MTL_CATEGORY_SETS_TL;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_mtl_parameters AS SELECT
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_parameters AS SELECT
 mtl_parameters.organization_id               
 ,mtl_parameters.last_update_date              
 ,mtl_parameters.last_update_date_h            
@@ -1901,7 +1901,7 @@ mtl_parameters.organization_id
 FROM erp_mexico_sz.MTL_PARAMETERS;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_mtl_tipo_fuente_trans AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_tipo_fuente_trans AS select
 mtl_txn_source_types.transaction_source_type_id
 ,regexp_replace(mtl_txn_source_types.last_update_date, '-', '/')
 ,mtl_txn_source_types.last_update_date_h 
@@ -1921,7 +1921,7 @@ FROM erp_mexico_sz.MTL_TXN_SOURCE_TYPES;
 
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_mtl_tipo_transacciones AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_tipo_transacciones AS select
 mtl_transaction_types.transaction_type_id
 ,regexp_replace(mtl_transaction_types.last_update_date, '-', '/') 
 ,mtl_transaction_types.last_update_date_h 
@@ -1946,7 +1946,7 @@ mtl_transaction_types.transaction_type_id
 from erp_mexico_sz.MTL_TRANSACTION_TYPES;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_mtl_item_subinventarios AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_item_subinventarios AS select
 mtl_item_sub_inventories.inventory_item_id 
 ,mtl_item_sub_inventories.organization_id 
 ,mtl_item_sub_inventories.secondary_inventory
@@ -1974,7 +1974,7 @@ from erp_mexico_sz.MTL_ITEM_SUB_INVENTORIES;
 
 
 
-CREATE VIEW IF NOT EXISTS cp_view.v_m4sar_h_convenio_temp AS SELECT m4sar_h_convenio.id_organization,m4sar_h_convenio.std_id_hr,m4sar_h_convenio.std_or_hr_period,MAX(m4sar_h_convenio.dt_end) AS DT_END
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.v_m4sar_h_convenio_temp AS SELECT m4sar_h_convenio.id_organization,m4sar_h_convenio.std_id_hr,m4sar_h_convenio.std_or_hr_period,MAX(m4sar_h_convenio.dt_end) AS DT_END
 FROM erp_mexico_sz.M4SAR_H_CONVENIO
 WHERE m4sar_h_convenio.id_organization <> '072' 
 GROUP BY m4sar_h_convenio.id_organization,m4sar_h_convenio.std_id_hr ,m4sar_h_convenio.std_or_hr_period;
@@ -1982,37 +1982,37 @@ GROUP BY m4sar_h_convenio.id_organization,m4sar_h_convenio.std_id_hr ,m4sar_h_co
 
 
 
-CREATE VIEW IF NOT EXISTS cp_view.v_m4sar_h_hr_c_costo_temp AS SELECT m4sar_h_hr_c_costo.id_organization ,m4sar_h_hr_c_costo.sco_id_hr ,m4sar_h_hr_c_costo.sco_or_hr_role, MAX(m4sar_h_hr_c_costo.dt_end) AS DT_END
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.v_m4sar_h_hr_c_costo_temp AS SELECT m4sar_h_hr_c_costo.id_organization ,m4sar_h_hr_c_costo.sco_id_hr ,m4sar_h_hr_c_costo.sco_or_hr_role, MAX(m4sar_h_hr_c_costo.dt_end) AS DT_END
 FROM erp_mexico_sz.M4SAR_H_HR_C_COSTO
 WHERE m4sar_h_hr_c_costo.id_organization <> '072' 
 GROUP BY m4sar_h_hr_c_costo.id_organization ,m4sar_h_hr_c_costo.sco_id_hr ,m4sar_h_hr_c_costo.sco_or_hr_role;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.v_m4scb_h_hr_conveni_temp_col AS SELECT m4scb_h_hr_conveni.id_organization,m4scb_h_hr_conveni.std_id_hr,m4scb_h_hr_conveni.std_or_hr_period,MAX(m4scb_h_hr_conveni.scb_dt_end) AS DT_END
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.v_m4scb_h_hr_conveni_temp_col AS SELECT m4scb_h_hr_conveni.id_organization,m4scb_h_hr_conveni.std_id_hr,m4scb_h_hr_conveni.std_or_hr_period,MAX(m4scb_h_hr_conveni.scb_dt_end) AS DT_END
 FROM erp_mexico_sz.M4SCB_H_HR_CONVENI
 WHERE m4scb_h_hr_conveni.id_organization = '072' 
 GROUP BY m4scb_h_hr_conveni.id_organization,m4scb_h_hr_conveni.std_id_hr,m4scb_h_hr_conveni.std_or_hr_period;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.v_m4scb_h_hr_rol_cc_temp_col AS SELECT m4scb_h_hr_rol_cc.id_organization ,m4scb_h_hr_rol_cc.sco_id_hr ,m4scb_h_hr_rol_cc.sco_or_hr_role, MAX(m4scb_h_hr_rol_cc.scb_dt_end) AS DT_END
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.v_m4scb_h_hr_rol_cc_temp_col AS SELECT m4scb_h_hr_rol_cc.id_organization ,m4scb_h_hr_rol_cc.sco_id_hr ,m4scb_h_hr_rol_cc.sco_or_hr_role, MAX(m4scb_h_hr_rol_cc.scb_dt_end) AS DT_END
 FROM erp_mexico_sz.M4SCB_H_HR_ROL_CC
 WHERE m4scb_h_hr_rol_cc.id_organization = '072' 
 GROUP BY m4scb_h_hr_rol_cc.id_organization ,m4scb_h_hr_rol_cc.sco_id_hr ,m4scb_h_hr_rol_cc.sco_or_hr_role;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.v_m4ssp_h_cent_cos_iber AS SELECT m4ssp_h_cent_cos.id_organization ,m4ssp_h_cent_cos.sco_id_hr ,m4ssp_h_cent_cos.sco_or_hr_role, MAX(m4ssp_h_cent_cos.ssp_fec_fin) AS DT_END
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.v_m4ssp_h_cent_cos_iber AS SELECT m4ssp_h_cent_cos.id_organization ,m4ssp_h_cent_cos.sco_id_hr ,m4ssp_h_cent_cos.sco_or_hr_role, MAX(m4ssp_h_cent_cos.ssp_fec_fin) AS DT_END
 FROM erp_mexico_sz.M4SSP_H_CENT_COS
 WHERE m4ssp_h_cent_cos.id_organization IN ('118','170','171','172','173','175','176','177','183','190')
 GROUP BY m4ssp_h_cent_cos.id_organization ,m4ssp_h_cent_cos.sco_id_hr ,m4ssp_h_cent_cos.sco_or_hr_role;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.v_m4ssp_h_convenios_iber AS SELECT m4ssp_h_convenios.id_organization ,m4ssp_h_convenios.ssp_id_hr ,m4ssp_h_convenios.std_or_hr_period,MAX(m4ssp_h_convenios.fec_fin) AS DT_END
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.v_m4ssp_h_convenios_iber AS SELECT m4ssp_h_convenios.id_organization ,m4ssp_h_convenios.ssp_id_hr ,m4ssp_h_convenios.std_or_hr_period,MAX(m4ssp_h_convenios.fec_fin) AS DT_END
 FROM erp_mexico_sz.M4SSP_H_CONVENIOS
 WHERE m4ssp_h_convenios.id_organization IN ('118','170','171','172','173','175','176','177','183','190')
 GROUP BY m4ssp_h_convenios.id_organization,m4ssp_h_convenios.ssp_id_hr,m4ssp_h_convenios.std_or_hr_period;
 
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_a_pago_empleado AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_a_pago_empleado AS select
       m4t_contabilidad_dwh.id_tipo_nomina as tiponomina_id
      ,m4t_contabilidad_dwh.id_empleado as empleado_id
      ,m4t_contabilidad_dwh.fecha_pago as fechapago
@@ -2029,7 +2029,7 @@ CREATE VIEW IF NOT EXISTS cp_view.vdw_a_pago_empleado AS select
      ,m4t_contabilidad_dwh.storeday as storeday
 from erp_mexico_sz.m4t_contabilidad_dwh;
 
-CREATE VIEW IF NOT EXISTS cp_view.vdw_gl_estructura_contable AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_gl_estructura_contable AS select
 gl_code_combinations.code_combination_id 
 ,regexp_replace(gl_code_combinations.last_update_date, '-', '/')
 ,gl_code_combinations.last_update_date_h 

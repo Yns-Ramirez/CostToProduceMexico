@@ -1,7 +1,7 @@
 
-drop table cp_dwh.WRKT_EMPLEADO_POSICION; 
+drop table gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION; 
 
-CREATE TABLE cp_dwh.WRKT_EMPLEADO_POSICION 
+CREATE TABLE gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION 
 (E_Empleado_ID STRING,
 E_Organizacion_ID STRING,
 E_NumeroPeriodo DECIMAL(2,0),
@@ -37,7 +37,7 @@ storeday STRING);
 
 --SET Paso = 2;
 
-INSERT INTO cp_dwh.WRKT_EMPLEADO_POSICION
+INSERT INTO gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION
 SELECT
 PER.STD_ID_HR AS Empleado_ID
 ,PER.ID_ORGANIZATION AS Organizacion_ID
@@ -105,14 +105,14 @@ ON L.STD_ID_LEG_ENT = EL.STD_ID_LEG_ENT
 AND L.ID_ORGANIZATION = HIST.ID_ORGANIZATION
 WHERE PER.STD_ID_HR_TYPE = '01' 
 AND PER.ID_ORGANIZATION IN (SELECT EntidadLegal_ID_DWH 
-FROM cp_dwh.GX_CONTROL_EL_PEOPLENET 
+FROM gb_mdl_mexico_costoproducir.GX_CONTROL_EL_PEOPLENET 
 WHERE Cadena = 'Peoplenet V7' 
 GROUP BY EntidadLegal_ID_DWH);
 
 
 --SET Paso = 3; 
 
-INSERT OVERWRITE TABLE cp_dwh.WRKT_EMPLEADO_POSICION SELECT tmp.* from
+INSERT OVERWRITE TABLE gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION SELECT tmp.* from
 (SELECT WEP.E_Empleado_ID,WEP.E_Organizacion_ID,WEP.E_NumeroPeriodo,
 WEP.E_FechaInicioPeriodo,WEP.E_FechaFinPeriodo,WEP.E_Posicion_ID,
 WEP.E_FechaInicioPosicion,WEP.E_FechaFinPosicion,WEP.E_Rol_ID,
@@ -172,9 +172,9 @@ AND ROL.SCO_ID_HR = HPOS.SCO_ID_HR
 AND ROL.SCO_OR_HR_ROLE = HPOS.SCO_OR_HR_ROLE
 WHERE PER.STD_ID_HR_TYPE = '01'
 AND CAST(PER.ID_ORGANIZATION AS INT) IN
-(SELECT EntidadLegal_ID_PNET FROM cp_dwh.GX_CONTROL_EL_PEOPLENET WHERE Cadena = 'Peoplenet V7' GROUP BY EntidadLegal_ID_PNET)
+(SELECT EntidadLegal_ID_PNET FROM gb_mdl_mexico_costoproducir.GX_CONTROL_EL_PEOPLENET WHERE Cadena = 'Peoplenet V7' GROUP BY EntidadLegal_ID_PNET)
 GROUP BY PER.STD_ID_HR,PER.ID_ORGANIZATION,PER.STD_OR_HR_PERIOD,HPOS.SCO_ID_POSITION,ROL.SCO_OR_HR_ROLE,LT1.STD_ID_WL_PARENT
-) AN, cp_dwh.WRKT_EMPLEADO_POSICION WEP
+) AN, gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION WEP
 WHERE WEP.E_Empleado_ID=AN.Empleado_ID 
 AND WEP.E_Organizacion_ID=AN.Organizacion_ID 
 AND WEP.E_NumeroPeriodo=AN.NumeroPeriodo 
@@ -182,7 +182,7 @@ AND WEP.E_Rol_ID=AN.Rol_ID
 AND WEP.P_Posicion_ID=AN.Posicion_ID) tmp
 join (SELECT wrke.E_Empleado_ID,wrke.E_NumeroPeriodo,
 wrke.E_FechaInicioPeriodo,wrke.E_Posicion_ID,max(wrke.storeday) as first_record 
-from cp_dwh.WRKT_EMPLEADO_POSICION wrke 
+from gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION wrke 
 group by wrke.E_Empleado_ID,wrke.E_NumeroPeriodo,
 wrke.E_FechaInicioPeriodo,wrke.E_Posicion_ID) sec 
 on tmp.E_Empleado_ID=sec.E_Empleado_ID
@@ -194,7 +194,7 @@ and tmp.storeday=sec.first_record;
 
 --SET Paso = 4;
 
-INSERT OVERWRITE TABLE cp_dwh.WRKT_EMPLEADO_POSICION SELECT tmp.* 
+INSERT OVERWRITE TABLE gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION SELECT tmp.* 
 from (SELECT WEP.E_Empleado_ID,WEP.E_Organizacion_ID,WEP.E_NumeroPeriodo
 ,WEP.E_FechaInicioPeriodo,WEP.E_FechaFinPeriodo,WEP.E_Posicion_ID
 ,WEP.E_FechaInicioPosicion,WEP.E_FechaFinPosicion,WEP.E_Rol_ID
@@ -245,10 +245,10 @@ AND ROL.SCO_ID_HR = HPOS.SCO_ID_HR
 AND ROL.SCO_OR_HR_ROLE = HPOS.SCO_OR_HR_ROLE
 WHERE PER.STD_ID_HR_TYPE = '01'
 AND PER.ID_ORGANIZATION IN (SELECT EntidadLegal_ID_PNET 
-FROM cp_dwh.GX_CONTROL_EL_PEOPLENET 
+FROM gb_mdl_mexico_costoproducir.GX_CONTROL_EL_PEOPLENET 
 WHERE Cadena = 'Peoplenet V7' GROUP BY EntidadLegal_ID_PNET) 
 GROUP BY PER.STD_ID_HR,PER.ID_ORGANIZATION,PER.STD_OR_HR_PERIOD,HPOS.SCO_ID_POSITION,ROL.SCO_OR_HR_ROLE,CAT.STD_ID_JOB_CATEGOR
-) CAT, cp_dwh.WRKT_EMPLEADO_POSICION WEP
+) CAT, gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION WEP
 WHERE WEP.E_Empleado_ID=CAT.Empleado_ID 
 AND WEP.E_Organizacion_ID=CAT.Organizacion_ID 
 AND WEP.E_NumeroPeriodo=CAT.NumeroPeriodo 
@@ -256,7 +256,7 @@ AND WEP.E_Rol_ID=CAT.Rol_ID
 AND WEP.P_Posicion_ID=CAT.Posicion_ID) tmp 
 join (SELECT wrke.E_Empleado_ID,wrke.E_NumeroPeriodo,
 wrke.E_FechaInicioPeriodo,wrke.E_Posicion_ID,max(wrke.storeday) as first_record 
-from cp_dwh.WRKT_EMPLEADO_POSICION wrke 
+from gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION wrke 
 group by wrke.E_Empleado_ID,wrke.E_NumeroPeriodo,
 wrke.E_FechaInicioPeriodo,wrke.E_Posicion_ID) sec 
 on tmp.E_Empleado_ID=sec.E_Empleado_ID
@@ -268,7 +268,7 @@ and tmp.storeday=sec.first_record;
 
 --SET Paso = 5; 
 
-INSERT OVERWRITE TABLE cp_dwh.WRKT_EMPLEADO_POSICION SELECT tmp.* 
+INSERT OVERWRITE TABLE gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION SELECT tmp.* 
 from (SELECT WEP.E_Empleado_ID,WEP.E_Organizacion_ID,WEP.E_NumeroPeriodo
 ,WEP.E_FechaInicioPeriodo,WEP.E_FechaFinPeriodo,WEP.E_Posicion_ID,WEP.E_FechaInicioPosicion
 ,WEP.E_FechaFinPosicion,WEP.E_Rol_ID,WEP.E_NumeroColaboradorInterno,WEP.E_TipoColaborador_ID
@@ -318,9 +318,9 @@ INNER JOIN erp_mexico_sz.STD_LEG_ENT OL ON  OL.ID_ORGANIZATION  = HIST.ID_ORGANI
 ON POS.ID_ORGANIZATION=HIST.STD_ID_LEG_ENT 
 AND POS.SCO_ID_JOB_CODE=HIST.STD_ID_JOB_CODE   
 WHERE PER.STD_ID_HR_TYPE='01'
-AND PER.ID_ORGANIZATION IN (SELECT EntidadLegal_ID_DWH FROM cp_dwh.GX_CONTROL_EL_PEOPLENET WHERE Cadena = 'Peoplenet V7' GROUP BY EntidadLegal_ID_DWH)
+AND PER.ID_ORGANIZATION IN (SELECT EntidadLegal_ID_DWH FROM gb_mdl_mexico_costoproducir.GX_CONTROL_EL_PEOPLENET WHERE Cadena = 'Peoplenet V7' GROUP BY EntidadLegal_ID_DWH)
 GROUP BY PER.STD_ID_HR,PER.ID_ORGANIZATION,PER.STD_OR_HR_PERIOD,HPOS.SCO_ID_POSITION,ROL.SCO_OR_HR_ROLE,HIST.STD_ID_JOB_INT_CLA
-) N, cp_dwh.WRKT_EMPLEADO_POSICION WEP
+) N, gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION WEP
 WHERE WEP.E_Empleado_ID=N.Empleado_ID 
 AND WEP.E_Organizacion_ID=N.Organizacion_ID 
 AND WEP.E_NumeroPeriodo=N.NumeroPeriodo 
@@ -328,7 +328,7 @@ AND WEP.E_Rol_ID=N.Rol_ID
 AND WEP.P_Posicion_ID=N.Posicion_ID) tmp 
 join (SELECT wrke.E_Empleado_ID,wrke.E_NumeroPeriodo,
 wrke.E_FechaInicioPeriodo,wrke.E_Posicion_ID,max(wrke.storeday) as first_record 
-from cp_dwh.WRKT_EMPLEADO_POSICION wrke 
+from gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION wrke 
 group by wrke.E_Empleado_ID,wrke.E_NumeroPeriodo,
 wrke.E_FechaInicioPeriodo,wrke.E_Posicion_ID) sec 
 on tmp.E_Empleado_ID=sec.E_Empleado_ID
@@ -340,7 +340,7 @@ and tmp.storeday=sec.first_record;
 
 --SET Paso = 6; 
 
-INSERT OVERWRITE TABLE cp_dwh.WRKT_EMPLEADO_POSICION SELECT tmp.* 
+INSERT OVERWRITE TABLE gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION SELECT tmp.* 
 FROM (SELECT WEP.E_Empleado_ID,WEP.E_Organizacion_ID,WEP.E_NumeroPeriodo
 ,WEP.E_FechaInicioPeriodo,WEP.E_FechaFinPeriodo,WEP.E_Posicion_ID,WEP.E_FechaInicioPosicion
 ,WEP.E_FechaFinPosicion,WEP.E_Rol_ID,WEP.E_NumeroColaboradorInterno,WEP.E_TipoColaborador_ID
@@ -388,9 +388,9 @@ ROL.ID_ORGANIZATION=HPOS.ID_ORGANIZATION
 AND ROL.SCO_ID_HR=HPOS.SCO_ID_HR 
 AND ROL.SCO_OR_HR_ROLE=HPOS.SCO_OR_HR_ROLE
 WHERE PER.STD_ID_HR_TYPE='01'
-AND PER.ID_ORGANIZATION IN (SELECT EntidadLegal_ID_DWH  FROM cp_dwh.GX_CONTROL_EL_PEOPLENET WHERE Cadena = 'Peoplenet V7' GROUP BY EntidadLegal_ID_DWH)
+AND PER.ID_ORGANIZATION IN (SELECT EntidadLegal_ID_DWH  FROM gb_mdl_mexico_costoproducir.GX_CONTROL_EL_PEOPLENET WHERE Cadena = 'Peoplenet V7' GROUP BY EntidadLegal_ID_DWH)
 GROUP BY PER.STD_ID_HR,PER.ID_ORGANIZATION,PER.STD_OR_HR_PERIOD,HPOS.SCO_ID_POSITION,ROL.SCO_OR_HR_ROLE,WL.SCO_ID_WORK_LOC
-) CTR, cp_dwh.WRKT_EMPLEADO_POSICION WEP
+) CTR, gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION WEP
 WHERE WEP.E_Empleado_ID=CTR.Empleado_ID 
 AND WEP.E_Organizacion_ID=CTR.Organizacion_ID 
 AND WEP.E_NumeroPeriodo=CTR.NumeroPeriodo 
@@ -398,7 +398,7 @@ AND WEP.E_Rol_ID=CTR.Rol_ID
 AND WEP.P_Posicion_ID=CTR.Posicion_ID) tmp 
 join (SELECT wrke.E_Empleado_ID,wrke.E_NumeroPeriodo,
 wrke.E_FechaInicioPeriodo,wrke.E_Posicion_ID,max(wrke.storeday) as first_record 
-from cp_dwh.WRKT_EMPLEADO_POSICION wrke 
+from gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION wrke 
 group by wrke.E_Empleado_ID,wrke.E_NumeroPeriodo,
 wrke.E_FechaInicioPeriodo,wrke.E_Posicion_ID) sec 
 on tmp.E_Empleado_ID=sec.E_Empleado_ID
@@ -411,7 +411,7 @@ and tmp.storeday=sec.first_record;
 
 --SET Paso = 7; 
 
-INSERT OVERWRITE TABLE cp_dwh.WRKT_EMPLEADO_POSICION SELECT tmp.* 
+INSERT OVERWRITE TABLE gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION SELECT tmp.* 
 From (SELECT WEP.E_Empleado_ID,WEP.E_Organizacion_ID,WEP.E_NumeroPeriodo
 ,WEP.E_FechaInicioPeriodo,WEP.E_FechaFinPeriodo,WEP.E_Posicion_ID
 ,WEP.E_FechaInicioPosicion,WEP.E_FechaFinPosicion,WEP.E_Rol_ID
@@ -446,7 +446,7 @@ A.ID_ORGANIZATION
 ,A.DT_START as DT_START
 ,A.DT_END as DT_END
 ,A.SSP_ID_CENT_COSTO as SSP_ID_CENT_COSTO
-FROM erp_mexico_sz.M4SAR_H_HR_C_COSTO A,cp_view.V_M4SAR_H_HR_C_COSTO_TEMP B
+FROM erp_mexico_sz.M4SAR_H_HR_C_COSTO A,gb_mdl_mexico_costoproducir_views.V_M4SAR_H_HR_C_COSTO_TEMP B
 WHERE A.ID_ORGANIZATION <> '072' 
 AND A.ID_ORGANIZATION=B.ID_ORGANIZATION
 AND A.SCO_ID_HR=B.SCO_ID_HR
@@ -460,7 +460,7 @@ A.ID_ORGANIZATION
 ,A.SCB_DT_START as DT_START
 ,A.SCB_DT_END as DT_END
 ,A.SCB_ID_CENTRO_COST as SSP_ID_CENT_COSTO
-FROM erp_mexico_sz.M4SCB_H_HR_ROL_CC A,cp_view.V_M4SCB_H_HR_ROL_CC_TEMP_COL B
+FROM erp_mexico_sz.M4SCB_H_HR_ROL_CC A,gb_mdl_mexico_costoproducir_views.V_M4SCB_H_HR_ROL_CC_TEMP_COL B
 WHERE A.ID_ORGANIZATION = '072' 
 AND A.ID_ORGANIZATION=B.ID_ORGANIZATION
 AND A.SCO_ID_HR=B.SCO_ID_HR
@@ -474,7 +474,7 @@ A.ID_ORGANIZATION
 ,A.SSP_FEC_INICIO as DT_START
 ,A.SSP_FEC_FIN as DT_END
 ,A.SSP_ID_CENT_COSTO as SSP_ID_CENT_COSTO
-FROM erp_mexico_sz.M4SSP_H_CENT_COS A,cp_view.V_M4SSP_H_CENT_COS_IBER B
+FROM erp_mexico_sz.M4SSP_H_CENT_COS A,gb_mdl_mexico_costoproducir_views.V_M4SSP_H_CENT_COS_IBER B
 WHERE A.ID_ORGANIZATION IN ('118','170','171','172','173','175','176','177','183','190') 
 AND A.ID_ORGANIZATION=B.ID_ORGANIZATION 
 AND A.SCO_ID_HR=B.SCO_ID_HR
@@ -489,10 +489,10 @@ AND ROL.SCO_ID_HR = HPOS.SCO_ID_HR
 AND ROL.SCO_OR_HR_ROLE = HPOS.SCO_OR_HR_ROLE
 WHERE PER.STD_ID_HR_TYPE = '01' 
 AND PER.ID_ORGANIZATION IN (SELECT EntidadLegal_ID_DWH
-FROM cp_dwh.GX_CONTROL_EL_PEOPLENET 
+FROM gb_mdl_mexico_costoproducir.GX_CONTROL_EL_PEOPLENET 
 WHERE Cadena = 'Peoplenet V7' GROUP BY EntidadLegal_ID_DWH)
 GROUP BY PER.STD_ID_HR,PER.ID_ORGANIZATION,PER.STD_OR_HR_PERIOD,HPOS.SCO_ID_POSITION,ROL.SCO_OR_HR_ROLE,CC.SSP_ID_CENT_COSTO
-) CC,cp_dwh.WRKT_EMPLEADO_POSICION WEP
+) CC,gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION WEP
 WHERE WEP.E_Empleado_ID = CC.Empleado_ID 
 AND WEP.E_Organizacion_ID = CC.Organizacion_ID 
 AND WEP.E_NumeroPeriodo  = CC.NumeroPeriodo 
@@ -500,7 +500,7 @@ AND WEP.E_Rol_ID = CC.Rol_ID
 AND WEP.P_Posicion_ID = CC.Posicion_ID) tmp 
 join (SELECT wrke.E_Empleado_ID,wrke.E_NumeroPeriodo,
 wrke.E_FechaInicioPeriodo,wrke.E_Posicion_ID,max(wrke.storeday) as first_record 
-from cp_dwh.WRKT_EMPLEADO_POSICION wrke 
+from gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION wrke 
 group by wrke.E_Empleado_ID,wrke.E_NumeroPeriodo,
 wrke.E_FechaInicioPeriodo,wrke.E_Posicion_ID) sec 
 on tmp.E_Empleado_ID=sec.E_Empleado_ID
@@ -513,7 +513,7 @@ and tmp.storeday=sec.first_record;
 
 --SET Paso = 8; 
 
-INSERT OVERWRITE TABLE cp_dwh.WRKT_EMPLEADO_POSICION 
+INSERT OVERWRITE TABLE gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION 
 SELECT tmp.* from (SELECT WEP.E_Empleado_ID,WEP.E_Organizacion_ID,WEP.E_NumeroPeriodo,
 WEP.E_FechaInicioPeriodo,WEP.E_FechaFinPeriodo,WEP.E_Posicion_ID,WEP.E_FechaInicioPosicion,
 WEP.E_FechaFinPosicion,WEP.E_Rol_ID,WEP.E_NumeroColaboradorInterno,WEP.E_TipoColaborador_ID,
@@ -548,7 +548,7 @@ A.ID_ORGANIZATION
 ,A.DT_START  
 ,A.DT_END
 ,A.SAR_ID_CONVENIO 
-FROM erp_mexico_sz.M4SAR_H_CONVENIO A,cp_view.V_M4SAR_H_CONVENIO_TEMP B
+FROM erp_mexico_sz.M4SAR_H_CONVENIO A,gb_mdl_mexico_costoproducir_views.V_M4SAR_H_CONVENIO_TEMP B
 WHERE A.ID_ORGANIZATION <> '072' 
 AND A.ID_ORGANIZATION=B.ID_ORGANIZATION
 AND A.STD_ID_HR=B.STD_ID_HR
@@ -562,7 +562,7 @@ A.ID_ORGANIZATION
 ,A.SCB_DT_START AS DT_START
 ,A.SCB_DT_END AS DT_END
 ,A.SCB_ID_CONVENIO AS SAR_ID_CONVENIO
-FROM erp_mexico_sz.M4SCB_H_HR_CONVENI A,cp_view.V_M4SCB_H_HR_CONVENI_TEMP_COL B
+FROM erp_mexico_sz.M4SCB_H_HR_CONVENI A,gb_mdl_mexico_costoproducir_views.V_M4SCB_H_HR_CONVENI_TEMP_COL B
 WHERE A.ID_ORGANIZATION='072' 
 AND A.ID_ORGANIZATION=B.ID_ORGANIZATION
 AND A.STD_ID_HR=B.STD_ID_HR
@@ -576,7 +576,7 @@ A.ID_ORGANIZATION
 ,A.FEC_INICIO AS DT_START
 ,A.FEC_FIN AS DT_END
 ,A.SSP_ID_CONVENIO AS SAR_ID_CONVENIO
-FROM erp_mexico_sz.M4SSP_H_CONVENIOS A,cp_view.V_M4SSP_H_CONVENIOS_IBER B
+FROM erp_mexico_sz.M4SSP_H_CONVENIOS A,gb_mdl_mexico_costoproducir_views.V_M4SSP_H_CONVENIOS_IBER B
 WHERE A.ID_ORGANIZATION IN ('118','170','171','172','173','175','176','177','183','190')
 AND A.ID_ORGANIZATION=B.ID_ORGANIZATION
 AND A.SSP_ID_HR=B.SSP_ID_HR
@@ -592,10 +592,10 @@ AND ROL.SCO_ID_HR = HPOS.SCO_ID_HR
 AND ROL.SCO_OR_HR_ROLE = HPOS.SCO_OR_HR_ROLE 
 WHERE PER.STD_ID_HR_TYPE = '01'
 AND PER.ID_ORGANIZATION IN (SELECT EntidadLegal_ID_DWH
-FROM cp_dwh.GX_CONTROL_EL_PEOPLENET 
+FROM gb_mdl_mexico_costoproducir.GX_CONTROL_EL_PEOPLENET 
 WHERE Cadena = 'Peoplenet V7' GROUP BY EntidadLegal_ID_DWH)
 GROUP BY PER.STD_ID_HR,PER.ID_ORGANIZATION,PER.STD_OR_HR_PERIOD,HPOS.SCO_ID_POSITION,ROL.SCO_OR_HR_ROLE,CONV.SAR_ID_CONVENIO
-) C, cp_dwh.WRKT_EMPLEADO_POSICION WEP
+) C, gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION WEP
 WHERE WEP.E_Empleado_ID=C.Empleado_ID 
 AND WEP.E_Organizacion_ID=C.Organizacion_ID 
 AND WEP.E_NumeroPeriodo=C.NumeroPeriodo 
@@ -603,7 +603,7 @@ AND WEP.E_Rol_ID=C.Rol_ID
 AND WEP.P_Posicion_ID=C.Posicion_ID) tmp 
 join (SELECT wrke.E_Empleado_ID,wrke.E_NumeroPeriodo,
 wrke.E_FechaInicioPeriodo,wrke.E_Posicion_ID,max(wrke.storeday) as first_record 
-from cp_dwh.WRKT_EMPLEADO_POSICION wrke 
+from gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION wrke 
 group by wrke.E_Empleado_ID,wrke.E_NumeroPeriodo,
 wrke.E_FechaInicioPeriodo,wrke.E_Posicion_ID) sec 
 on tmp.E_Empleado_ID=sec.E_Empleado_ID
@@ -615,7 +615,7 @@ and tmp.storeday=sec.first_record;
 
 --SET Paso = 9;
 
-INSERT OVERWRITE TABLE cp_dwh.WRKT_EMPLEADO_POSICION 
+INSERT OVERWRITE TABLE gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION 
 SELECT tmp.* from (SELECT WEP.E_Empleado_ID,WEP.E_Organizacion_ID
 ,WEP.E_NumeroPeriodo,WEP.E_FechaInicioPeriodo,WEP.E_FechaFinPeriodo
 ,WEP.E_Posicion_ID,WEP.E_FechaInicioPosicion,WEP.E_FechaFinPosicion
@@ -656,11 +656,11 @@ AND ROL.SCO_ID_HR = HPOS.SCO_ID_HR
 AND ROL.SCO_OR_HR_ROLE = HPOS.SCO_OR_HR_ROLE
 WHERE PER.STD_ID_HR_TYPE = '01'
 AND PER.ID_ORGANIZATION IN (SELECT EntidadLegal_ID_DWH  
-FROM cp_dwh.GX_CONTROL_EL_PEOPLENET 
+FROM gb_mdl_mexico_costoproducir.GX_CONTROL_EL_PEOPLENET 
 WHERE Cadena = 'Peoplenet V7' GROUP BY EntidadLegal_ID_DWH) 
 GROUP BY PER.STD_ID_HR,PER.ID_ORGANIZATION,PER.STD_OR_HR_PERIOD
 ,HPOS.SCO_ID_POSITION,ROL.SCO_OR_HR_ROLE,TIM.SCO_ROLE_W_HOURS,TIM.SCO_FULL_TIME
-) HT,cp_dwh.WRKT_EMPLEADO_POSICION WEP
+) HT,gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION WEP
 WHERE WEP.E_Empleado_ID=HT.Empleado_ID 
 AND WEP.E_Organizacion_ID=HT.Organizacion_ID 
 AND WEP.E_NumeroPeriodo=HT.NumeroPeriodo 
@@ -668,7 +668,7 @@ AND WEP.E_Rol_ID=HT.Rol_ID
 AND WEP.P_Posicion_ID=HT.Posicion_ID) tmp 
 join (SELECT wrke.E_Empleado_ID,wrke.E_NumeroPeriodo,
 wrke.E_FechaInicioPeriodo,wrke.E_Posicion_ID,max(wrke.storeday) as first_record 
-from cp_dwh.WRKT_EMPLEADO_POSICION wrke 
+from gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION wrke 
 group by wrke.E_Empleado_ID,wrke.E_NumeroPeriodo,
 wrke.E_FechaInicioPeriodo,wrke.E_Posicion_ID) sec 
 on tmp.E_Empleado_ID=sec.E_Empleado_ID
@@ -680,7 +680,7 @@ and tmp.storeday=sec.first_record;
 
 --SET Paso = 10;
 
-INSERT OVERWRITE TABLE cp_dwh.WRKT_EMPLEADO_POSICION 
+INSERT OVERWRITE TABLE gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION 
 SELECT tmp.* from (SELECT WEP.E_Empleado_ID,WEP.E_Organizacion_ID,WEP.E_NumeroPeriodo
 ,WEP.E_FechaInicioPeriodo,WEP.E_FechaFinPeriodo,WEP.E_Posicion_ID,WEP.E_FechaInicioPosicion
 ,WEP.E_FechaFinPosicion,WEP.E_Rol_ID,WEP.E_NumeroColaboradorInterno,WEP.E_TipoColaborador_ID
@@ -730,9 +730,9 @@ AND ROL.SCO_ID_HR = HPOS.SCO_ID_HR
 AND ROL.SCO_OR_HR_ROLE = HPOS.SCO_OR_HR_ROLE
 WHERE PER.STD_ID_HR_TYPE = '01' 
 AND PER.ID_ORGANIZATION IN (SELECT EntidadLegal_ID_DWH 
-FROM cp_dwh.GX_CONTROL_EL_PEOPLENET WHERE Cadena = 'Peoplenet V7' GROUP BY EntidadLegal_ID_DWH)
+FROM gb_mdl_mexico_costoproducir.GX_CONTROL_EL_PEOPLENET WHERE Cadena = 'Peoplenet V7' GROUP BY EntidadLegal_ID_DWH)
 GROUP BY PER.STD_ID_HR,PER.ID_ORGANIZATION,PER.STD_OR_HR_PERIOD,HPOS.SCO_ID_POSITION,ROL.SCO_OR_HR_ROLE,PLAN.SCO_ID_PLAN
-) P,cp_dwh.WRKT_EMPLEADO_POSICION WEP
+) P,gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION WEP
 WHERE WEP.E_Empleado_ID = P.Empleado_ID 
 AND WEP.E_Organizacion_ID = P.Organizacion_ID 
 AND WEP.E_NumeroPeriodo = P.NumeroPeriodo 
@@ -740,7 +740,7 @@ AND WEP.E_Rol_ID = P.Rol_ID
 AND WEP.P_Posicion_ID = P.Posicion_ID) tmp 
 join (SELECT wrke.E_Empleado_ID,wrke.E_NumeroPeriodo,
 wrke.E_FechaInicioPeriodo,wrke.E_Posicion_ID,max(wrke.storeday) as first_record 
-from cp_dwh.WRKT_EMPLEADO_POSICION wrke 
+from gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION wrke 
 group by wrke.E_Empleado_ID,wrke.E_NumeroPeriodo,
 wrke.E_FechaInicioPeriodo,wrke.E_Posicion_ID) sec 
 on tmp.E_Empleado_ID=sec.E_Empleado_ID
@@ -753,7 +753,7 @@ and tmp.storeday=sec.first_record;
 
 --SET Paso = 11;
 
-INSERT OVERWRITE TABLE cp_dwh.WRKT_EMPLEADO_POSICION 
+INSERT OVERWRITE TABLE gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION 
 SELECT tmp.* from (SELECT WEP.E_Empleado_ID,WEP.E_Organizacion_ID,WEP.E_NumeroPeriodo,WEP.E_FechaInicioPeriodo
 ,WEP.E_FechaFinPeriodo,WEP.E_Posicion_ID,WEP.E_FechaInicioPosicion,WEP.E_FechaFinPosicion
 ,WEP.E_Rol_ID,WEP.E_NumeroColaboradorInterno,WEP.E_TipoColaborador_ID,WEP.E_MotivoBaja_ID
@@ -831,7 +831,7 @@ AND LT2.STD_DT_END = LT22.STD_DT_END
 AND LT1.STD_ID_WL_PARENT  = LT2.STD_ID_WL_CHILD
 WHERE PER.STD_ID_HR_TYPE = '01'
 AND PER.ID_ORGANIZATION IN (SELECT EntidadLegal_ID_DWH 
-FROM cp_dwh.GX_CONTROL_EL_PEOPLENET WHERE Cadena = 'Peoplenet V7' GROUP BY EntidadLegal_ID_DWH)
+FROM gb_mdl_mexico_costoproducir.GX_CONTROL_EL_PEOPLENET WHERE Cadena = 'Peoplenet V7' GROUP BY EntidadLegal_ID_DWH)
 GROUP BY PER.STD_ID_HR,PER.ID_ORGANIZATION,PER.STD_OR_HR_PERIOD,ROL.SCO_OR_HR_ROLE,LT2.STD_ID_WL_PARENT
 ) UT
 INNER JOIN erp_mexico_sz.M4SCO_H_HR_POS HPOS ON
@@ -839,7 +839,7 @@ UT.Organizacion_ID = HPOS.ID_ORGANIZATION
 AND UT.Empleado_ID = HPOS.SCO_ID_HR 
 AND UT.Rol_ID = HPOS.SCO_OR_HR_ROLE
 GROUP BY UT.Empleado_ID,UT.Organizacion_ID,UT.NumeroPeriodo,HPOS.SCO_ID_POSITION,UT.Rol_ID,UT.UnidadTrabajo_ID
-) UT, cp_dwh.WRKT_EMPLEADO_POSICION WEP
+) UT, gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION WEP
 WHERE WEP.E_Empleado_ID = UT.Empleado_ID 
 AND WEP.E_Organizacion_ID  = UT.Organizacion_ID 
 AND WEP.E_NumeroPeriodo  = UT.NumeroPeriodo 
@@ -847,7 +847,7 @@ AND WEP.E_Rol_ID = UT.Rol_ID
 AND WEP.P_Posicion_ID = UT.Posicion_ID) tmp 
 join (SELECT wrke.E_Empleado_ID,wrke.E_NumeroPeriodo,
 wrke.E_FechaInicioPeriodo,wrke.E_Posicion_ID,max(wrke.storeday) as first_record 
-from cp_dwh.WRKT_EMPLEADO_POSICION wrke 
+from gb_mdl_mexico_costoproducir.WRKT_EMPLEADO_POSICION wrke 
 group by wrke.E_Empleado_ID,wrke.E_NumeroPeriodo,
 wrke.E_FechaInicioPeriodo,wrke.E_Posicion_ID) sec 
 on tmp.E_Empleado_ID=sec.E_Empleado_ID
@@ -861,15 +861,15 @@ and tmp.storeday=sec.first_record;
 --Materializamos E_EMPLEADO_POSICION 
 --=================================================================================     
 
-TRUNCATE TABLE cp_app_costoproducir.E_EMPLEADO_POSICION;
+TRUNCATE TABLE gb_smntc_mexico_costoproducir.E_EMPLEADO_POSICION;
 
-INSERT INTO cp_app_costoproducir.E_EMPLEADO_POSICION PARTITION(EntidadLegal_ID)
-SELECT * FROM cp_view.VDW_E_EMPLEADO_POSICION;
+INSERT INTO gb_smntc_mexico_costoproducir.E_EMPLEADO_POSICION PARTITION(EntidadLegal_ID)
+SELECT * FROM gb_mdl_mexico_costoproducir_views.VDW_E_EMPLEADO_POSICION;
 
 --compactacion
-INSERT OVERWRITE TABLE cp_app_costoproducir.E_EMPLEADO_POSICION PARTITION(EntidadLegal_ID) select tmp.*
-from cp_app_costoproducir.E_EMPLEADO_POSICION tmp join (select Empleado_ID,NumeroPeriodo,FechaInicioPeriodo
-,Posicion_ID,MAX(storeday) as first_record from cp_app_costoproducir.E_EMPLEADO_POSICION 
+INSERT OVERWRITE TABLE gb_smntc_mexico_costoproducir.E_EMPLEADO_POSICION PARTITION(EntidadLegal_ID) select tmp.*
+from gb_smntc_mexico_costoproducir.E_EMPLEADO_POSICION tmp join (select Empleado_ID,NumeroPeriodo,FechaInicioPeriodo
+,Posicion_ID,MAX(storeday) as first_record from gb_smntc_mexico_costoproducir.E_EMPLEADO_POSICION 
 group by Empleado_ID,NumeroPeriodo,FechaInicioPeriodo,Posicion_ID) sec
 on tmp.Empleado_ID=sec.Empleado_ID
 and tmp.NumeroPeriodo=sec.NumeroPeriodo

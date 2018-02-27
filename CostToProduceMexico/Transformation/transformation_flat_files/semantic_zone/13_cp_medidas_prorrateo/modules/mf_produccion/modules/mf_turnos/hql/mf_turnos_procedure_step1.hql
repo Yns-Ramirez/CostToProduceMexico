@@ -6,7 +6,7 @@
 -- ------ Inicio del Proceso ------ 
 
 -- Se crean los turnos del periodo con los turnos del mes anterior inmediato debido a que no se proporciono txt
-insert overwrite table cp_view.wrkt_mf_turnos_default partition(entidadlegal_id)
+insert overwrite table gb_mdl_mexico_costoproducir_views.wrkt_mf_turnos_default partition(entidadlegal_id)
 select  
      t2.mf_organizacion_id
      ,t2.planta_id
@@ -51,7 +51,7 @@ from
                     else add_months(t.fecha_fin,1)
                end as fecha_fin_sig
                ,t.storeday
-          from cp_dwh_mf.mf_turnos t
+          from gb_mdl_mexico_manufactura.mf_turnos t
                join
                     (
                          select
@@ -63,7 +63,7 @@ from
                   on  t.periodo = c.perido_ant
                join (
                          select eamf.entidadlegal_id 
-                         from cp_view.V_ENTIDADESLEGALES_ACTIVAS_MF eamf 
+                         from gb_mdl_mexico_costoproducir_views.V_ENTIDADESLEGALES_ACTIVAS_MF eamf 
                          where eamf.entidadlegal_id not in (select entidadlegal_id from cp_flat_files.MF_TURNOS group by entidadlegal_id)
                          group by eamf.entidadlegal_id
                     ) ea on t.entidadlegal_id = ea.entidadlegal_id
@@ -72,7 +72,7 @@ from
 ) t2;
 
 -- Se inserta a espejo los turnos de EL-Periodo nuevos que no estan en DWH
-insert overwrite table cp_dwh_mf.mf_turnos_espejo partition(entidadlegal_id)
+insert overwrite table gb_mdl_mexico_manufactura.mf_turnos_espejo partition(entidadlegal_id)
 select 
   td.mf_organizacion_id
   ,td.planta_id
@@ -90,16 +90,16 @@ select
   ,td.fecha_vigencia
   ,from_unixtime(unix_timestamp())
   ,td.entidadlegal_id
-from cp_view.wrkt_mf_turnos_default td
+from gb_mdl_mexico_costoproducir_views.wrkt_mf_turnos_default td
 left outer join (
-     select entidadlegal_id, periodo from cp_dwh_mf.mf_turnos where fecha_vigencia is null group by entidadlegal_id, periodo
+     select entidadlegal_id, periodo from gb_mdl_mexico_manufactura.mf_turnos where fecha_vigencia is null group by entidadlegal_id, periodo
      ) t on td.entidadlegal_id = t.entidadlegal_id and td.periodo = t.periodo
 where t.entidadlegal_id is null and t.periodo is null;
 
 
 -- Cierro el Periodo actual si es que se esta volviendo a cargar.
--- Se actualiza la vigencia de los turnos generados por default en cp_dwh_mf.mf_turnos
-insert overwrite table cp_dwh_mf.mf_turnos partition(entidadlegal_id)
+-- Se actualiza la vigencia de los turnos generados por default en gb_mdl_mexico_manufactura.mf_turnos
+insert overwrite table gb_mdl_mexico_manufactura.mf_turnos partition(entidadlegal_id)
      select 
      tt.mf_organizacion_id,
      tt.planta_id,
@@ -121,15 +121,15 @@ insert overwrite table cp_dwh_mf.mf_turnos partition(entidadlegal_id)
      end as fecha_vigencia,
      from_unixtime(unix_timestamp()),
      tt.entidadlegal_id
-     from cp_dwh_mf.mf_turnos tt
+     from gb_mdl_mexico_manufactura.mf_turnos tt
      join 
      (
           select t.entidadlegal_id,
                  t.periodo
-          from cp_dwh_mf.mf_turnos t
-          join(select entidadlegal_id, periodo from cp_dwh_mf.mf_turnos_espejo group by entidadlegal_id, periodo) te
+          from gb_mdl_mexico_manufactura.mf_turnos t
+          join(select entidadlegal_id, periodo from gb_mdl_mexico_manufactura.mf_turnos_espejo group by entidadlegal_id, periodo) te
           on t.entidadlegal_id = te.entidadlegal_id and t.periodo = te.periodo
-          join (select entidadlegal_id from cp_view.v_entidadeslegales_activas_mf group by entidadlegal_id) ea on ea.entidadlegal_id = t.entidadlegal_id
+          join (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadeslegales_activas_mf group by entidadlegal_id) ea on ea.entidadlegal_id = t.entidadlegal_id
           where t.fecha_vigencia is null
           group by
           t.entidadlegal_id,
@@ -137,14 +137,14 @@ insert overwrite table cp_dwh_mf.mf_turnos partition(entidadlegal_id)
      ) stg
      on  tt.entidadlegal_id = stg.entidadlegal_id and tt.periodo = stg.periodo
      where 
-          tt.entidadlegal_id in (select entidadlegal_id from cp_view.v_entidadeslegales_activas_mf group by entidadlegal_id)
+          tt.entidadlegal_id in (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadeslegales_activas_mf group by entidadlegal_id)
           and tt.fecha_vigencia is null;
 
 
 -- Se carga a MF_Turnos 
 -- Pase de DWH.ESPEJO a DWH de los turnos generados por default
-insert overwrite table cp_dwh_mf.mf_turnos partition(entidadlegal_id)
-select * from cp_dwh_mf.mf_turnos_espejo;
+insert overwrite table gb_mdl_mexico_manufactura.mf_turnos partition(entidadlegal_id)
+select * from gb_mdl_mexico_manufactura.mf_turnos_espejo;
      
 -- ------ Fin de Turnos por Default ------
 
@@ -155,7 +155,7 @@ select * from cp_dwh_mf.mf_turnos_espejo;
 ------ Inicio de Turnos por TXT ------
 
 -- se insertan los casos donde no existen turnos rotativos en la tabla de trabajo wrkt_mf_turnos
-INSERT overwrite table cp_view.wrkt_mf_turnos partition(entidadlegal_id)
+INSERT overwrite table gb_mdl_mexico_costoproducir_views.wrkt_mf_turnos partition(entidadlegal_id)
 SELECT 
 TC1.MF_Organizacion_ID
 ,TC1.Planta_ID
@@ -284,8 +284,8 @@ FROM
                     ,min(t.hora_inicia)      over(partition by  t.entidadlegal_id, p.mf_organizacion_id, t.planta_id,t.linea_id, t.periodo order by t.turno_id desc rows between 2 following and 2 following)     as hrini_sigp
                     ,min(t.hora_fin)         over(partition by  t.entidadlegal_id, p.mf_organizacion_id, t.planta_id,t.linea_id, t.periodo order by t.turno_id desc rows between 2 following and 2 following)        as hrfin_sigp
                     from  cp_flat_files.MF_TURNOS t
-                    inner join cp_dwh_mf.mf_plantas p  on   trim(t.entidadlegal_id)  = trim(p.entidadlegal_id) and trim(t.planta_id) = trim(p.planta_id) and lower(sistema_fuente) = 'cp'
-                    inner join cp_dwh_mf.mf_lineas_prod l on  trim(t.entidadlegal_id)  = trim(l.entidadlegal_id) and  t.linea_id =  l.linea_prod_id  
+                    inner join gb_mdl_mexico_manufactura.mf_plantas p  on   trim(t.entidadlegal_id)  = trim(p.entidadlegal_id) and trim(t.planta_id) = trim(p.planta_id) and lower(sistema_fuente) = 'cp'
+                    inner join gb_mdl_mexico_manufactura.mf_lineas_prod l on  trim(t.entidadlegal_id)  = trim(l.entidadlegal_id) and  t.linea_id =  l.linea_prod_id  
                     inner join 
                          (
                               select  
@@ -295,11 +295,11 @@ FROM
                                    ,tc.turno_id
                                    ,tc.periodo
                                    ,tc.cuenta_tl as cuenta_turnos
-                              from cp_view.v_mf_turnos_cuenta tc
+                              from gb_mdl_mexico_costoproducir_views.v_mf_turnos_cuenta tc
                               where tc.entidadlegal_id  in 
                                    (
                                         select ea.entidadlegal_id
-                                        from cp_view.v_entidadeslegales_activas_mf ea
+                                        from gb_mdl_mexico_costoproducir_views.v_entidadeslegales_activas_mf ea
                                         join (select entidadlegal_id from cp_flat_files.MF_TURNOS group by entidadlegal_id) t_ on ea.entidadlegal_id = t_.entidadlegal_id
                                         group by ea.entidadlegal_id
                                    )
@@ -319,7 +319,7 @@ FROM
                          and trim(t.periodo) = trim(c.periodo)
                     join (
                               select ea2.entidadlegal_id 
-                              from cp_view.v_entidadeslegales_activas_mf ea2
+                              from gb_mdl_mexico_costoproducir_views.v_entidadeslegales_activas_mf ea2
                               where ea2.entidadlegal_id  in (select entidadlegal_id from cp_flat_files.MF_TURNOS group by entidadlegal_id)
                               group by ea2.entidadlegal_id
                          )ela on p.entidadlegal_id = ela.entidadlegal_id
@@ -333,7 +333,7 @@ AND TC1.TurnoHraIni <> TC1.HoraFin_Ant;
 
 
 -- Se insertan los turnos rotativos en la tabla de trabajo WRKT_MF_Turnos_Rotativos
-INSERT overwrite table cp_view.wrkt_mf_turnos_rotativos partition(entidadlegal_id)
+INSERT overwrite table gb_mdl_mexico_costoproducir_views.wrkt_mf_turnos_rotativos partition(entidadlegal_id)
 SELECT
 P.MF_Organizacion_ID
 ,TR3.Planta_ID
@@ -407,11 +407,11 @@ FROM
                                    ,tc.linea_prod_id
                                    ,tc.turno_id
                                    ,tc.periodo                                   
-                              from cp_view.v_mf_turnos_cuenta tc
+                              from gb_mdl_mexico_costoproducir_views.v_mf_turnos_cuenta tc
                               where tc.entidadlegal_id  in 
                                    (
                                         select ea.entidadlegal_id
-                                        from cp_view.v_entidadeslegales_activas_mf ea
+                                        from gb_mdl_mexico_costoproducir_views.v_entidadeslegales_activas_mf ea
                                         join (select entidadlegal_id from cp_flat_files.MF_TURNOS group by entidadlegal_id) t_ on ea.entidadlegal_id = t_.entidadlegal_id
                                         group by ea.entidadlegal_id
                                    )
@@ -427,5 +427,5 @@ FROM
           )TR2
      WHERE TR2.Fecha_fin < COALESCE(TR2.FecIni_Sig,'2100/01/01')
 ) TR3
-INNER JOIN cp_dwh_mf.MF_PLANTAS P  ON   TRIM(TR3.EntidadLegal_ID)  = TRIM(P.EntidadLegal_ID) AND TRIM(TR3.Planta_ID) = TRIM(P.Planta_ID)
+INNER JOIN gb_mdl_mexico_manufactura.MF_PLANTAS P  ON   TRIM(TR3.EntidadLegal_ID)  = TRIM(P.EntidadLegal_ID) AND TRIM(TR3.Planta_ID) = TRIM(P.Planta_ID)
 where lower(P.Sistema_Fuente) = 'CP';

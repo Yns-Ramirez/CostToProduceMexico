@@ -1,5 +1,5 @@
 
-CREATE TABLE IF NOT EXISTS cp_app_costoproducir.a_pago_empleado(
+CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.a_pago_empleado(
   tiponomina_id string, 
   empleado_id string, 
   fechapago string, 
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS cp_app_costoproducir.a_pago_empleado(
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_app_costoproducir.a_saldo_nomina(
+CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.a_saldo_nomina(
   encabezado_id int, 
   detalle_id int, 
   fechamovimiento string, 
@@ -52,7 +52,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_app_costoproducir.a_tipo_cambio(
+CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.a_tipo_cambio(
   monedaorigen_id string, 
   monedadestino_id string, 
   fechatipocambio string, 
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS cp_app_costoproducir.a_tipo_cambio(
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_app_costoproducir.cp_beneficios_vol(
+CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.cp_beneficios_vol(
   periodo string, 
   mf_organizacion_id int, 
   planta_id string, 
@@ -79,7 +79,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_app_costoproducir.cp_derivados_fin(
+CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.cp_derivados_fin(
   periodo string, 
   mf_organizacion_id int, 
   planta_id string, 
@@ -92,7 +92,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_app_costoproducir.cp_factores_prorrateo(
+CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.cp_factores_prorrateo(
   cuentanatural_id string, 
   analisislocal_id string, 
   centrocostos_id string, 
@@ -105,7 +105,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_app_costoproducir.cp_gastos_fletes(
+CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.cp_gastos_fletes(
   periodo string, 
   mf_organizacion_id int, 
   planta_id string, 
@@ -120,7 +120,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_app_costoproducir.cp_gastos_importacion(
+CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.cp_gastos_importacion(
   periodo string, 
   mf_organizacion_id int, 
   planta_id string, 
@@ -134,7 +134,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_app_costoproducir.cp_lineas_prod_metros(
+CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.cp_lineas_prod_metros(
   mf_organizacion_id int, 
   planta_id string, 
   linea_prod_id int, 
@@ -146,7 +146,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_app_costoproducir.cp_medidas_prorrateo(
+CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.cp_medidas_prorrateo(
   periodo string, 
   mf_organizacion_id int, 
   planta_id string, 
@@ -172,7 +172,7 @@ PARTITIONED BY (
 
 
 
-CREATE TABLE IF NOT EXISTS cp_app_costoproducir.cp_operarios(
+CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.cp_operarios(
   periodo string, 
   mf_organizacion_id int, 
   planta_id string, 
@@ -199,7 +199,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_app_costoproducir.cp_parametros(
+CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.cp_parametros(
   subrubro_id int, 
   objeto string, 
   campo string, 
@@ -211,7 +211,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_app_costoproducir.e_empleado_posicion(
+CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.e_empleado_posicion(
   empleado_id string, 
   numeroperiodo int, 
   fechainicioperiodo string, 
@@ -229,7 +229,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_app_costoproducir.e_posicion(
+CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.e_posicion(
   posicion_id int, 
   fechainicio string, 
   fechafin string, 
@@ -253,7 +253,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_app_costoproducir.e_puesto(
+CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.e_puesto(
   puesto_id string, 
   descpuesto string, 
   sistema_fuente string, 
@@ -263,7 +263,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_app_costoproducir.mf_tipo_costo(
+CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.mf_tipo_costo(
   tipo_costo_id int, 
   indicador_costo string, 
   formula string, 
@@ -271,7 +271,7 @@ CREATE TABLE IF NOT EXISTS cp_app_costoproducir.mf_tipo_costo(
 row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile;
 
 
-CREATE TABLE IF NOT EXISTS cp_app_costoproducir.t_a_rubros_fsg(
+CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.t_a_rubros_fsg(
   aniosaldo int, 
   messaldo int, 
   linea_id int, 
@@ -286,7 +286,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_app_costoproducir.v_rubro25_diferencia_inv(
+CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.v_rubro25_diferencia_inv(
   periodo string, 
   centrocostos_id string, 
   mf_organizacion_id int, 
@@ -297,7 +297,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_app_costoproducir.v_rubro81_costo_inv(
+CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.v_rubro81_costo_inv(
   mf_organizacion_id int, 
   planta_id string, 
   mf_producto_id int, 

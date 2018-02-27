@@ -1,8 +1,8 @@
 create database if not exists cp_stg_src_mxprod;
 create database if not exists cp_sys_calendar;
 create database if not exists cp_flat_files;
-create database if not exists cp_dwh;
-create database if not exists cp_dwh_mf;
+create database if not exists gb_mdl_mexico_costoproducir;
+create database if not exists gb_mdl_mexico_manufactura;
 create database if not exists cp_wkrt;
 create database if not exists cp_view;
 create database if not exists cp_app_costoproducir;

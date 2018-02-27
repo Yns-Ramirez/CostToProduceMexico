@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS cp_wkrt.wkrt_cp_operarios_e_2(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir_wrkt.wkrt_cp_operarios_e_2(
   periodo string, 
   entidadlegal_id string, 
   mf_organizacion_id int, 
@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS cp_wkrt.wkrt_cp_operarios_e_2(
   total_pago_cc double);
 
 
-CREATE TABLE IF NOT EXISTS cp_wkrt.wkrt_cp_operarios_m_3(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir_wrkt.wkrt_cp_operarios_m_3(
   periodo string, 
   entidadlegal_id string, 
   mf_organizacion_id int, 
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS cp_wkrt.wkrt_cp_operarios_m_3(
   tipo_asignacion string);
 
 
-CREATE TABLE IF NOT EXISTS cp_wkrt.wkrt_cp_operarios_p_1(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir_wrkt.wkrt_cp_operarios_p_1(
   empleado_id string, 
   posicion_id int, 
   puesto_id string, 
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS cp_wkrt.wkrt_cp_operarios_p_1(
   fechafinposicion string);
 
 
-CREATE TABLE IF NOT EXISTS cp_wkrt.wkrt_cp_operarios_t_4(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir_wrkt.wkrt_cp_operarios_t_4(
   periodo string, 
   entidadlegal_id string, 
   mf_organizacion_id int, 

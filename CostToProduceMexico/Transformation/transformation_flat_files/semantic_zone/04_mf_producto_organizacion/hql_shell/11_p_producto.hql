@@ -1,12 +1,12 @@
--- ================== cp_dwh.P_PRODUCTO ==================
+-- ================== gb_mdl_mexico_costoproducir.P_PRODUCTO ==================
 -- Author / Autor             : Francisco Martinez
 -- Date / Fecha               : December 2016
 -- Project /Proyecto          : Costo Producir-Big Data
--- Objective / Objetivo       : Update information weekly, table cp_dwh.P_PRODUCTO
+-- Objective / Objetivo       : Update information weekly, table gb_mdl_mexico_costoproducir.P_PRODUCTO
 -- Subject Area / Area Sujeto : Product
 
 -- Insert rows from flat file product
-INSERT INTO cp_dwh.P_PRODUCTO
+INSERT INTO gb_mdl_mexico_costoproducir.P_PRODUCTO
 SELECT 
      P.Producto_ID 
      ,COALESCE(SL.Categoria_ID,9999) AS Categoria_ID
@@ -25,7 +25,7 @@ SELECT
      ,P.UnidadesEquivalentes
      ,FROM_UNIXTIME(UNIX_TIMESTAMP())
 FROM cp_flat_files.FT_PRODUCTO P 
-      LEFT OUTER JOIN cp_dwh.P_SUBLINEA  SL 
+      LEFT OUTER JOIN gb_mdl_mexico_costoproducir.P_SUBLINEA  SL 
             ON (CASE
             WHEN P.SubLinea_ID = 21 THEN P.Linea_ID * -1
             ELSE P.SubLinea_ID  
@@ -33,10 +33,10 @@ FROM cp_flat_files.FT_PRODUCTO P
 AND P.Linea_ID=SL.Linea_ID;
 
 -- Delete duplicades
-Insert overwrite table cp_dwh.P_PRODUCTO
-select tmp.* from cp_dwh.P_PRODUCTO tmp
+Insert overwrite table gb_mdl_mexico_costoproducir.P_PRODUCTO
+select tmp.* from gb_mdl_mexico_costoproducir.P_PRODUCTO tmp
 join (select Producto_ID,max(storeday) as first_record 
-from cp_dwh.P_PRODUCTO group by Producto_ID) sec
+from gb_mdl_mexico_costoproducir.P_PRODUCTO group by Producto_ID) sec
 on tmp.Producto_ID=sec.Producto_ID
 and tmp.storeday=sec.first_record;
 

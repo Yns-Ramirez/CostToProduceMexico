@@ -1,8 +1,8 @@
--- ================== cp_dwh.P_MARCA ==================
+-- ================== gb_mdl_mexico_costoproducir.P_MARCA ==================
 -- Author / Autor             : Francisco Martinez
 -- Date / Fecha               : December 2016
 -- Project /Proyecto          : Costo Producir-Big Data
--- Objective / Objetivo       : Update information weekly, table cp_dwh.P_MARCA
+-- Objective / Objetivo       : Update information weekly, table gb_mdl_mexico_costoproducir.P_MARCA
 -- Subject Area / Area Sujeto : Product
 
 -- Update Catalogs from ftp_files.xxx_ic_productosfichatecnica and ftp_files.xxx_ic_jerprodfichatecnica
@@ -14,15 +14,15 @@ CREATE TABLE cp_flat_files.FT_JER_PRODUCTO as select * from ftp_files.xxx_ic_jer
 
 
 -- Insert rows from flat file product
-INSERT INTO cp_dwh.P_MARCA
+INSERT INTO gb_mdl_mexico_costoproducir.P_MARCA
 SELECT MARCA_ID,UPPER(TRIM(NombreMARCA)),FROM_UNIXTIME(UNIX_TIMESTAMP())
 FROM cp_flat_files.FT_PRODUCTO
 group by MARCA_ID,upper(trim(NombreMarca));
 
 -- Delete duplicades  
-insert overwrite table cp_dwh.P_MARCA
-select tmp.* from cp_dwh.P_MARCA tmp 
-join (select Marca_ID,NombreMarca,max(storeday) as first_record from cp_dwh.P_MARCA group by Marca_ID,NombreMarca) sec
+insert overwrite table gb_mdl_mexico_costoproducir.P_MARCA
+select tmp.* from gb_mdl_mexico_costoproducir.P_MARCA tmp 
+join (select Marca_ID,NombreMarca,max(storeday) as first_record from gb_mdl_mexico_costoproducir.P_MARCA group by Marca_ID,NombreMarca) sec
 on tmp.Marca_ID=sec.Marca_ID
 and UPPER(TRIM(tmp.NombreMarca))=UPPER(TRIM(sec.NombreMarca))
 and tmp.storeday=sec.first_record;

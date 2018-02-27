@@ -12,11 +12,11 @@ Running init script /home/proyectos2/BDP_COMMONS/config/hive_init.hql
 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> No rows affected (0.002 seconds)
 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> No rows affected (0.002 seconds)
 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> 
-INFO  : Compiling command(queryId=hive_20170725130404_ec6ce078-2b83-4f2e-b196-a5138dbe9b02): truncate table cp_app_costoproducir.a_pago_empleado
+INFO  : Compiling command(queryId=hive_20170725130404_ec6ce078-2b83-4f2e-b196-a5138dbe9b02): truncate table gb_smntc_mexico_costoproducir.a_pago_empleado
 INFO  : Semantic Analysis Completed
 INFO  : Returning Hive schema: Schema(fieldSchemas:null, properties:null)
 INFO  : Completed compiling command(queryId=hive_20170725130404_ec6ce078-2b83-4f2e-b196-a5138dbe9b02); Time taken: 0.101 seconds
-INFO  : Executing command(queryId=hive_20170725130404_ec6ce078-2b83-4f2e-b196-a5138dbe9b02): truncate table cp_app_costoproducir.a_pago_empleado
+INFO  : Executing command(queryId=hive_20170725130404_ec6ce078-2b83-4f2e-b196-a5138dbe9b02): truncate table gb_smntc_mexico_costoproducir.a_pago_empleado
 INFO  : Starting task [Stage-0:DDL] in serial mode
 INFO  : Completed executing command(queryId=hive_20170725130404_ec6ce078-2b83-4f2e-b196-a5138dbe9b02); Time taken: 0.062 seconds
 INFO  : OK
@@ -37,11 +37,11 @@ Running init script /home/proyectos2/BDP_COMMONS/config/hive_init.hql
 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> No rows affected (0.001 seconds)
 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> No rows affected (0.002 seconds)
 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> 
-INFO  : Compiling command(queryId=hive_20170725130505_fdbe5677-7a66-4d73-bb4b-714ddad0ff9e): drop table cp_wkrt.a_pago_empleado
+INFO  : Compiling command(queryId=hive_20170725130505_fdbe5677-7a66-4d73-bb4b-714ddad0ff9e): drop table gb_mdl_mexico_costoproducir_wrkt.a_pago_empleado
 INFO  : Semantic Analysis Completed
 INFO  : Returning Hive schema: Schema(fieldSchemas:null, properties:null)
 INFO  : Completed compiling command(queryId=hive_20170725130505_fdbe5677-7a66-4d73-bb4b-714ddad0ff9e); Time taken: 0.07 seconds
-INFO  : Executing command(queryId=hive_20170725130505_fdbe5677-7a66-4d73-bb4b-714ddad0ff9e): drop table cp_wkrt.a_pago_empleado
+INFO  : Executing command(queryId=hive_20170725130505_fdbe5677-7a66-4d73-bb4b-714ddad0ff9e): drop table gb_mdl_mexico_costoproducir_wrkt.a_pago_empleado
 INFO  : Starting task [Stage-0:DDL] in serial mode
 INFO  : Completed executing command(queryId=hive_20170725130505_fdbe5677-7a66-4d73-bb4b-714ddad0ff9e); Time taken: 0.015 seconds
 INFO  : OK
@@ -262,7 +262,7 @@ Note: Recompile with -Xlint:deprecation for details.
 17/07/25 14:01:40 INFO mapreduce.ImportJobBase: Retrieved 9030084 records.
 17/07/25 14:01:40 DEBUG util.ClassLoaderStack: Restoring classloader: sun.misc.Launcher$AppClassLoader@6aa5c9f1
 17/07/25 14:01:40 DEBUG hive.HiveImport: Hive.inputTable: null
-17/07/25 14:01:40 DEBUG hive.HiveImport: Hive.outputTable: cp_wkrt.a_pago_empleado
+17/07/25 14:01:40 DEBUG hive.HiveImport: Hive.outputTable: gb_mdl_mexico_costoproducir_wrkt.a_pago_empleado
 17/07/25 14:01:40 DEBUG manager.SqlManager: Execute getColumnInfoRawQuery : select * from DWH.A_PAGO_EMPLEADO where extract(year from FechaPago)='2017' and extract(month from FechaPago) = '07' and extract(day from FechaPago) between '01' and '31' and  (1 = 0) 
 17/07/25 14:01:40 DEBUG manager.SqlManager: No connection paramenters specified. Using regular API for making connection.
 17/07/25 14:01:42 DEBUG manager.SqlManager: Using fetchSize for next query: 1000
@@ -298,8 +298,8 @@ Note: Recompile with -Xlint:deprecation for details.
 17/07/25 14:01:43 WARN hive.TableDefWriter: Column FechaPago had to be cast to a less precise type in Hive
 17/07/25 14:01:43 WARN hive.TableDefWriter: Column FechaCarga had to be cast to a less precise type in Hive
 17/07/25 14:01:43 WARN hive.TableDefWriter: Column FechaCambio had to be cast to a less precise type in Hive
-17/07/25 14:01:43 DEBUG hive.TableDefWriter: Create statement: CREATE TABLE IF NOT EXISTS `cp_wkrt.a_pago_empleado` ( `TipoNomina_ID` STRING, `Empleado_ID` STRING, `FechaPago` STRING, `CuentaNatural_ID` STRING, `AnalisisLocal_ID` STRING, `Concepto_ID` INT, `Region_ID` STRING, `MontoPago` DOUBLE, `TipoMoneda_ID` INT, `SistemaFuente` STRING, `UsuarioETL` STRING, `FechaCarga` STRING, `FechaCambio` STRING) COMMENT 'Imported by sqoop on 2017/07/25 14:01:43' ROW FORMAT DELIMITED FIELDS TERMINATED BY '\001' LINES TERMINATED BY '\012' STORED AS TEXTFILE
-17/07/25 14:01:43 DEBUG hive.TableDefWriter: Load statement: LOAD DATA INPATH 'hdfs://HdfsHA/user/CP' INTO TABLE `cp_wkrt.a_pago_empleado`
+17/07/25 14:01:43 DEBUG hive.TableDefWriter: Create statement: CREATE TABLE IF NOT EXISTS `gb_mdl_mexico_costoproducir_wrkt.a_pago_empleado` ( `TipoNomina_ID` STRING, `Empleado_ID` STRING, `FechaPago` STRING, `CuentaNatural_ID` STRING, `AnalisisLocal_ID` STRING, `Concepto_ID` INT, `Region_ID` STRING, `MontoPago` DOUBLE, `TipoMoneda_ID` INT, `SistemaFuente` STRING, `UsuarioETL` STRING, `FechaCarga` STRING, `FechaCambio` STRING) COMMENT 'Imported by sqoop on 2017/07/25 14:01:43' ROW FORMAT DELIMITED FIELDS TERMINATED BY '\001' LINES TERMINATED BY '\012' STORED AS TEXTFILE
+17/07/25 14:01:43 DEBUG hive.TableDefWriter: Load statement: LOAD DATA INPATH 'hdfs://HdfsHA/user/CP' INTO TABLE `gb_mdl_mexico_costoproducir_wrkt.a_pago_empleado`
 17/07/25 14:01:43 INFO hive.HiveImport: Loading uploaded data into Hive
 17/07/25 14:01:43 DEBUG hive.HiveImport: Using in-process Hive instance.
 17/07/25 14:01:43 DEBUG util.SubprocessSecurityManager: Installing subprocess security manager
@@ -307,8 +307,8 @@ Note: Recompile with -Xlint:deprecation for details.
 Logging initialized using configuration in jar:file:/opt/cloudera/parcels/CDH-5.8.3-1.cdh5.8.3.p0.2/jars/hive-common-1.1.0-cdh5.8.3.jar!/hive-log4j.properties
 OK
 Time taken: 1.882 seconds
-Loading data to table cp_wkrt.a_pago_empleado
-Table cp_wkrt.a_pago_empleado stats: [numFiles=3, totalSize=1103511997]
+Loading data to table gb_mdl_mexico_costoproducir_wrkt.a_pago_empleado
+Table gb_mdl_mexico_costoproducir_wrkt.a_pago_empleado stats: [numFiles=3, totalSize=1103511997]
 OK
 Time taken: 0.612 seconds
 scan complete in 2ms
@@ -325,7 +325,7 @@ Running init script /home/proyectos2/BDP_COMMONS/config/hive_init.hql
 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> No rows affected (0.002 seconds)
 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> No rows affected (0.002 seconds)
 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> 
-0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> INFO  : Compiling command(queryId=hive_20170725140101_e5291bb1-5cbd-41a9-bc63-8d3a285e910c): insert overwrite table cp_app_costoproducir.a_pago_empleado
+0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> INFO  : Compiling command(queryId=hive_20170725140101_e5291bb1-5cbd-41a9-bc63-8d3a285e910c): insert overwrite table gb_smntc_mexico_costoproducir.a_pago_empleado
     select 
         tiponomina_id
         ,empleado_id
@@ -341,11 +341,11 @@ Running init script /home/proyectos2/BDP_COMMONS/config/hive_init.hql
         ,fechacarga
         ,fechacambio
         ,from_unixtime(unix_timestamp()) as storeday
-        from cp_wkrt.a_pago_empleado
+        from gb_mdl_mexico_costoproducir_wrkt.a_pago_empleado
 INFO  : Semantic Analysis Completed
 INFO  : Returning Hive schema: Schema(fieldSchemas:[FieldSchema(name:_col0, type:string, comment:null), FieldSchema(name:_col1, type:string, comment:null), FieldSchema(name:_col2, type:string, comment:null), FieldSchema(name:_col3, type:string, comment:null), FieldSchema(name:_col4, type:string, comment:null), FieldSchema(name:_col5, type:int, comment:null), FieldSchema(name:_col6, type:string, comment:null), FieldSchema(name:_col7, type:float, comment:null), FieldSchema(name:_col8, type:int, comment:null), FieldSchema(name:_col9, type:string, comment:null), FieldSchema(name:_col10, type:string, comment:null), FieldSchema(name:_col11, type:string, comment:null), FieldSchema(name:_col12, type:string, comment:null), FieldSchema(name:_col13, type:string, comment:null)], properties:null)
 INFO  : Completed compiling command(queryId=hive_20170725140101_e5291bb1-5cbd-41a9-bc63-8d3a285e910c); Time taken: 0.106 seconds
-INFO  : Executing command(queryId=hive_20170725140101_e5291bb1-5cbd-41a9-bc63-8d3a285e910c): insert overwrite table cp_app_costoproducir.a_pago_empleado
+INFO  : Executing command(queryId=hive_20170725140101_e5291bb1-5cbd-41a9-bc63-8d3a285e910c): insert overwrite table gb_smntc_mexico_costoproducir.a_pago_empleado
     select 
         tiponomina_id
         ,empleado_id
@@ -361,7 +361,7 @@ INFO  : Executing command(queryId=hive_20170725140101_e5291bb1-5cbd-41a9-bc63-8d
         ,fechacarga
         ,fechacambio
         ,from_unixtime(unix_timestamp()) as storeday
-        from cp_wkrt.a_pago_empleado
+        from gb_mdl_mexico_costoproducir_wrkt.a_pago_empleado
 INFO  : Query ID = hive_20170725140101_e5291bb1-5cbd-41a9-bc63-8d3a285e910c
 INFO  : Total jobs = 3
 INFO  : Launching Job 1 out of 3
@@ -388,11 +388,11 @@ INFO  : Stage-4 is selected by condition resolver.
 INFO  : Stage-3 is filtered out by condition resolver.
 INFO  : Stage-5 is filtered out by condition resolver.
 INFO  : Starting task [Stage-4:MOVE] in serial mode
-INFO  : Moving data to: hdfs://HdfsHA/user/hive/warehouse/cp_app_costoproducir.db/a_pago_empleado/.hive-staging_hive_2017-07-25_14-01-51_470_3099458258067903793-2102/-ext-10000 from hdfs://HdfsHA/user/hive/warehouse/cp_app_costoproducir.db/a_pago_empleado/.hive-staging_hive_2017-07-25_14-01-51_470_3099458258067903793-2102/-ext-10002
+INFO  : Moving data to: hdfs://HdfsHA/user/hive/warehouse/gb_smntc_mexico_costoproducir.db/a_pago_empleado/.hive-staging_hive_2017-07-25_14-01-51_470_3099458258067903793-2102/-ext-10000 from hdfs://HdfsHA/user/hive/warehouse/gb_smntc_mexico_costoproducir.db/a_pago_empleado/.hive-staging_hive_2017-07-25_14-01-51_470_3099458258067903793-2102/-ext-10002
 INFO  : Starting task [Stage-0:MOVE] in serial mode
-INFO  : Loading data to table cp_app_costoproducir.a_pago_empleado from hdfs://HdfsHA/user/hive/warehouse/cp_app_costoproducir.db/a_pago_empleado/.hive-staging_hive_2017-07-25_14-01-51_470_3099458258067903793-2102/-ext-10000
+INFO  : Loading data to table gb_smntc_mexico_costoproducir.a_pago_empleado from hdfs://HdfsHA/user/hive/warehouse/gb_smntc_mexico_costoproducir.db/a_pago_empleado/.hive-staging_hive_2017-07-25_14-01-51_470_3099458258067903793-2102/-ext-10000
 INFO  : Starting task [Stage-2:STATS] in serial mode
-INFO  : Table cp_app_costoproducir.a_pago_empleado stats: [numFiles=6, numRows=9030084, totalSize=1284113668, rawDataSize=1275083584]
+INFO  : Table gb_smntc_mexico_costoproducir.a_pago_empleado stats: [numFiles=6, numRows=9030084, totalSize=1284113668, rawDataSize=1275083584]
 INFO  : MapReduce Jobs Launched: 
 INFO  : Stage-Stage-1: Map: 6   Cumulative CPU: 69.92 sec   HDFS Read: 1104069609 HDFS Write: 1284114248 SUCCESS
 INFO  : Total MapReduce CPU Time Spent: 1 minutes 9 seconds 920 msec

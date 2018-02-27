@@ -1,12 +1,12 @@
  -- Se inserta a espejo los turnos
-insert overwrite table cp_dwh_mf.mf_turnos_espejo partition(entidadlegal_id)
+insert overwrite table gb_mdl_mexico_manufactura.mf_turnos_espejo partition(entidadlegal_id)
      select *
-     from cp_view.vdw_mf_turnos;
+     from gb_mdl_mexico_costoproducir_views.vdw_mf_turnos;
 
 
 -- Cierro el Periodo actual si es que se esta volviendo a cargar.
--- Se actualiza la vigencia de los turnos en cp_dwh_mf.MF_Turnos
-insert overwrite table cp_dwh_mf.mf_turnos partition(entidadlegal_id)
+-- Se actualiza la vigencia de los turnos en gb_mdl_mexico_manufactura.MF_Turnos
+insert overwrite table gb_mdl_mexico_manufactura.mf_turnos partition(entidadlegal_id)
      select 
      tt.mf_organizacion_id,
      tt.planta_id,
@@ -28,15 +28,15 @@ insert overwrite table cp_dwh_mf.mf_turnos partition(entidadlegal_id)
      end as fecha_vigencia,
      from_unixtime(unix_timestamp()),
      tt.entidadlegal_id
-     from cp_dwh_mf.mf_turnos tt
+     from gb_mdl_mexico_manufactura.mf_turnos tt
      join 
      (
           select t.entidadlegal_id,
                  t.periodo
-          from cp_dwh_mf.mf_turnos t
-          join(select entidadlegal_id, periodo from cp_dwh_mf.mf_turnos_espejo group by entidadlegal_id, periodo) te
+          from gb_mdl_mexico_manufactura.mf_turnos t
+          join(select entidadlegal_id, periodo from gb_mdl_mexico_manufactura.mf_turnos_espejo group by entidadlegal_id, periodo) te
           on t.entidadlegal_id = te.entidadlegal_id and t.periodo = te.periodo
-          join (select entidadlegal_id from cp_view.v_entidadeslegales_activas_mf group by entidadlegal_id) ea on ea.entidadlegal_id = t.entidadlegal_id
+          join (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadeslegales_activas_mf group by entidadlegal_id) ea on ea.entidadlegal_id = t.entidadlegal_id
           where t.fecha_vigencia is null
           group by
           t.entidadlegal_id,
@@ -44,13 +44,13 @@ insert overwrite table cp_dwh_mf.mf_turnos partition(entidadlegal_id)
      ) stg
      on  tt.entidadlegal_id = stg.entidadlegal_id and tt.periodo = stg.periodo
      where 
-          tt.entidadlegal_id in (select entidadlegal_id from cp_view.v_entidadeslegales_activas_mf group by entidadlegal_id)
+          tt.entidadlegal_id in (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadeslegales_activas_mf group by entidadlegal_id)
           and tt.fecha_vigencia is null;
 
 
 -- Se carga a MF_Turnos, pase de ESPEJO a DWH de los turnos enviados por TXT
-insert into table cp_dwh_mf.mf_turnos partition(entidadlegal_id)
-     select * from cp_dwh_mf.mf_turnos_espejo;
+insert into table gb_mdl_mexico_manufactura.mf_turnos partition(entidadlegal_id)
+     select * from gb_mdl_mexico_manufactura.mf_turnos_espejo;
      
      
 
@@ -58,9 +58,9 @@ insert into table cp_dwh_mf.mf_turnos partition(entidadlegal_id)
 -- insert overwrite table cp_flat_files.mf_turnos partition(entidadlegal_id)
      select fft.* 
      from cp_flat_files.mf_turnos fft
-     where fft.entidadlegal_id not in (select entidadlegal_id from cp_view.v_entidadeslegales_activas_mf group by entidadlegal_id);
+     where fft.entidadlegal_id not in (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadeslegales_activas_mf group by entidadlegal_id);
 
 
---se materializa vista cp_view.v_mf_turno_default_dia
-insert overwrite table cp_view.t_mf_turno_default_dia
-     select * from cp_view.v_mf_turno_default_dia;
+--se materializa vista gb_mdl_mexico_costoproducir_views.v_mf_turno_default_dia
+insert overwrite table gb_mdl_mexico_costoproducir_views.t_mf_turno_default_dia
+     select * from gb_mdl_mexico_costoproducir_views.v_mf_turno_default_dia;

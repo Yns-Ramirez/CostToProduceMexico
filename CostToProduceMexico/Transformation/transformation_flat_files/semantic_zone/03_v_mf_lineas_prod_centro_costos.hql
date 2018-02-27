@@ -1,6 +1,6 @@
 -- ======================================================
---  cp_dwh_mf.mf_lineas_prod_centro_costos
-insert overwrite table cp_dwh_mf.mf_lineas_prod_centro_costos partition(entidadlegal_id)
+--  gb_mdl_mexico_manufactura.mf_lineas_prod_centro_costos
+insert overwrite table gb_mdl_mexico_manufactura.mf_lineas_prod_centro_costos partition(entidadlegal_id)
 select tmp.mf_organizacion_id 
       ,tmp.planta_id
       ,tmp.centrocostos_id
@@ -11,11 +11,11 @@ select tmp.mf_organizacion_id
       else date_sub(from_unixtime(unix_timestamp()), 1) end as fecha_fin
       ,from_unixtime(unix_timestamp())
       ,tmp.entidadlegal_id
-      from cp_dwh_mf.mf_lineas_prod_centro_costos tmp
+      from gb_mdl_mexico_manufactura.mf_lineas_prod_centro_costos tmp
       join (
-        select sec.EntidadLegal_ID, sec.MF_Organizacion_ID, sec.Planta_ID  from cp_dwh_mf.mf_lineas_prod_centro_costos sec
+        select sec.EntidadLegal_ID, sec.MF_Organizacion_ID, sec.Planta_ID  from gb_mdl_mexico_manufactura.mf_lineas_prod_centro_costos sec
           join (
-            select cc.EntidadLegal_ID, cc.MF_Organizacion_ID, cc.Planta_ID from cp_view.vdw_mf_lineas_prod_cc cc
+            select cc.EntidadLegal_ID, cc.MF_Organizacion_ID, cc.Planta_ID from gb_mdl_mexico_costoproducir_views.vdw_mf_lineas_prod_cc cc
             group by cc.EntidadLegal_ID, cc.MF_Organizacion_ID, cc.Planta_ID
             ) pcc
           on pcc.entidadlegal_id       = sec.entidadlegal_id
@@ -30,7 +30,7 @@ select tmp.mf_organizacion_id
       where tmp.fecha_fin is null;
 
 
-insert into table cp_dwh_mf.mf_lineas_prod_centro_costos partition(entidadlegal_id)
+insert into table gb_mdl_mexico_manufactura.mf_lineas_prod_centro_costos partition(entidadlegal_id)
   select
           tmp.mf_organizacion_id 
           ,tmp.planta_id
@@ -41,10 +41,10 @@ insert into table cp_dwh_mf.mf_lineas_prod_centro_costos partition(entidadlegal_
           ,tmp.fecha_fin
           ,from_unixtime(unix_timestamp())
           ,tmp.entidadlegal_id
-      from cp_view.vdw_mf_lineas_prod_cc tmp
+      from gb_mdl_mexico_costoproducir_views.vdw_mf_lineas_prod_cc tmp
      left outer join 
      (
-      select cc.EntidadLegal_ID, cc.MF_Organizacion_ID, cc.Planta_ID from cp_dwh_mf.mf_lineas_prod_centro_costos cc
+      select cc.EntidadLegal_ID, cc.MF_Organizacion_ID, cc.Planta_ID from gb_mdl_mexico_manufactura.mf_lineas_prod_centro_costos cc
             where cc.fecha_fin is null
             group by cc.EntidadLegal_ID, cc.MF_Organizacion_ID, cc.Planta_ID
      ) lpcc on 
@@ -57,4 +57,4 @@ insert into table cp_dwh_mf.mf_lineas_prod_centro_costos partition(entidadlegal_
      lpcc.planta_id is null;
 
 --compactation
-insert overwrite table  cp_dwh_mf.mf_lineas_prod_centro_costos partition(entidadlegal_id) select tmp.* from  cp_dwh_mf.mf_lineas_prod_centro_costos tmp join (select entidadlegal_id, mf_organizacion_id, planta_id, centrocostos_id, max(storeday) as first_record from  cp_dwh_mf.mf_lineas_prod_centro_costos group by entidadlegal_id, mf_organizacion_id, planta_id, centrocostos_id) sec on tmp.entidadlegal_id = sec.entidadlegal_id and tmp.mf_organizacion_id = sec.mf_organizacion_id and tmp.planta_id = sec.planta_id and tmp.centrocostos_id = sec.centrocostos_id and tmp.storeday = sec.first_record;
+insert overwrite table  gb_mdl_mexico_manufactura.mf_lineas_prod_centro_costos partition(entidadlegal_id) select tmp.* from  gb_mdl_mexico_manufactura.mf_lineas_prod_centro_costos tmp join (select entidadlegal_id, mf_organizacion_id, planta_id, centrocostos_id, max(storeday) as first_record from  gb_mdl_mexico_manufactura.mf_lineas_prod_centro_costos group by entidadlegal_id, mf_organizacion_id, planta_id, centrocostos_id) sec on tmp.entidadlegal_id = sec.entidadlegal_id and tmp.mf_organizacion_id = sec.mf_organizacion_id and tmp.planta_id = sec.planta_id and tmp.centrocostos_id = sec.centrocostos_id and tmp.storeday = sec.first_record;

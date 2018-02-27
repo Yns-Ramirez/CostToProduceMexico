@@ -1,12 +1,12 @@
--- ================== cp_dwh.P_SUBLINEA ==================
+-- ================== gb_mdl_mexico_costoproducir.P_SUBLINEA ==================
 -- Author / Autor             : Francisco Martinez
 -- Date / Fecha               : December 2016
 -- Project /Proyecto          : Costo Producir-Big Data
--- Objective / Objetivo       : Update information weekly, table cp_dwh.P_SUBLINEA
+-- Objective / Objetivo       : Update information weekly, table gb_mdl_mexico_costoproducir.P_SUBLINEA
 -- Subject Area / Area Sujeto : Product
 
 -- Insert rows from flat file product
-INSERT INTO cp_dwh.P_SUBLINEA
+INSERT INTO gb_mdl_mexico_costoproducir.P_SUBLINEA
 SELECT 
 P.Categoria_ID
 ,P.Linea_ID
@@ -30,20 +30,20 @@ ELSE P.NombreSubLinea
 END;
 
 -- Case of sublines 21 into product files, the rule of negative lines is applied
-Insert into cp_dwh.P_SUBLINEA 
+Insert into gb_mdl_mexico_costoproducir.P_SUBLINEA 
 SELECT a.CATEGORIA_ID, a.LINEA_ID, a.LINEA_ID*-1,concat('SUBLINEA de ',a.nombrelinea),FROM_UNIXTIME(UNIX_TIMESTAMP())
-FROM cp_dwh.P_LINEA a
+FROM gb_mdl_mexico_costoproducir.P_LINEA a
 INNER JOIN cp_flat_files.ft_producto c
 ON a.linea_id = c.linea_id
 WHERE c.sublinea_id=21
-and (a.linea_id*-1) not in (select sublinea_id from cp_dwh.p_sublinea)
+and (a.linea_id*-1) not in (select sublinea_id from gb_mdl_mexico_costoproducir.p_sublinea)
 group by a.CATEGORIA_ID, a.LINEA_ID, a.LINEA_ID*-1,concat('SUBLINEA de ',a.nombrelinea);
 
 -- Delete duplicades
-Insert overwrite table cp_dwh.P_SUBLINEA
-select tmp.* from cp_dwh.P_SUBLINEA tmp
+Insert overwrite table gb_mdl_mexico_costoproducir.P_SUBLINEA
+select tmp.* from gb_mdl_mexico_costoproducir.P_SUBLINEA tmp
 join (select sublinea_id,max(storeday) as first_record 
-from cp_dwh.P_SUBLINEA group by sublinea_id) sec
+from gb_mdl_mexico_costoproducir.P_SUBLINEA group by sublinea_id) sec
 on tmp.sublinea_id=sec.sublinea_id
 and tmp.storeday=sec.first_record;
 

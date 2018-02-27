@@ -1,6 +1,6 @@
 -- ======================================================
---  cp_dwh_mf.mf_lineas_prod
-insert overwrite table cp_dwh_mf.mf_lineas_prod partition(entidadlegal_id)
+--  gb_mdl_mexico_manufactura.mf_lineas_prod
+insert overwrite table gb_mdl_mexico_manufactura.mf_lineas_prod partition(entidadlegal_id)
      select 
            fte.linea_prod_id
            ,case when fte.grupo_lineas_prod_id <> -1
@@ -13,4 +13,4 @@ insert overwrite table cp_dwh_mf.mf_lineas_prod partition(entidadlegal_id)
             end
             ,fte.storeday
             ,fte.entidadlegal_id
-       from cp_view.vdw_mf_lineas_prod fte;
+       from gb_mdl_mexico_costoproducir_views.vdw_mf_lineas_prod fte;

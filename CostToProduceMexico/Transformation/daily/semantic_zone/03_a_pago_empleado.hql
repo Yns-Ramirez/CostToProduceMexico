@@ -1,7 +1,7 @@
 -- ======================================================
 --  a_pago_empleado
 
-insert overwrite table cp_app_costoproducir.a_pago_empleado
+insert overwrite table gb_smntc_mexico_costoproducir.a_pago_empleado
      select
           tmp.tiponomina_id,
           tmp.empleado_id,
@@ -17,5 +17,5 @@ insert overwrite table cp_app_costoproducir.a_pago_empleado
           tmp.fechacarga,
           tmp.fechacambio,
           from_unixtime(unix_timestamp())
-     from cp_view.vdw_a_pago_empleado tmp, cp_view.v_fechas_extraccion vfe
+     from gb_mdl_mexico_costoproducir_views.vdw_a_pago_empleado tmp, gb_mdl_mexico_costoproducir_views.v_fechas_extraccion vfe
      where tmp.fechapago >= vfe.fechaini;

@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS jedox.cp_data_detalle(
+CREATE TABLE IF NOT EXISTS jedoxMexico.cp_data_detalle(
   execution_date string, 
   organizacion_id string, 
   pais_id string, 
@@ -14,7 +14,7 @@ PARTITIONED BY (
   entidadlegal_id string, 
   periodo string);
 
-CREATE TABLE IF NOT EXISTS jedox.cp_data_piezas(
+CREATE TABLE IF NOT EXISTS jedoxMexico.cp_data_piezas(
   execution_date string, 
   planta_id string, 
   lineas_id string, 
@@ -28,7 +28,7 @@ PARTITIONED BY (
   periodo string);
 
 
-CREATE TABLE IF NOT EXISTS jedox.cp_data_sumario(
+CREATE TABLE IF NOT EXISTS jedoxMexico.cp_data_sumario(
   execution_date string, 
   organizacion_id string, 
   pais_id string, 

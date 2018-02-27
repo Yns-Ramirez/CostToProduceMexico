@@ -1,7 +1,7 @@
 -- ======================================================
--- cp_app_costoproducir.cp_factores_prorrateo
+-- gb_smntc_mexico_costoproducir.cp_factores_prorrateo
 -- poner fecha fin a los null
-insert overwrite table cp_app_costoproducir.cp_factores_prorrateo partition(entidadlegal_id) 
+insert overwrite table gb_smntc_mexico_costoproducir.cp_factores_prorrateo partition(entidadlegal_id) 
      select
      tmp.cuentanatural_id,
      tmp.analisislocal_id,
@@ -13,10 +13,10 @@ insert overwrite table cp_app_costoproducir.cp_factores_prorrateo partition(enti
           else tmp.fecha_fin end as fecha_fin,
      tmp.storeday,
      tmp.entidadlegal_id
-from cp_app_costoproducir.cp_factores_prorrateo tmp;
+from gb_smntc_mexico_costoproducir.cp_factores_prorrateo tmp;
 
 -- insertar los registros nuevos poniendo fecha_fin null
-insert into table cp_app_costoproducir.cp_factores_prorrateo partition(entidadlegal_id) 
+insert into table gb_smntc_mexico_costoproducir.cp_factores_prorrateo partition(entidadlegal_id) 
      select 
      tmp.cuentanatural_id,
      tmp.analisislocal_id,
@@ -31,4 +31,4 @@ insert into table cp_app_costoproducir.cp_factores_prorrateo partition(entidadle
  join cp_flat_files.cp_factores cf on lower(tmp.factor) = lower(cf.factor_ds);
 
 -- compactar la tabla final cp_factores_prorrateo
-insert overwrite table cp_app_costoproducir.cp_factores_prorrateo partition(entidadlegal_id) select tmp.* from cp_app_costoproducir.cp_factores_prorrateo tmp join (select entidadlegal_id, cuentanatural_id, analisislocal_id, centrocostos_id, factor_id, fecha_ini, max(storeday) as first_record from cp_app_costoproducir.cp_factores_prorrateo group by entidadlegal_id, cuentanatural_id, analisislocal_id, centrocostos_id, factor_id, fecha_ini) sec on tmp.entidadlegal_id = sec.entidadlegal_id and tmp.cuentanatural_id = sec.cuentanatural_id and tmp.analisislocal_id = sec.analisislocal_id and tmp.centrocostos_id = sec.centrocostos_id and tmp.factor_id = sec.factor_id and tmp.fecha_ini = sec.fecha_ini and tmp.storeday = sec.first_record;
+insert overwrite table gb_smntc_mexico_costoproducir.cp_factores_prorrateo partition(entidadlegal_id) select tmp.* from gb_smntc_mexico_costoproducir.cp_factores_prorrateo tmp join (select entidadlegal_id, cuentanatural_id, analisislocal_id, centrocostos_id, factor_id, fecha_ini, max(storeday) as first_record from gb_smntc_mexico_costoproducir.cp_factores_prorrateo group by entidadlegal_id, cuentanatural_id, analisislocal_id, centrocostos_id, factor_id, fecha_ini) sec on tmp.entidadlegal_id = sec.entidadlegal_id and tmp.cuentanatural_id = sec.cuentanatural_id and tmp.analisislocal_id = sec.analisislocal_id and tmp.centrocostos_id = sec.centrocostos_id and tmp.factor_id = sec.factor_id and tmp.fecha_ini = sec.fecha_ini and tmp.storeday = sec.first_record;

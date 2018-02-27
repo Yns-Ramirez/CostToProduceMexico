@@ -1,4 +1,4 @@
-insert overwrite table cp_app_costoproducir.v_rubro81_costo_inv partition(entidadlegal_id)
+insert overwrite table gb_smntc_mexico_costoproducir.v_rubro81_costo_inv partition(entidadlegal_id)
     select 
         mf_organizacion_id
         ,planta_id
@@ -12,4 +12,4 @@ insert overwrite table cp_app_costoproducir.v_rubro81_costo_inv partition(entida
         ,importe
         ,from_unixtime(unix_timestamp()) as storeday
         ,entidadlegal_id
-    from cp_app_costoproducir.v_rubro81_costo_inv_view;
+    from gb_smntc_mexico_costoproducir.v_rubro81_costo_inv_view;

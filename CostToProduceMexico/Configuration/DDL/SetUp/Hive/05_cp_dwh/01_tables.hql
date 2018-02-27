@@ -1,5 +1,5 @@
 ---cambiando esquema 
-CREATE TABLE IF NOT EXISTS cp_dwh.acum_gl_daily_rates(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.acum_gl_daily_rates(
   fuente_mak int, 
   from_currency string, 
   to_currency string, 
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.acum_gl_daily_rates(
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.a_centro_costos(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.a_centro_costos(
   centrocostos_id string, 
   nombrecentrocostos string, 
   sistemafuente string, 
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.a_centro_costos(
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.a_saldo(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.a_saldo(
   aniosaldo int, 
   messaldo int, 
   areanegocio_id string, 
@@ -65,7 +65,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.bom_resources(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.bom_resources(
   resource_id float, 
   resource_code string, 
   organization_id float, 
@@ -128,14 +128,14 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.cp_control_entidadeslegales(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.cp_control_entidadeslegales(
   entidadlegal_id string, 
   organizaciong_ds string, 
   status string)
 row format delimited fields terminated by '|' lines terminated by '\n' stored as textfile;
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.cp_producto_maquilado(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.cp_producto_maquilado(
   periodo string, 
   mf_organizacion_id int, 
   planta_id string, 
@@ -148,7 +148,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.cst_item_cost_details_hist(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.cst_item_cost_details_hist(
   inventory_item_id decimal(18,0), 
   organization_id decimal(18,0), 
   cost_type_id int, 
@@ -207,7 +207,7 @@ PARTITIONED BY (
   fecha_actualizacion string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.cst_tipo_costo_material(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.cst_tipo_costo_material(
   inventory_item_id int, 
   item_number string, 
   padded_item_number string, 
@@ -254,7 +254,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.e_organizacion(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.e_organizacion(
   organizacion_id string, 
   organizacion_desc string, 
   sistema_fuente string, 
@@ -263,7 +263,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.fnd_common_lookups(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.fnd_common_lookups(
   application_id decimal(15,0), 
   lookup_type string, 
   lookup_code string, 
@@ -285,7 +285,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.fnd_lookup_values(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.fnd_lookup_values(
   lookup_type string, 
   language_x string, 
   lookup_code string, 
@@ -328,7 +328,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.fnd_usuarios(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.fnd_usuarios(
   usuario_id int, 
   usuario_nombre string, 
   fechacreacion string, 
@@ -345,7 +345,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.form_ods_cm_a_01_2(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.form_ods_cm_a_01_2(
   periodo string, 
   planta_id int, 
   invitem_hijos int, 
@@ -359,7 +359,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.form_stg_prods_terminados_cp(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.form_stg_prods_terminados_cp(
   periodo string, 
   planta_id int, 
   invitem_hijos int, 
@@ -373,7 +373,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.form_stg_prods_terminados_cp_1(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.form_stg_prods_terminados_cp_1(
   periodo string, 
   planta_id int, 
   invitem_hijos int, 
@@ -386,7 +386,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.form_stg_prods_terminados_cp_1(
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.form_stg_subensambles_cp(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.form_stg_subensambles_cp(
   periodo string, 
   subensamble_id int, 
   codigosubinv string, 
@@ -400,7 +400,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.form_stg_subensambles_cp_1(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.form_stg_subensambles_cp_1(
   periodo string, 
   subensamble_id int, 
   codigosubinv string, 
@@ -413,7 +413,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.form_stg_subensambles_cp_1(
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.form_stg_subensambles_cp_2(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.form_stg_subensambles_cp_2(
   periodo string, 
   subensamble_id int, 
   codigosubinv string, 
@@ -426,7 +426,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.form_stg_subensambles_cp_2(
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.form_stg_subensambles_cp_3(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.form_stg_subensambles_cp_3(
   periodo string, 
   subensamble_id int, 
   codigosubinv string, 
@@ -439,7 +439,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.form_stg_subensambles_cp_3(
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.form_stg_subensambles_cp_paso(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.form_stg_subensambles_cp_paso(
   periodo string, 
   subensamble_id int, 
   codigosubinv string, 
@@ -453,7 +453,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.g_organizacion_geografica(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.g_organizacion_geografica(
   organizacion_id int, 
   nombreorganizacion string, 
   sistemafuente string, 
@@ -463,7 +463,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.g_organizacion_geografica(
 row format delimited fields terminated by '|' lines terminated by '\n' stored as textfile;
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.g_pais(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.g_pais(
   pais_id int, 
   organizacion_id int, 
   nombrepais string, 
@@ -473,7 +473,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.gl_estructura_contable(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.gl_estructura_contable(
   code_combination_id int, 
   last_update_date string, 
   last_update_date_h string, 
@@ -506,7 +506,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.gl_je_headers(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.gl_je_headers(
   je_header_id decimal(15,0), 
   last_update_date string, 
   last_update_date_h string, 
@@ -597,7 +597,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.gl_je_lines(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.gl_je_lines(
   je_header_id decimal(15,0), 
   je_line_num decimal(15,0), 
   last_update_date string, 
@@ -700,7 +700,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.gx_control_el_peoplenet(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.gx_control_el_peoplenet(
   entidadlegal_id_dwh string, 
   entidadlegal_id_pnet int, 
   organizacion_id string, 
@@ -708,7 +708,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.gx_control_el_peoplenet(
   fecha_migracion string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.gx_control_entidades_app(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.gx_control_entidades_app(
   entidadlegal_id string, 
   cadena string, 
   aplicacion string, 
@@ -719,14 +719,14 @@ CREATE TABLE IF NOT EXISTS cp_dwh.gx_control_entidades_app(
   observaciones string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.gx_control_entidadeslegales(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.gx_control_entidadeslegales(
   entidadlegal_id string, 
   cadena string, 
   status string)
 row format delimited fields terminated by '|' lines terminated by '\n' stored as textfile;
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.hr_location(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.hr_location(
   location_id int, 
   location_code string, 
   business_group_id int, 
@@ -779,7 +779,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.hr_organizacion(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.hr_organizacion(
   organization_id int, 
   last_update_date string, 
   last_update_date_h string, 
@@ -815,7 +815,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.hr_organization_information(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.hr_organization_information(
   org_information_id int, 
   org_information_context string, 
   organization_id int, 
@@ -878,7 +878,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.hz_cust_acct_sites_all(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.hz_cust_acct_sites_all(
   cust_acct_site_id decimal(15,0), 
   cust_account_id decimal(15,0), 
   party_site_id decimal(15,0), 
@@ -958,7 +958,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.hz_cust_site_uses_all(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.hz_cust_site_uses_all(
   site_use_id decimal(15,0), 
   cust_acct_site_id decimal(15,0), 
   last_update_date string, 
@@ -1080,7 +1080,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.hz_locations(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.hz_locations(
   location_id decimal(15,0), 
   last_update_date string, 
   last_updated_by decimal(15,0), 
@@ -1195,7 +1195,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.hz_party_sites(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.hz_party_sites(
   party_site_id decimal(15,0), 
   party_id decimal(15,0), 
   location_id decimal(15,0), 
@@ -1273,14 +1273,14 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.mf_gramajes(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mf_gramajes(
   item string, 
   contenido_neto float, 
   storeday string, 
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.mtl_ajustes_fisicos(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_ajustes_fisicos(
   adjustment_id int, 
   organization_id int, 
   physical_inventory_id int, 
@@ -1321,7 +1321,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.mtl_catalogo_materiales(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_catalogo_materiales(
   inventory_item_id int, 
   organization_id int, 
   last_update_date string, 
@@ -1632,7 +1632,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.mtl_categoria_materiales(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_categoria_materiales(
   inventory_item_id int, 
   organization_id int, 
   category_set_id int, 
@@ -1655,7 +1655,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.mtl_categorias(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_categorias(
   category_id int, 
   structure_id int, 
   description string, 
@@ -1704,7 +1704,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.mtl_categorias(
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.mtl_conjunto_categoria(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_conjunto_categoria(
   category_set_id decimal(15,5), 
   language_x string, 
   source_lang string, 
@@ -1721,7 +1721,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.mtl_conversiones_udm(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_conversiones_udm(
   unit_of_measure string, 
   uom_code string, 
   uom_class string, 
@@ -1749,7 +1749,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.mtl_conversiones_udm(
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.mtl_flexfields_materiales(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_flexfields_materiales(
   item_id decimal(15,5), 
   inventory_item_id decimal(15,5), 
   organization_id decimal(15,5), 
@@ -2057,7 +2057,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.mtl_flexfields_materiales(
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.mtl_inventarios_fisicos(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_inventarios_fisicos(
   physical_inventory_id int, 
   organization_id int, 
   last_update_date string, 
@@ -2096,7 +2096,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.mtl_item_subinventarios(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_item_subinventarios(
   inventory_item_id int, 
   organization_id int, 
   secondary_inventory string, 
@@ -2122,7 +2122,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.mtl_onhand_diario(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_onhand_diario(
   organization_id int, 
   inventory_item_id int, 
   subinventory_code string, 
@@ -2134,7 +2134,7 @@ PARTITIONED BY (
 
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.mtl_parameters(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_parameters(
   organization_id int, 
   last_update_date string, 
   last_update_date_h string, 
@@ -2315,7 +2315,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.mtl_referencia_cruzada_mat(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_referencia_cruzada_mat(
   inventory_item_id int, 
   organization_id int, 
   cross_reference_type string, 
@@ -2353,7 +2353,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.mtl_referencia_cruzada_mat(
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.mtl_sales_orders(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_sales_orders(
   sales_order_id decimal(18,8), 
   last_update_date string, 
   last_updated_by decimal(18,8), 
@@ -2394,7 +2394,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.mtl_subinventarios_fisicos(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_subinventarios_fisicos(
   organization_id int, 
   physical_inventory_id int, 
   subinventory string, 
@@ -2414,7 +2414,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.mtl_tipo_fuente_trans(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_tipo_fuente_trans(
   transaction_source_type_id int, 
   last_update_date string, 
   last_update_date_h string, 
@@ -2434,7 +2434,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.mtl_tipo_transacciones(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_tipo_transacciones(
   transaction_type_id int, 
   last_update_date string, 
   last_update_date_h string, 
@@ -2460,7 +2460,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.mtl_transaccion_materiales(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_transaccion_materiales(
   transaction_id decimal(14,0), 
   last_update_date string, 
   last_update_date_h string, 
@@ -2509,7 +2509,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.mtl_transaction_accounts(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_transaction_accounts(
   transaction_id decimal(14,0), 
   reference_account int, 
   last_update_date string, 
@@ -2553,7 +2553,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.mtl_unidad_medida(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_unidad_medida(
   unit_of_measure string, 
   uom_code string, 
   uom_class string, 
@@ -2596,7 +2596,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.mx_depreciacion_equipo_cuenta(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mx_depreciacion_equipo_cuenta(
   activoequipoerp_id int, 
   fecha string, 
   segment1 string, 
@@ -2618,7 +2618,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.o_entidad_legal(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.o_entidad_legal(
   nombreentidadlegal string, 
   sistemafuente string, 
   usuarioetl string, 
@@ -2629,7 +2629,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.o_entidadlegal_organizacion(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.o_entidadlegal_organizacion(
   organizacion_id string, 
   pais_id int, 
   sistema_fuente string, 
@@ -2639,26 +2639,26 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.p_categoria(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.p_categoria(
   categoria_id int, 
   nombrecategoria string, 
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.p_linea(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.p_linea(
   categoria_id int, 
   linea_id int, 
   nombrelinea string, 
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.p_marca(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.p_marca(
   marca_id int, 
   nombremarca string, 
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.p_producto(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.p_producto(
   producto_id int, 
   categoria_id int, 
   linea_id int, 
@@ -2674,7 +2674,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.p_producto(
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.p_sublinea(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.p_sublinea(
   categoria_id int, 
   linea_id int, 
   sublinea_id int, 
@@ -2682,7 +2682,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.p_sublinea(
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.status_sp_log(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.status_sp_log(
   source_id int, 
   project_name string, 
   source_step string, 
@@ -2695,7 +2695,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.status_sp_log(
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.t_a_saldo_gl(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.t_a_saldo_gl(
   aniosaldo int, 
   messaldo int, 
   areanegocio_id string, 
@@ -2719,7 +2719,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.t_f_formulas(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.t_f_formulas(
   periodo string, 
   planta_id int, 
   producto_id int, 
@@ -2733,7 +2733,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.t_f_formulas_1(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.t_f_formulas_1(
   periodo string, 
   planta_id int, 
   producto_id int, 
@@ -2746,7 +2746,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.t_f_formulas_1(
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.t_f_formulas_2(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.t_f_formulas_2(
   periodo string, 
   planta_id int, 
   producto_id int, 
@@ -2759,7 +2759,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.t_f_formulas_2(
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.t_f_formulas_3(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.t_f_formulas_3(
   periodo string, 
   planta_id int, 
   producto_id int, 
@@ -2772,7 +2772,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.t_f_formulas_3(
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.t_f_formulas_4(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.t_f_formulas_4(
   periodo string, 
   planta_id int, 
   producto_id int, 
@@ -2785,7 +2785,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.t_f_formulas_4(
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.t_f_formulas_4_1(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.t_f_formulas_4_1(
   periodo string, 
   planta_id int, 
   producto_id int, 
@@ -2798,7 +2798,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.t_f_formulas_4_1(
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.t_f_formulas_5(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.t_f_formulas_5(
   periodo string, 
   planta_id int, 
   producto_id int, 
@@ -2811,7 +2811,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.t_f_formulas_5(
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.t_f_formulas_5_1(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.t_f_formulas_5_1(
   periodo string, 
   planta_id int, 
   producto_id int, 
@@ -2824,7 +2824,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.t_f_formulas_5_1(
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.t_f_formulas_6(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.t_f_formulas_6(
   periodo string, 
   planta_id int, 
   producto_id int, 
@@ -2837,7 +2837,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.t_f_formulas_6(
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.t_f_formulas_7(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.t_f_formulas_7(
   periodo string, 
   planta_id int, 
   producto_id int, 
@@ -2850,7 +2850,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.t_f_formulas_7(
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.t_fact_desv(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.t_fact_desv(
   periodo string, 
   planta_id int, 
   producto_id int, 
@@ -2865,7 +2865,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.t_fact_desv_1(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.t_fact_desv_1(
   periodo string, 
   planta_id int, 
   producto_id int, 
@@ -2879,7 +2879,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.t_fact_desv_1(
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.t_fact_desv_2(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.t_fact_desv_2(
   periodo string, 
   planta_id int, 
   producto_id int, 
@@ -2893,7 +2893,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.t_fact_desv_2(
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.t_fact_desv_3(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.t_fact_desv_3(
   periodo string, 
   planta_id int, 
   producto_id int, 
@@ -2907,7 +2907,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.t_fact_desv_3(
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.t_form_stg_subensform_cp(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.t_form_stg_subensform_cp(
   periodo string, 
   planta_id int, 
   subensamble_id_ori int, 
@@ -2921,7 +2921,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.t_form_stg_subensform_cp_1(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.t_form_stg_subensform_cp_1(
   periodo string, 
   planta_id int, 
   subensamble_id_ori int, 
@@ -2934,7 +2934,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.t_form_stg_subensform_cp_1(
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.t_form_stg_subensform_cp_1_1(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.t_form_stg_subensform_cp_1_1(
   periodo string, 
   planta_id int, 
   subensamble_id_ori int, 
@@ -2947,7 +2947,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.t_form_stg_subensform_cp_1_1(
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.t_form_stg_subensform_cp_temp(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.t_form_stg_subensform_cp_temp(
   periodo string, 
   entidadlegal_id string, 
   planta_id int, 
@@ -2961,7 +2961,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.t_form_stg_subensform_cp_temp(
   delnivel int);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.v_tipo_moneda(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.v_tipo_moneda(
   tipomoneda_id int, 
   nombretipomoneda string, 
   nombrecorto string, 
@@ -2974,7 +2974,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.wip_flow_schedules(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.wip_flow_schedules(
   scheduled_flag float, 
   wip_entity_id int, 
   organization_id int, 
@@ -3047,7 +3047,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.wip_lineas(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.wip_lineas(
   line_id float, 
   organization_id float, 
   last_update_date string, 
@@ -3081,7 +3081,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.wip_repetitive_items(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.wip_repetitive_items(
   wip_entity_id int, 
   line_id int, 
   organization_id int, 
@@ -3114,7 +3114,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.wip_repetitive_items(
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.wip_repetitive_items_hist(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.wip_repetitive_items_hist(
   fecha_actualizacion string, 
   wip_entity_id int, 
   line_id int, 
@@ -3149,7 +3149,7 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.wrkt_a_rubros_fsg(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.wrkt_a_rubros_fsg(
   aniosaldo int, 
   messaldo int, 
   linea_id int, 
@@ -3164,7 +3164,7 @@ PARTITIONED BY (
   entidadlegal_id string);
 
 
-CREATE TABLE IF NOT EXISTS cp_dwh.wrkt_empleado_posicion(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.wrkt_empleado_posicion(
   e_empleado_id string, 
   e_organizacion_id string, 
   e_numeroperiodo decimal(2,0), 
@@ -3198,7 +3198,7 @@ CREATE TABLE IF NOT EXISTS cp_dwh.wrkt_empleado_posicion(
   storeday string);
 
 
-CREATE TABLE cp_dwh.a_reporte_financiero_dtl(
+CREATE TABLE gb_mdl_mexico_costoproducir.a_reporte_financiero_dtl(
   reporte_id int, 
   linea_id int, 
   signo string, 
@@ -3225,7 +3225,7 @@ CREATE TABLE cp_dwh.a_reporte_financiero_dtl(
 
 
 
-CREATE TABLE cp_dwh.a_reporte_financiero(
+CREATE TABLE gb_mdl_mexico_costoproducir.a_reporte_financiero(
   reporte_id int, 
   linea_id int, 
   codigoconcepto string, 

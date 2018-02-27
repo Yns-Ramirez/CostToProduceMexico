@@ -1,15 +1,15 @@
--- ================== cp_dwh.CST_ITEM_COST_DETAILS_HIST monthly ==================
+-- ================== gb_mdl_mexico_costoproducir.CST_ITEM_COST_DETAILS_HIST monthly ==================
 -- Author / Autor             : Francisco Martinez
 -- Date / Fecha               : December 2016
 -- Project /Proyecto          : Costo Producir-Big Data
--- Objective / Objetivo       : Update information monthly, table cp_dwh.CST_ITEM_COST_DETAILS_HIST
+-- Objective / Objetivo       : Update information monthly, table gb_mdl_mexico_costoproducir.CST_ITEM_COST_DETAILS_HIST
 -- Subject Area / Area Sujeto :
 
 -- delete data with the field FECHA_ACTUALIZACION related with the month is closing
-INSERT OVERWRITE table cp_dwh.CST_ITEM_COST_DETAILS_HIST partition(fecha_actualizacion)
-SELECT tmp.* FROM cp_dwh.CST_ITEM_COST_DETAILS_HIST tmp 
+INSERT OVERWRITE table gb_mdl_mexico_costoproducir.CST_ITEM_COST_DETAILS_HIST partition(fecha_actualizacion)
+SELECT tmp.* FROM gb_mdl_mexico_costoproducir.CST_ITEM_COST_DETAILS_HIST tmp 
 left outer join (SELECT a.FECHA_ACTUALIZACION,a.INVENTORY_ITEM_ID,a.ORGANIZATION_ID,a.COST_TYPE_ID 
-FROM cp_dwh.CST_ITEM_COST_DETAILS_HIST a
+FROM gb_mdl_mexico_costoproducir.CST_ITEM_COST_DETAILS_HIST a
 WHERE a.FECHA_ACTUALIZACION between (add_months(FROM_UNIXTIME(UNIX_TIMESTAMP()),1) -1) and FROM_UNIXTIME(UNIX_TIMESTAMP())-1) sec 
 on tmp.FECHA_ACTUALIZACION=sec.FECHA_ACTUALIZACION
 and tmp.INVENTORY_ITEM_ID=sec.INVENTORY_ITEM_ID
@@ -21,7 +21,7 @@ and sec.ORGANIZATION_ID is null
 and sec.COST_TYPE_ID is null;
 
 -- insert data with the field FECHA_ACTUALIZACION with the last date of the month is closing
-insert overwrite table cp_dwh.CST_ITEM_COST_DETAILS_HIST partition(fecha_actualizacion)
+insert overwrite table gb_mdl_mexico_costoproducir.CST_ITEM_COST_DETAILS_HIST partition(fecha_actualizacion)
 SELECT
   ---CURRENT_DATE-1
   cd.INVENTORY_ITEM_ID
@@ -127,6 +127,6 @@ SELECT
   ,cd.SHIP_METHOD
   ,cd.storeday
   ,date_sub(add_months(concat(vfe.fechaini),1), 1) as fecha
-FROM erp_mexico_sz.CST_ITEM_COST_DETAILS cd, cp_view.v_fechas_extraccion_hist vfe
+FROM erp_mexico_sz.CST_ITEM_COST_DETAILS cd, gb_mdl_mexico_costoproducir_views.v_fechas_extraccion_hist vfe
 WHERE cd.USAGE_RATE_OR_AMOUNT NOT LIKE '-2e-5'
 and cd.storeday between to_date(date_add(vfe.fechaini,1)) and vfe.fechafin;

@@ -1,4 +1,4 @@
-insert overwrite table jedox.cp_data_detalle partition(entidadlegal_id, periodo) 
+insert overwrite table jedoxMexico.cp_data_detalle partition(entidadlegal_id, periodo) 
     select 
         execution_date,
         organizacion_id,
@@ -13,10 +13,10 @@ insert overwrite table jedox.cp_data_detalle partition(entidadlegal_id, periodo)
         from_unixtime(unix_timestamp()) as storeday,
         entidadlegal_id,
         regexp_replace(periodo, '\'', '')
-    from jedox.cp_data_detalle_tmp;
+    from jedoxMexico.cp_data_detalle_tmp;
 
 
-insert overwrite table jedox.cp_data_piezas partition(entidadlegal_id, periodo) 
+insert overwrite table jedoxMexico.cp_data_piezas partition(entidadlegal_id, periodo) 
     select 
         execution_date,
         planta_id,
@@ -28,9 +28,9 @@ insert overwrite table jedox.cp_data_piezas partition(entidadlegal_id, periodo)
         from_unixtime(unix_timestamp()) as storeday,
         entidadlegal_id,
         regexp_replace(periodo, '\'', '')
-    from jedox.cp_data_piezas_tmp;
+    from jedoxMexico.cp_data_piezas_tmp;
 
-insert overwrite table jedox.cp_data_sumario partition(entidadlegal_id, periodo) 
+insert overwrite table jedoxMexico.cp_data_sumario partition(entidadlegal_id, periodo) 
     select 
         execution_date string, 
         organizacion_id string, 
@@ -46,4 +46,4 @@ insert overwrite table jedox.cp_data_sumario partition(entidadlegal_id, periodo)
         from_unixtime(unix_timestamp()) as storeday,
         entidadlegal_id string, 
         regexp_replace(periodo, '\'', '')
-    from jedox.cp_data_sumario_tmp;
+    from jedoxMexico.cp_data_sumario_tmp;

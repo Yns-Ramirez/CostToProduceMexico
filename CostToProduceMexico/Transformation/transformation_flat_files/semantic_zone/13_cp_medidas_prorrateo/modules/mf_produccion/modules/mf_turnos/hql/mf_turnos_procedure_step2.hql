@@ -1,5 +1,5 @@
 -- Se inserta uno a uno los turnos rotativos en tabla de trabajo WRKT_MF_Turnos
-          INSERT INTO table cp_view.wrkt_mf_turnos partition(entidadlegal_id)
+          INSERT INTO table gb_mdl_mexico_costoproducir_views.wrkt_mf_turnos partition(entidadlegal_id)
                SELECT
                TC2.MF_Organizacion_ID
                ,TC2.Planta_ID
@@ -163,14 +163,14 @@
                                         ,T1_.Fecha_Inicia                      AS  Fecha_Inicia
                                         ,T1_.Fecha_Fin                         AS Fecha_Fin
                                         ,'S/I'                               AS Observaciones
-                                        FROM cp_view.v_mf_turnos_cuenta T1_ 
-                                        JOIN cp_dwh_mf.MF_PLANTAS P  ON   TRIM(T1_.EntidadLegal_ID)  = TRIM(P.EntidadLegal_ID) AND TRIM(T1_.Planta_ID) = TRIM(P.Planta_ID) AND lower(Sistema_Fuente) = lower('CP')
-                                        JOIN cp_dwh_mf.mf_lineas_prod L ON  TRIM(T1_.EntidadLegal_ID)  = TRIM(L.EntidadLegal_ID) AND  T1_.Linea_Prod_ID =  L.Linea_Prod_ID
+                                        FROM gb_mdl_mexico_costoproducir_views.v_mf_turnos_cuenta T1_ 
+                                        JOIN gb_mdl_mexico_manufactura.MF_PLANTAS P  ON   TRIM(T1_.EntidadLegal_ID)  = TRIM(P.EntidadLegal_ID) AND TRIM(T1_.Planta_ID) = TRIM(P.Planta_ID) AND lower(Sistema_Fuente) = lower('CP')
+                                        JOIN gb_mdl_mexico_manufactura.mf_lineas_prod L ON  TRIM(T1_.EntidadLegal_ID)  = TRIM(L.EntidadLegal_ID) AND  T1_.Linea_Prod_ID =  L.Linea_Prod_ID
                                         join 
                                         (
                                              -- Traemos aquellas EL activas y que solo estan en STG
                                              SELECT eamf1_.EntidadLegal_ID 
-                                             FROM cp_view.V_ENTIDADESLEGALES_ACTIVAS_MF eamf1_
+                                             FROM gb_mdl_mexico_costoproducir_views.V_ENTIDADESLEGALES_ACTIVAS_MF eamf1_
                                              WHERE eamf1_.EntidadLegal_ID  IN (SELECT EntidadLegal_ID FROM cp_flat_files.MF_TURNOS GROUP BY EntidadLegal_ID)
                                              GROUP BY eamf1_.EntidadLegal_ID
                                         ) eamf_2 on p.EntidadLegal_ID = eamf_2.EntidadLegal_ID
@@ -190,19 +190,19 @@
                                         ,T2_.Fecha_Inicia                     AS  Fecha_Inicia
                                         ,T2_.Fecha_Fin                        AS Fecha_Fin
                                         ,T2_.Observaciones                    AS Observaciones
-                                        FROM cp_view.wrkt_mf_turnos_rotativos T2_
-                                        JOIN cp_view.V_MF_Turnos_Cuenta C
+                                        FROM gb_mdl_mexico_costoproducir_views.wrkt_mf_turnos_rotativos T2_
+                                        JOIN gb_mdl_mexico_costoproducir_views.V_MF_Turnos_Cuenta C
                                              ON T2_.EntidadLegal_ID = C.EntidadLegal_ID
                                              AND T2_.Planta_ID = C.Planta_ID
                                              AND T2_.Linea_Prod_ID = C.Linea_Prod_ID
                                              AND T2_.Turno_ID = C.Turno_ID
-                                        JOIN cp_dwh_mf.MF_PLANTAS P2
+                                        JOIN gb_mdl_mexico_manufactura.MF_PLANTAS P2
                                              ON   TRIM(T2_.EntidadLegal_ID)  = TRIM(P2.EntidadLegal_ID) AND TRIM(T2_.Planta_ID) = TRIM(P2.Planta_ID)
-                                        JOIN cp_dwh_mf.mf_lineas_prod L2
+                                        JOIN gb_mdl_mexico_manufactura.mf_lineas_prod L2
                                              ON  TRIM(T2_.EntidadLegal_ID)  = TRIM(L2.EntidadLegal_ID) AND  T2_.Linea_Prod_ID =  L2.Linea_Prod_ID  
                                         join (
                                              SELECT eamf2_.EntidadLegal_ID 
-                                             FROM cp_view.V_ENTIDADESLEGALES_ACTIVAS_MF eamf2_
+                                             FROM gb_mdl_mexico_costoproducir_views.V_ENTIDADESLEGALES_ACTIVAS_MF eamf2_
                                              WHERE eamf2_.EntidadLegal_ID  IN (SELECT EntidadLegal_ID FROM cp_flat_files.MF_TURNOS GROUP BY EntidadLegal_ID)
                                              GROUP BY eamf2_.EntidadLegal_ID
                                              )eamf3_ on P2.EntidadLegal_ID = eamf3_.EntidadLegal_ID
@@ -228,7 +228,7 @@
                ) TC2
           LEFT OUTER JOIN (
                SELECT EntidadLegal_ID, MF_Organizacion_ID, Planta_ID, Linea_Prod_ID, Turno_ID,  Periodo, TurnoFechaIni, TurnoFechaFin, TurnoHraIni,TurnoHraFinal
-                    FROM cp_view.wrkt_mf_turnos
+                    FROM gb_mdl_mexico_costoproducir_views.wrkt_mf_turnos
                )wmft on TC2.EntidadLegal_ID = wmft.EntidadLegal_ID and TC2.MF_Organizacion_ID = wmft.MF_Organizacion_ID and TC2.Planta_ID = wmft.Planta_ID and TC2.Linea_Prod_ID = wmft.Linea_Prod_ID and TC2.Turno_ID = wmft.Turno_ID and TC2.Periodo = wmft.Periodo and TC2.TurnoFechaIni = wmft.TurnoFechaIni and TC2.TurnoFechaFin = wmft.TurnoFechaFin and TC2.TurnoHraIni = wmft.TurnoHraIni and TC2.TurnoHraFinal = wmft.TurnoHraFinal
           WHERE
           wmft.EntidadLegal_ID is null and wmft.MF_Organizacion_ID is null and wmft.Planta_ID is null and wmft.Linea_Prod_ID is null and wmft.Turno_ID is null and wmft.Periodo is null and wmft.TurnoFechaIni is null and wmft.TurnoFechaFin is null and wmft.TurnoHraIni is null and wmft.TurnoHraFinal is null
@@ -237,7 +237,7 @@
 
 
           -- Se actualiza el status de procesado en la tabla de trabajo WRKT_MF_Turnos_Rotativos
-          insert overwrite table cp_view.wrkt_mf_turnos_rotativos partition(entidadlegal_id)
+          insert overwrite table gb_mdl_mexico_costoproducir_views.wrkt_mf_turnos_rotativos partition(entidadlegal_id)
                select 
                mf_organizacion_id,
                planta_id,
@@ -253,5 +253,5 @@
                observaciones,
                storeday,
                entidadlegal_id
-               from cp_view.wrkt_mf_turnos_rotativos
+               from gb_mdl_mexico_costoproducir_views.wrkt_mf_turnos_rotativos
                where Orden_Turno = ${hiveconf:orden_turno};

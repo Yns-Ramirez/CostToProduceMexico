@@ -1,6 +1,6 @@
 -- Se eliminan previos de ejecucion de acuerdo al periodo a ejecutar en mf_produccion
-insert overwrite table cp_app_costoproducir.cp_medidas_prorrateo partition(entidadlegal_id)
-    select p.* from cp_app_costoproducir.cp_medidas_prorrateo p
+insert overwrite table gb_smntc_mexico_costoproducir.cp_medidas_prorrateo partition(entidadlegal_id)
+    select p.* from gb_smntc_mexico_costoproducir.cp_medidas_prorrateo p
     left join 
         (select 
             0 as mf_organizacion_id ,
@@ -31,15 +31,15 @@ insert overwrite table cp_app_costoproducir.cp_medidas_prorrateo partition(entid
     ,0 as fecha_carga
     ,from_unixtime(unix_timestamp()) as storeday
     ,el.entidadlegal_id
-    from (select distinct entidadlegal_id from cp_app_costoproducir.cp_medidas_prorrateo) el;
+    from (select distinct entidadlegal_id from gb_smntc_mexico_costoproducir.cp_medidas_prorrateo) el;
     
-insert overwrite table cp_app_costoproducir.cp_medidas_prorrateo partition(entidadlegal_id)
-  select * from cp_app_costoproducir.cp_medidas_prorrateo
+insert overwrite table gb_smntc_mexico_costoproducir.cp_medidas_prorrateo partition(entidadlegal_id)
+  select * from gb_smntc_mexico_costoproducir.cp_medidas_prorrateo
   where periodo != '${hiveconf:speriod}';
 
 -- set paso = 7
 -- obtenemos medida de prorrateo de kilos producidos   
-insert into table cp_app_costoproducir.cp_medidas_prorrateo partition(entidadlegal_id)
+insert into table gb_smntc_mexico_costoproducir.cp_medidas_prorrateo partition(entidadlegal_id)
 select
      pr.periodo
      ,pr.mf_organizacion_id
@@ -102,30 +102,30 @@ from
                          ,pr.mf_producto_id                    
                          ,sum(pr.total_registrado) as total_registrado
                          ,max(pr.storeday) as storeday
-                    from cp_view.v_mf_produccion pr
+                    from gb_mdl_mexico_costoproducir_views.v_mf_produccion pr
                     left join
                     (
                          select vpm2.periodo, vpm2.entidadlegal_id, vpm2.mf_organizacion_id, vpm2.mf_producto_id 
-                         from cp_app_costoproducir.v_producto_maquilado vpm2
-                         where vpm2.periodo = '${hiveconf:speriod}' and cast(vpm2.entidadlegal_id as int) in (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id)
+                         from gb_smntc_mexico_costoproducir.v_producto_maquilado vpm2
+                         where vpm2.periodo = '${hiveconf:speriod}' and cast(vpm2.entidadlegal_id as int) in (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id)
                          group by vpm2.periodo, vpm2.entidadlegal_id, vpm2.mf_organizacion_id, vpm2.mf_producto_id
                     ) vpm
                     on vpm.periodo = substr(pr.fecha,1,7) and vpm.entidadlegal_id = pr.entidadlegal_id and vpm.mf_organizacion_id = pr.mf_organizacion_id and vpm.mf_producto_id = pr.mf_producto_id
 
                     where pr.linea_prod_id <> -1 and pr.total_registrado <> 0                                    
                          and pr.fecha between concat('${hiveconf:speriod}','-01') and date_sub(add_months(concat('${hiveconf:speriod}','-01'),1), 1)  
-                         and cast(pr.entidadlegal_id as int) in (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id)
+                         and cast(pr.entidadlegal_id as int) in (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id)
                          and vpm.periodo is null and vpm.entidadlegal_id is null and vpm.mf_organizacion_id is null and vpm.mf_producto_id is null
                     group by substr(pr.fecha,1, 7), pr.entidadlegal_id, pr.mf_organizacion_id, pr.planta_id, pr.linea_prod_id, pr.turno_id, pr.mf_producto_id
                     having sum(pr.total_registrado) <> 0
                     
                ) pr    
-               left outer join cp_app_costoproducir.v_mf_producto_organizacion p                            
+               left outer join gb_smntc_mexico_costoproducir.v_mf_producto_organizacion p                            
                     on pr.entidadlegal_id     = p.entidadlegal_id 
                     and pr.mf_organizacion_id = p.mf_organizacion_id     
                     and pr.planta_id          = p.planta_id    
                     and pr.mf_producto_id     = p.mf_producto_id  
-          where pr.periodo = '${hiveconf:speriod}' and cast(pr.entidadlegal_id as int) in (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id)         
+          where pr.periodo = '${hiveconf:speriod}' and cast(pr.entidadlegal_id as int) in (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id)         
           group by pr.periodo, pr.entidadlegal_id, pr.mf_organizacion_id, pr.planta_id, pr.linea_prod_id, pr.turno_id, pr.mf_producto_id, coalesce(p.gramaje,-1), 1
          
      ) pr     
@@ -142,7 +142,7 @@ from
                     ,tot.turnos_planta_produccion
                     ,tot.turnos_default           as turnos_linea_default
                     ,count(distinct pr.turno_id)  as turnos_linea_produccion
-               from cp_view.v_mf_produccion pr
+               from gb_mdl_mexico_costoproducir_views.v_mf_produccion pr
                     inner join
                          (
                               select
@@ -153,24 +153,24 @@ from
                                    ,count(distinct pr.linea_prod_id) * max(td.total_turnos_default) as turnos_planta_asignados
                                    ,count(distinct concat(pr.linea_prod_id, pr.turno_id) )   as turnos_planta_produccion
                                    ,max(td.total_turnos_default) as turnos_default
-                              from cp_view.v_mf_produccion pr
+                              from gb_mdl_mexico_costoproducir_views.v_mf_produccion pr
                                    inner join
                                         (
                                              select
                                                   t.entidadlegal_id
                                                   ,count (distinct t.turno_id) as total_turnos_default
-                                             from cp_dwh_mf.mf_turno_default t
+                                             from gb_mdl_mexico_manufactura.mf_turno_default t
                                              group by t.entidadlegal_id
                                         ) td on trim(pr.entidadlegal_id) = trim(td.entidadlegal_id)
                               where pr.linea_prod_id <> -1 and pr.total_registrado <> 0
                                    and pr.fecha >= concat('${hiveconf:speriod}','-01') and pr.fecha <= date_sub(add_months(concat('${hiveconf:speriod}','-01'),1), 1)
-                                   and pr.entidadlegal_id in  (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id)
+                                   and pr.entidadlegal_id in  (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id)
                               group by substr(pr.fecha, 1, 7), pr.entidadlegal_id, pr.mf_organizacion_id, pr.planta_id
                               having (count(distinct pr.linea_prod_id) * max(td.total_turnos_default))  <> 0
                          ) tot on substr(pr.fecha, 1, 7) = tot.periodo and pr.entidadlegal_id = tot.entidadlegal_id and pr.mf_organizacion_id = tot.mf_organizacion_id and pr.planta_id = tot.planta_id
                where pr.linea_prod_id <> -1 and pr.total_registrado <> 0
                     and pr.fecha >= concat('${hiveconf:speriod}','-01') and pr.fecha <= date_sub(add_months(concat('${hiveconf:speriod}','-01'),1), 1)
-                    and pr.entidadlegal_id in (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id)
+                    and pr.entidadlegal_id in (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id)
                group by substr(pr.fecha, 1, 7), pr.entidadlegal_id, pr.mf_organizacion_id, pr.planta_id, pr.linea_prod_id, tot.turnos_planta_asignados, tot.turnos_planta_produccion, tot.turnos_default
                having count(distinct pr.turno_id) <> 0  
                    
@@ -179,7 +179,7 @@ from
 
 -- set paso = 8
 -- obtenemos medida de prorrateo de tiempo de produccion       
-insert into table cp_app_costoproducir.cp_medidas_prorrateo partition(entidadlegal_id)
+insert into table gb_smntc_mexico_costoproducir.cp_medidas_prorrateo partition(entidadlegal_id)
 select
      pr.periodo 
      ,pr.mf_organizacion_id                                    
@@ -243,21 +243,21 @@ from
                          ,max(pr.ritmo) as ritmo
                          ,sum(pr.total_registrado) as total_registrado
                          ,max(pr.storeday) as storeday
-                    from cp_view.v_mf_produccion pr
+                    from gb_mdl_mexico_costoproducir_views.v_mf_produccion pr
                     left join (
                               select vpm2.periodo, vpm2.entidadlegal_id, vpm2.mf_organizacion_id, vpm2.mf_producto_id
-                              from cp_app_costoproducir.v_producto_maquilado vpm2
-                              where vpm2.periodo = '${hiveconf:speriod}' and vpm2.entidadlegal_id in (select ea1.entidadlegal_id from cp_view.v_entidadlegal_activas ea1 group by ea1.entidadlegal_id)
+                              from gb_smntc_mexico_costoproducir.v_producto_maquilado vpm2
+                              where vpm2.periodo = '${hiveconf:speriod}' and vpm2.entidadlegal_id in (select ea1.entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas ea1 group by ea1.entidadlegal_id)
                               group by vpm2.periodo, vpm2.entidadlegal_id, vpm2.mf_organizacion_id, vpm2.mf_producto_id
                          ) vpm1 on substr(pr.fecha, 1, 7) = vpm1.periodo and pr.entidadlegal_id = vpm1.entidadlegal_id and pr.mf_organizacion_id = vpm1.mf_organizacion_id and pr.mf_producto_id = vpm1.mf_producto_id
                          where pr.linea_prod_id <> -1 and pr.total_registrado <> 0
                               and pr.fecha between concat('${hiveconf:speriod}','-01') and date_sub(add_months(concat('${hiveconf:speriod}','-01'),1), 1)
-                              and pr.entidadlegal_id in (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id)
+                              and pr.entidadlegal_id in (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id)
                               and vpm1.periodo is null and vpm1.entidadlegal_id is null and vpm1.mf_organizacion_id is null and vpm1.mf_producto_id is null
                     group by substr(pr.fecha, 1, 7), pr.entidadlegal_id, pr.mf_organizacion_id, pr.planta_id, pr.linea_prod_id, pr.turno_id, pr.mf_producto_id
                     
                ) pr
-          where pr.periodo = '${hiveconf:speriod}' and pr.entidadlegal_id in (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id)         
+          where pr.periodo = '${hiveconf:speriod}' and pr.entidadlegal_id in (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id)         
           group by pr.periodo, pr.entidadlegal_id, pr.mf_organizacion_id, pr.planta_id, pr.linea_prod_id, pr.turno_id, pr.mf_producto_id, 2, pr.ritmo
           having sum(pr.total_registrado / pr.ritmo ) <> 0
      ) pr     
@@ -273,7 +273,7 @@ from
                     ,tot.turnos_planta_produccion
                     ,tot.turnos_default           as turnos_linea_default
                     ,count(distinct pr.turno_id)  as turnos_linea_produccion
-               from cp_view.v_mf_produccion pr
+               from gb_mdl_mexico_costoproducir_views.v_mf_produccion pr
                join
                     (
                          select
@@ -284,24 +284,24 @@ from
                               ,count(distinct pr.linea_prod_id) * max(td.total_turnos_default) as turnos_planta_asignados
                               ,count(distinct concat(pr.linea_prod_id, pr.turno_id) ) as turnos_planta_produccion
                               ,max(td.total_turnos_default) as turnos_default
-                         from cp_view.v_mf_produccion pr
+                         from gb_mdl_mexico_costoproducir_views.v_mf_produccion pr
                               inner join
                                    (
                                         select
                                              t.entidadlegal_id
                                              ,count (distinct t.turno_id) as total_turnos_default
-                                        from cp_dwh_mf.mf_turno_default t
+                                        from gb_mdl_mexico_manufactura.mf_turno_default t
                                         group by t.entidadlegal_id
                                    ) td on trim(pr.entidadlegal_id) = trim(td.entidadlegal_id)
                          where pr.linea_prod_id <> -1 and pr.total_registrado <> 0
                               and pr.fecha between concat('${hiveconf:speriod}','-01') and date_sub(add_months(concat('${hiveconf:speriod}','-01'),1), 1)
-                              and pr.entidadlegal_id in  (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id)
+                              and pr.entidadlegal_id in  (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id)
                          group by substr(pr.fecha, 1,7),pr.entidadlegal_id, pr.mf_organizacion_id, pr.planta_id
                          having (count(distinct pr.linea_prod_id) * max(td.total_turnos_default))  <> 0
                     ) tot on substr(pr.fecha, 1,7) = tot.periodo and pr.entidadlegal_id = tot.entidadlegal_id and pr.mf_organizacion_id = tot.mf_organizacion_id and pr.planta_id = tot.planta_id
                where pr.linea_prod_id <> -1 and pr.total_registrado <> 0
                     and pr.fecha between concat('${hiveconf:speriod}','-01') and date_sub(add_months(concat('${hiveconf:speriod}','-01'),1), 1)
-                    and pr.entidadlegal_id in  (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id)
+                    and pr.entidadlegal_id in  (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id)
                group by substr(pr.fecha, 1,7), pr.entidadlegal_id, pr.mf_organizacion_id, pr.planta_id, pr.linea_prod_id, tot.turnos_planta_asignados, tot.turnos_planta_produccion, tot.turnos_default
                having count(distinct pr.turno_id) <> 0
           ) t 
@@ -309,7 +309,7 @@ from
 
 -- set paso = 9
 -- obtenemos medida de prorrateo mxn costo estandard
-insert into table cp_app_costoproducir.cp_medidas_prorrateo partition(entidadlegal_id)
+insert into table gb_smntc_mexico_costoproducir.cp_medidas_prorrateo partition(entidadlegal_id)
 select
      pr.periodo
      ,pr.mf_organizacion_id
@@ -369,18 +369,18 @@ from
                          ,pr.mf_producto_id
                          ,sum(pr.total_registrado) as total_registrado
                          ,max(pr.storeday) as storeday
-                    from cp_view.v_mf_produccion pr
+                    from gb_mdl_mexico_costoproducir_views.v_mf_produccion pr
                     left join
                     (
                          select vpm2.periodo, vpm2.entidadlegal_id, vpm2.mf_organizacion_id, vpm2.mf_producto_id
-                         from cp_app_costoproducir.v_producto_maquilado vpm2
-                         where vpm2.periodo = '${hiveconf:speriod}' and vpm2.entidadlegal_id in (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id)
+                         from gb_smntc_mexico_costoproducir.v_producto_maquilado vpm2
+                         where vpm2.periodo = '${hiveconf:speriod}' and vpm2.entidadlegal_id in (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id)
                          group by vpm2.periodo, vpm2.entidadlegal_id, vpm2.mf_organizacion_id, vpm2.mf_producto_id
                     ) vpm
                     on vpm.periodo = substr(pr.fecha,1,7) and vpm.entidadlegal_id = pr.entidadlegal_id and vpm.mf_organizacion_id = pr.mf_organizacion_id and vpm.mf_producto_id = pr.mf_producto_id 
                     where pr.linea_prod_id <> -1 and pr.total_registrado <> 0
                          and pr.fecha between concat('${hiveconf:speriod}','-01') and date_sub(add_months(concat('${hiveconf:speriod}','-01'),1), 1)
-                         and pr.entidadlegal_id in (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id)
+                         and pr.entidadlegal_id in (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id)
                          and vpm.periodo is null and vpm.entidadlegal_id is null and vpm.mf_organizacion_id is null and vpm.mf_producto_id is null
                     group by substr(pr.fecha,1, 7), pr.entidadlegal_id, pr.mf_organizacion_id, pr.planta_id, pr.linea_prod_id, pr.turno_id, pr.mf_producto_id
                     having sum(pr.total_registrado) <> 0
@@ -388,9 +388,9 @@ from
                left outer join
                     (
                          select cp1.periodo, cp1.entidadlegal_id, cp1.mf_organizacion_id, cp1.planta_id, cp1.mf_producto_id,  sum(cp1.costo) as costo_pt
-                         from cp_app_costoproducir.v_mf_costo_prod cp1
+                         from gb_smntc_mexico_costoproducir.v_mf_costo_prod cp1
                          where cp1.tipo_costo_id in (1,2,3,4,9)
-                              and cp1.entidadlegal_id in  (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id) and periodo = '${hiveconf:speriod}'
+                              and cp1.entidadlegal_id in  (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id) and periodo = '${hiveconf:speriod}'
                          group by cp1.periodo, cp1.entidadlegal_id, cp1.mf_organizacion_id, cp1.planta_id, cp1.mf_producto_id
                     ) cp
                on pr.entidadlegal_id = cp.entidadlegal_id
@@ -398,7 +398,7 @@ from
                     and pr.planta_id = cp.planta_id
                     and pr.mf_producto_id = cp.mf_producto_id
                     and pr.periodo = cp.periodo
-          where pr.periodo = '${hiveconf:speriod}' and pr.entidadlegal_id in  (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id)
+          where pr.periodo = '${hiveconf:speriod}' and pr.entidadlegal_id in  (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id)
           group by pr.periodo, pr.entidadlegal_id, pr.mf_organizacion_id, pr.planta_id, pr.linea_prod_id, pr.turno_id, pr.mf_producto_id, coalesce(cp.costo_pt,-1), 3
      ) pr
      inner join
@@ -413,7 +413,7 @@ from
                     ,tot.turnos_planta_produccion
                     ,tot.turnos_default           as turnos_linea_default
                     ,count(distinct pr.turno_id)  as turnos_linea_produccion
-               from cp_view.v_mf_produccion pr
+               from gb_mdl_mexico_costoproducir_views.v_mf_produccion pr
                join
                     (
                          select
@@ -424,24 +424,24 @@ from
                               ,count(distinct pr.linea_prod_id) * max(td.total_turnos_default) as turnos_planta_asignados
                               ,count(distinct concat(pr.linea_prod_id, pr.turno_id) ) as turnos_planta_produccion
                               ,max(td.total_turnos_default) as turnos_default
-                         from cp_view.v_mf_produccion pr
+                         from gb_mdl_mexico_costoproducir_views.v_mf_produccion pr
                               inner join
                                    (
                                         select
                                              t.entidadlegal_id
                                              ,count (distinct t.turno_id) as total_turnos_default
-                                        from cp_dwh_mf.mf_turno_default t
+                                        from gb_mdl_mexico_manufactura.mf_turno_default t
                                         group by t.entidadlegal_id
                                    ) td on trim(pr.entidadlegal_id) = trim(td.entidadlegal_id)
                          where pr.linea_prod_id <> -1 and pr.total_registrado <> 0
                               and pr.fecha between concat('${hiveconf:speriod}','-01') and date_sub(add_months(concat('${hiveconf:speriod}','-01'),1), 1)
-                              and pr.entidadlegal_id in  (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id)
+                              and pr.entidadlegal_id in  (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id)
                          group by substr(pr.fecha, 1,7),pr.entidadlegal_id, pr.mf_organizacion_id, pr.planta_id
                          having (count(distinct pr.linea_prod_id) * max(td.total_turnos_default))  <> 0
                     ) tot on substr(pr.fecha, 1,7) = tot.periodo and pr.entidadlegal_id = tot.entidadlegal_id and pr.mf_organizacion_id = tot.mf_organizacion_id and pr.planta_id = tot.planta_id
                where pr.linea_prod_id <> -1 and pr.total_registrado <> 0
                     and pr.fecha between concat('${hiveconf:speriod}','-01') and date_sub(add_months(concat('${hiveconf:speriod}','-01'),1), 1)
-                    and pr.entidadlegal_id in  (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id)
+                    and pr.entidadlegal_id in  (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id)
                group by substr(pr.fecha, 1,7), pr.entidadlegal_id, pr.mf_organizacion_id, pr.planta_id, pr.linea_prod_id, tot.turnos_planta_asignados, tot.turnos_planta_produccion, tot.turnos_default
                having count(distinct pr.turno_id) <> 0
           ) t
@@ -449,7 +449,7 @@ from
 
 -- set paso = 10
 -- obtenemos medida de prorrateo costo costo real
-insert into table cp_app_costoproducir.cp_medidas_prorrateo partition(entidadlegal_id)
+insert into table gb_smntc_mexico_costoproducir.cp_medidas_prorrateo partition(entidadlegal_id)
 select
      pr.periodo
      ,pr.mf_organizacion_id
@@ -509,18 +509,18 @@ from
                          ,pr.mf_producto_id
                          ,sum(pr.total_registrado) as total_registrado
                          ,max(pr.storeday) as storeday
-                    from cp_view.v_mf_produccion pr
+                    from gb_mdl_mexico_costoproducir_views.v_mf_produccion pr
                     left join
                     (
                          select vpm2.periodo, vpm2.entidadlegal_id, vpm2.mf_organizacion_id, vpm2.mf_producto_id
-                         from cp_app_costoproducir.v_producto_maquilado vpm2
-                         where vpm2.periodo = '${hiveconf:speriod}' and vpm2.entidadlegal_id in (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id)
+                         from gb_smntc_mexico_costoproducir.v_producto_maquilado vpm2
+                         where vpm2.periodo = '${hiveconf:speriod}' and vpm2.entidadlegal_id in (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id)
                          group by vpm2.periodo, vpm2.entidadlegal_id, vpm2.mf_organizacion_id, vpm2.mf_producto_id
                     ) vpm
                     on vpm.periodo = substr(pr.fecha,1,7) and vpm.entidadlegal_id = pr.entidadlegal_id and vpm.mf_organizacion_id = pr.mf_organizacion_id and vpm.mf_producto_id = pr.mf_producto_id
                     where pr.linea_prod_id <> -1 and pr.total_registrado <> 0
                          and pr.fecha between concat('${hiveconf:speriod}','-01') and date_sub(add_months(concat('${hiveconf:speriod}','-01'),1), 1)
-                         and pr.entidadlegal_id in (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id)
+                         and pr.entidadlegal_id in (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id)
                          and vpm.periodo is null and vpm.entidadlegal_id is null and vpm.mf_organizacion_id is null and vpm.mf_producto_id is null
                     group by substr(pr.fecha,1, 7), pr.entidadlegal_id, pr.mf_organizacion_id, pr.planta_id, pr.linea_prod_id, pr.turno_id, pr.mf_producto_id
                     having sum(pr.total_registrado) <> 0
@@ -528,12 +528,12 @@ from
                left outer join
                     (
                          select f.periodo, f.entidadlegal_id, f.mf_organizacion_id, f.planta_id, f.mf_producto_id, sum (f.cantidad * f.costoreal) as costo_pt
-                         from cp_app_costoproducir.v_mf_formulas f
-                         where f.entidadlegal_id in (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id) and periodo = '${hiveconf:speriod}'
+                         from gb_smntc_mexico_costoproducir.v_mf_formulas f
+                         where f.entidadlegal_id in (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id) and periodo = '${hiveconf:speriod}'
                          group by f.periodo, f.entidadlegal_id, f.mf_organizacion_id, f.planta_id, f.mf_producto_id
                     ) f
                on pr.entidadlegal_id = f.entidadlegal_id and pr.mf_organizacion_id = f.mf_organizacion_id and  pr.planta_id = f.planta_id and  pr.mf_producto_id = f.mf_producto_id and pr.periodo = f.periodo
-          where pr.periodo = '${hiveconf:speriod}' and pr.entidadlegal_id in  (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id)
+          where pr.periodo = '${hiveconf:speriod}' and pr.entidadlegal_id in  (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id)
           group by pr.periodo, pr.entidadlegal_id, pr.mf_organizacion_id, pr.planta_id, pr.linea_prod_id, pr.turno_id, pr.mf_producto_id, coalesce(f.costo_pt,-1)
      ) pr
      inner join
@@ -548,7 +548,7 @@ from
                     ,tot.turnos_planta_produccion
                     ,tot.turnos_default           as turnos_linea_default
                     ,count(distinct pr.turno_id)  as turnos_linea_produccion
-               from cp_view.v_mf_produccion pr
+               from gb_mdl_mexico_costoproducir_views.v_mf_produccion pr
                join
                     (
                          select
@@ -559,24 +559,24 @@ from
                               ,count(distinct pr.linea_prod_id) * max(td.total_turnos_default) as turnos_planta_asignados
                               ,count(distinct concat(pr.linea_prod_id, pr.turno_id) ) as turnos_planta_produccion
                               ,max(td.total_turnos_default) as turnos_default
-                         from cp_view.v_mf_produccion pr
+                         from gb_mdl_mexico_costoproducir_views.v_mf_produccion pr
                               inner join
                                    (
                                         select
                                              t.entidadlegal_id
                                              ,count (distinct t.turno_id) as total_turnos_default
-                                        from cp_dwh_mf.mf_turno_default t
+                                        from gb_mdl_mexico_manufactura.mf_turno_default t
                                         group by t.entidadlegal_id
                                    ) td on trim(pr.entidadlegal_id) = trim(td.entidadlegal_id)
                          where pr.linea_prod_id <> -1 and pr.total_registrado <> 0
                               and pr.fecha between concat('${hiveconf:speriod}','-01') and date_sub(add_months(concat('${hiveconf:speriod}','-01'),1), 1)
-                              and pr.entidadlegal_id in  (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id)
+                              and pr.entidadlegal_id in  (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id)
                          group by substr(pr.fecha, 1,7),pr.entidadlegal_id, pr.mf_organizacion_id, pr.planta_id
                          having (count(distinct pr.linea_prod_id) * max(td.total_turnos_default))  <> 0
                     ) tot on substr(pr.fecha, 1,7) = tot.periodo and pr.entidadlegal_id = tot.entidadlegal_id and pr.mf_organizacion_id = tot.mf_organizacion_id and pr.planta_id = tot.planta_id
                where pr.linea_prod_id <> -1 and pr.total_registrado <> 0
                     and pr.fecha between concat('${hiveconf:speriod}','-01') and date_sub(add_months(concat('${hiveconf:speriod}','-01'),1), 1)
-                    and pr.entidadlegal_id in  (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id)
+                    and pr.entidadlegal_id in  (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id)
                group by substr(pr.fecha, 1,7), pr.entidadlegal_id, pr.mf_organizacion_id, pr.planta_id, pr.linea_prod_id, tot.turnos_planta_asignados, tot.turnos_planta_produccion, tot.turnos_default
                having count(distinct pr.turno_id) <> 0
           ) t
@@ -584,7 +584,7 @@ from
 
 -- set paso = 11
 -- obtenemos metrica pzas producidas
-insert into table cp_app_costoproducir.cp_medidas_prorrateo partition(entidadlegal_id)
+insert into table gb_smntc_mexico_costoproducir.cp_medidas_prorrateo partition(entidadlegal_id)
 select
      pr.periodo 
      ,pr.mf_organizacion_id                                    
@@ -633,10 +633,10 @@ from
                ,5 as tipomedida_id -- pzas producidas tabla cp_tipo_medida                                       
                ,sum(pr.total_registrado) as total_medida 
                ,max(pr.storeday) as storeday 
-          from cp_view.v_mf_produccion pr    
+          from gb_mdl_mexico_costoproducir_views.v_mf_produccion pr    
           where pr.linea_prod_id <> -1 and pr.total_registrado <> 0
                and pr.fecha between concat('${hiveconf:speriod}','-01') and date_sub(add_months(concat('${hiveconf:speriod}','-01'),1), 1)
-               and pr.entidadlegal_id in (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id)                                 
+               and pr.entidadlegal_id in (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id)                                 
           group by substr(pr.fecha,1,7),pr.entidadlegal_id,pr.mf_organizacion_id,pr.planta_id,pr.linea_prod_id,pr.turno_id,pr.mf_producto_id
           having sum(pr.total_registrado) <> 0                    
      ) pr     
@@ -653,7 +653,7 @@ from
                     ,tot.turnos_planta_produccion
                     ,tot.turnos_default as turnos_linea_default
                     ,count(distinct pr.turno_id) as turnos_linea_produccion
-               from cp_view.v_mf_produccion pr  
+               from gb_mdl_mexico_costoproducir_views.v_mf_produccion pr  
                     inner join                                 
                          (                                     
                               --   obtenemos el total de turnos que produjeron y asignados por planta                 
@@ -665,19 +665,19 @@ from
                                    ,count(distinct pr.linea_prod_id) * max(td.total_turnos_default) as turnos_planta_asignados
                                    ,count(distinct concat(pr.linea_prod_id, pr.turno_id) ) as turnos_planta_produccion
                                    ,max(td.total_turnos_default) as turnos_default 
-                              from cp_view.v_mf_produccion pr
+                              from gb_mdl_mexico_costoproducir_views.v_mf_produccion pr
                                    inner join 
                                         (
                                              select
                                                   t.entidadlegal_id
                                                   ,count (distinct t.turno_id) as total_turnos_default
-                                             from cp_dwh_mf.mf_turno_default t
+                                             from gb_mdl_mexico_manufactura.mf_turno_default t
                                              group by t.entidadlegal_id
                                         ) td on trim(pr.entidadlegal_id) = trim(td.entidadlegal_id)
                               where pr.linea_prod_id <> -1 and pr.total_registrado <> 0                               
                                    and pr.fecha between concat('${hiveconf:speriod}','-01') and date_sub(add_months(concat('${hiveconf:speriod}','-01'),1), 1)
                                    and pr.entidadlegal_id in (select entidadlegal_id 
-                                        from cp_view.v_entidadlegal_activas group by entidadlegal_id)               
+                                        from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id)               
                               group by substr(pr.fecha,1,7),pr.entidadlegal_id,pr.mf_organizacion_id,pr.planta_id
                               having (count(distinct pr.linea_prod_id) * max(td.total_turnos_default)) <> 0                   
                          ) tot on substr(pr.fecha,1,7) = tot.periodo 
@@ -686,7 +686,7 @@ from
                               and pr.planta_id = tot.planta_id    
                where pr.linea_prod_id <> -1 and pr.total_registrado <> 0                                         
                     and pr.fecha between concat('${hiveconf:speriod}','-01') and date_sub(add_months(concat('${hiveconf:speriod}','-01'),1), 1)
-                    and pr.entidadlegal_id in  (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id)                           
+                    and pr.entidadlegal_id in  (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id)                           
               group by substr(pr.fecha,1,7),pr.entidadlegal_id,pr.mf_organizacion_id,pr.planta_id,pr.linea_prod_id
               ,tot.turnos_planta_asignados,tot.turnos_planta_produccion,tot.turnos_default
               having count(distinct pr.turno_id) <> 0          
@@ -700,7 +700,7 @@ from
      
 -- set paso = 12
 -- Obtenemos metrica Metros Cuadrados                          
-INSERT INTO table cp_app_costoproducir.CP_Medidas_Prorrateo partition(entidadlegal_id)
+INSERT INTO table gb_smntc_mexico_costoproducir.CP_Medidas_Prorrateo partition(entidadlegal_id)
   SELECT        
      ML.Periodo
      ,ML.MF_Organizacion_ID
@@ -732,9 +732,9 @@ FROM
                ,a.Planta_ID                                      
                ,a.Linea_Prod_ID                                  
                ,SUM(a.Metros2) AS Metros2                        
-          FROM cp_app_costoproducir.CP_Lineas_Prod_Metros a
+          FROM gb_smntc_mexico_costoproducir.CP_Lineas_Prod_Metros a
           WHERE a.Fecha_Fin IS NULL
-           AND a.EntidadLegal_ID IN (SELECT EntidadLegal_ID FROM cp_view.V_EntidadLegal_Activas GROUP BY EntidadLegal_ID)                                     
+           AND a.EntidadLegal_ID IN (SELECT EntidadLegal_ID FROM gb_mdl_mexico_costoproducir_views.V_EntidadLegal_Activas GROUP BY EntidadLegal_ID)                                     
           GROUP BY a.EntidadLegal_ID,a.MF_Organizacion_ID,a.Planta_ID,a.Linea_Prod_ID
           HAVING SUM(a.Metros2) <> 0               
      ) ML     
@@ -751,7 +751,7 @@ FROM
                     ,TOT.Turnos_Planta_Produccion              
                     ,TOT.Turnos_Default AS Turnos_Linea_Default 
                     ,COUNT(DISTINCT PR.Turno_ID) AS Turnos_Linea_Produccion                                     
-               FROM cp_view.v_mf_produccion PR  
+               FROM gb_mdl_mexico_costoproducir_views.v_mf_produccion PR  
                     INNER JOIN                                 
                          (                                     
                               --   Obtenemos el total de turnos que produjeron y asignados por planta                 
@@ -763,18 +763,18 @@ FROM
                                    ,COUNT(DISTINCT PR.Linea_Prod_ID) * MAX(TD.Total_Turnos_Default) AS Turnos_Planta_Asignados
                                    ,count(distinct concat(trim(cast(pr.linea_prod_id as string)),trim(cast(pr.turno_id as string)))) as turnos_planta_produccion
                                    ,MAX(TD.Total_Turnos_Default) AS Turnos_Default 
-                              FROM cp_view.v_mf_produccion PR
+                              FROM gb_mdl_mexico_costoproducir_views.v_mf_produccion PR
                                    INNER JOIN 
                                         (
                                         SELECT
                                              T.EntidadLegal_ID
                                              ,COUNT (DISTINCT T.Turno_ID) AS Total_Turnos_Default
-                                             FROM cp_dwh_mf.MF_Turno_Default T
+                                             FROM gb_mdl_mexico_manufactura.MF_Turno_Default T
                                              GROUP BY T.EntidadLegal_ID
                                         ) td on trim(pr.entidadlegal_id) = trim(td.entidadlegal_id)
                               WHERE PR.Linea_Prod_ID <> -1 AND PR.Total_Registrado <> 0                               
                                    AND PR.Fecha BETWEEN concat('${hiveconf:speriod}','-01') AND date_sub(add_months(concat('${hiveconf:speriod}','-01'),1), 1)
-                                   AND PR.EntidadLegal_ID IN  (SELECT EntidadLegal_ID FROM cp_view.V_EntidadLegal_Activas GROUP BY EntidadLegal_ID)               
+                                   AND PR.EntidadLegal_ID IN  (SELECT EntidadLegal_ID FROM gb_mdl_mexico_costoproducir_views.V_EntidadLegal_Activas GROUP BY EntidadLegal_ID)               
                               GROUP BY SUBSTRING(PR.Fecha,1,7),PR.EntidadLegal_ID,PR.MF_Organizacion_ID,PR.Planta_ID
                               HAVING (COUNT(DISTINCT PR.Linea_Prod_ID) * MAX(TD.Total_Turnos_Default))  <> 0                   
                          ) TOT ON SUBSTRING(PR.Fecha,1,7) = TOT.Periodo 
@@ -784,7 +784,7 @@ FROM
                WHERE PR.Linea_Prod_ID <> -1 AND PR.Total_Registrado <> 0                                         
                     AND PR.Fecha BETWEEN concat('${hiveconf:speriod}','-01') AND date_sub(add_months(concat('${hiveconf:speriod}','-01'),1), 1)
                     AND PR.EntidadLegal_ID IN  (SELECT EntidadLegal_ID 
-                         FROM cp_view.V_EntidadLegal_Activas GROUP BY EntidadLegal_ID)                          
+                         FROM gb_mdl_mexico_costoproducir_views.V_EntidadLegal_Activas GROUP BY EntidadLegal_ID)                          
               GROUP BY SUBSTRING(PR.Fecha,1,7),PR.EntidadLegal_ID,PR.MF_Organizacion_ID,PR.Planta_ID,PR.Linea_Prod_ID,TOT.Turnos_Planta_Asignados
                     ,TOT.Turnos_Planta_Produccion,TOT.Turnos_Default
               HAVING COUNT(DISTINCT PR.Turno_ID) <> 0          
@@ -798,7 +798,7 @@ FROM
 
 -- set paso = 13
 -- Obtenemos la metrica de Productos Producidos sin Línea      
-INSERT INTO table cp_app_costoproducir.CP_Medidas_Prorrateo partition(entidadlegal_id)
+INSERT INTO table gb_smntc_mexico_costoproducir.CP_Medidas_Prorrateo partition(entidadlegal_id)
     SELECT        
      PR.Periodo                                       
      ,PR.MF_Organizacion_ID                                    
@@ -841,12 +841,12 @@ FROM
           ,SUM(PR.Total_Registrado) AS Factor              
           ,7 AS TipoMedida_ID -- Pzas Producidas sin línea Tabla CP_Tipo_Medida       
           ,SUM(PR.Total_Registrado) AS Total_Medida        
-          FROM cp_view.V_MF_Produccion PR
+          FROM gb_mdl_mexico_costoproducir_views.V_MF_Produccion PR
           LEFT OUTER JOIN  (
                     SELECT vpm.Periodo, vpm.EntidadLegal_ID, vpm.MF_Organizacion_ID, vpm.MF_Producto_ID 
-                    FROM cp_app_costoproducir.V_Producto_Maquilado vpm
+                    FROM gb_smntc_mexico_costoproducir.V_Producto_Maquilado vpm
                     WHERE vpm.Periodo = '${hiveconf:speriod}'  ---------------================>>>>>>>> :sPeriodo --- PARAMETRO
-                    AND vpm.EntidadLegal_ID IN (SELECT EntidadLegal_ID FROM cp_view.V_EntidadLegal_Activas GROUP BY EntidadLegal_ID) 
+                    AND vpm.EntidadLegal_ID IN (SELECT EntidadLegal_ID FROM gb_mdl_mexico_costoproducir_views.V_EntidadLegal_Activas GROUP BY EntidadLegal_ID) 
                     GROUP BY vpm.Periodo, vpm.EntidadLegal_ID, vpm.MF_Organizacion_ID, vpm.MF_Producto_ID 
                ) pm
           ON CAST(SUBSTRING(PR.Fecha,1,7) AS STRING)=CAST(pm.Periodo AS STRING)
@@ -861,7 +861,7 @@ FROM
           --AND PR.EntidadLegal_ID='101'
           AND PR.Total_Registrado <> 0
           AND PR.Fecha BETWEEN concat('${hiveconf:speriod}','-01') AND date_sub(add_months(concat('${hiveconf:speriod}','-01'),1), 1) 
-          AND PR.EntidadLegal_ID IN (SELECT EntidadLegal_ID FROM cp_view.V_EntidadLegal_Activas GROUP BY EntidadLegal_ID)
+          AND PR.EntidadLegal_ID IN (SELECT EntidadLegal_ID FROM gb_mdl_mexico_costoproducir_views.V_EntidadLegal_Activas GROUP BY EntidadLegal_ID)
           GROUP BY SUBSTRING(PR.Fecha,1,7),PR.EntidadLegal_ID,PR.MF_Organizacion_ID,PR.Planta_ID,PR.Linea_Prod_ID,-1,PR.MF_Producto_ID
           HAVING SUM(Total_Registrado) <> 0                
      ) PR     
@@ -875,20 +875,20 @@ FROM
                     ,COUNT(DISTINCT PR.Linea_Prod_ID) * MAX(TD.Total_Turnos_Default) AS Turnos_Planta_Asignados
                     ,count(distinct concat(pr.linea_prod_id, pr.turno_id) ) as turnos_planta_produccion
                     ,MAX(TD.Total_Turnos_Default) AS Turnos_Default 
-               FROM cp_view.v_mf_produccion PR
+               FROM gb_mdl_mexico_costoproducir_views.v_mf_produccion PR
                     INNER JOIN 
                          (
                               SELECT
                                    T.EntidadLegal_ID
                                    ,COUNT (DISTINCT T.Turno_ID) AS Total_Turnos_Default
-                              FROM cp_dwh_mf.MF_Turno_Default T
+                              FROM gb_mdl_mexico_manufactura.MF_Turno_Default T
                               GROUP BY T.EntidadLegal_ID
                          ) td on trim(pr.entidadlegal_id) = trim(td.entidadlegal_id)
                WHERE PR.Linea_Prod_ID <> -1 
                AND PR.Total_Registrado <> 0                               
                AND PR.Fecha BETWEEN concat('${hiveconf:speriod}','-01') AND date_sub(add_months(concat('${hiveconf:speriod}','-01'),1), 1)
                AND PR.EntidadLegal_ID IN (SELECT EntidadLegal_ID 
-                    FROM cp_view.V_EntidadLegal_Activas GROUP BY EntidadLegal_ID)               
+                    FROM gb_mdl_mexico_costoproducir_views.V_EntidadLegal_Activas GROUP BY EntidadLegal_ID)               
                GROUP BY SUBSTRING(PR.Fecha,1,7),PR.EntidadLegal_ID,PR.MF_Organizacion_ID,PR.Planta_ID                         
                HAVING (COUNT(DISTINCT PR.Linea_Prod_ID) * MAX(TD.Total_Turnos_Default)) <> 0
           ) T 
@@ -899,7 +899,7 @@ FROM
 
 -- set paso = 14
 -- Obtenemos la metrica de Piezas de Baja                    
-insert into table cp_app_costoproducir.cp_medidas_prorrateo partition(entidadlegal_id)   
+insert into table gb_smntc_mexico_costoproducir.cp_medidas_prorrateo partition(entidadlegal_id)   
 SELECT        
      PR.Periodo 
      ,PR.MF_Organizacion_ID                                    
@@ -951,20 +951,20 @@ FROM
                ,8 AS TipoMedida_ID -- Pzas Baja Tabla CP_Tipo_Medida 
                ,SUM(PR.Bajas) AS Total_Medida
                ,max(pr.storeday) as storeday
-          FROM cp_view.v_mf_produccion PR
+          FROM gb_mdl_mexico_costoproducir_views.v_mf_produccion PR
           -- CC 101-12 Maquilas: Se agrega filtro para no incluir en el calculo de la Medida de Prorrateo los PTs maquilados
           left join
           (
                select vpm2.periodo, vpm2.entidadlegal_id, vpm2.mf_organizacion_id, vpm2.mf_producto_id 
-               from cp_app_costoproducir.v_producto_maquilado vpm2
-               where vpm2.periodo = '${hiveconf:speriod}' and cast(vpm2.entidadlegal_id as int) in (select entidadlegal_id from cp_view.v_entidadlegal_activas group by entidadlegal_id)
+               from gb_smntc_mexico_costoproducir.v_producto_maquilado vpm2
+               where vpm2.periodo = '${hiveconf:speriod}' and cast(vpm2.entidadlegal_id as int) in (select entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas group by entidadlegal_id)
                group by vpm2.periodo, vpm2.entidadlegal_id, vpm2.mf_organizacion_id, vpm2.mf_producto_id
           ) vpm
           on vpm.periodo = substr(pr.fecha,1,7) and vpm.entidadlegal_id = pr.entidadlegal_id and vpm.mf_organizacion_id = pr.mf_organizacion_id and vpm.mf_producto_id = pr.mf_producto_id
           WHERE PR.Bajas <> 0                                  
                AND PR.Fecha BETWEEN concat('${hiveconf:speriod}','-01') AND date_sub(add_months(concat('${hiveconf:speriod}','-01'),1), 1)
                AND PR.EntidadLegal_ID IN (SELECT EntidadLegal_ID 
-                    FROM cp_view.v_entidadlegal_activas GROUP BY EntidadLegal_ID)                                 
+                    FROM gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas GROUP BY EntidadLegal_ID)                                 
                and vpm.periodo is null and vpm.entidadlegal_id is null and vpm.mf_organizacion_id is null and vpm.mf_producto_id is null
           GROUP BY substr(PR.Fecha,1,7), PR.EntidadLegal_ID, PR.MF_Organizacion_ID, PR.Planta_ID, PR.Linea_Prod_ID, PR.Turno_ID, PR.MF_Producto_ID
           HAVING SUM(PR.Bajas) <> 0                               
@@ -982,7 +982,7 @@ FROM
                     ,TOT.Turnos_Planta_Produccion
                     ,TOT.Turnos_Default AS Turnos_Linea_Default 
                     ,COUNT(DISTINCT PR.Turno_ID) AS Turnos_Linea_Produccion                                     
-               FROM cp_view.v_mf_produccion PR  
+               FROM gb_mdl_mexico_costoproducir_views.v_mf_produccion PR  
                     INNER JOIN                                 
                          (                                     
                               --   Obtenemos el total de turnos que produjeron y asignados por planta                 
@@ -994,18 +994,18 @@ FROM
                                    ,COUNT(DISTINCT PR.Linea_Prod_ID) * MAX(TD.Total_Turnos_Default) AS Turnos_Planta_Asignados
                                    ,count(distinct concat(pr.linea_prod_id, pr.turno_id) ) as turnos_planta_produccion
                                    ,MAX(TD.Total_Turnos_Default) AS Turnos_Default 
-                              FROM cp_view.v_mf_produccion PR
+                              FROM gb_mdl_mexico_costoproducir_views.v_mf_produccion PR
                                    INNER JOIN 
                                         (
                                              SELECT
                                                   T.EntidadLegal_ID
                                                   ,COUNT (DISTINCT T.Turno_ID) AS Total_Turnos_Default
-                                             FROM cp_dwh_mf.mf_turno_default T
+                                             FROM gb_mdl_mexico_manufactura.mf_turno_default T
                                              GROUP BY T.EntidadLegal_ID
                                         ) td on trim(pr.entidadlegal_id) = trim(td.entidadlegal_id)
                               WHERE PR.Linea_Prod_ID <> -1 AND PR.Total_Registrado <> 0                               
                                    AND PR.Fecha BETWEEN concat('${hiveconf:speriod}','-01') AND date_sub(add_months(concat('${hiveconf:speriod}','-01'),1), 1)
-                                   AND PR.EntidadLegal_ID IN  (SELECT EntidadLegal_ID FROM cp_view.v_entidadlegal_activas GROUP BY EntidadLegal_ID)               
+                                   AND PR.EntidadLegal_ID IN  (SELECT EntidadLegal_ID FROM gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas GROUP BY EntidadLegal_ID)               
                               GROUP BY substr(PR.Fecha,1,7),PR.EntidadLegal_ID,PR.MF_Organizacion_ID,PR.Planta_ID                         
                               HAVING (COUNT(DISTINCT PR.Linea_Prod_ID) * MAX(TD.Total_Turnos_Default))  <> 0                   
                          ) TOT ON substr(PR.Fecha,1,7) = TOT.Periodo 
@@ -1013,7 +1013,7 @@ FROM
                          AND PR.MF_Organizacion_ID = TOT.MF_Organizacion_ID AND PR.Planta_ID = TOT.Planta_ID    
                WHERE PR.Linea_Prod_ID <> -1 AND PR.Total_Registrado <> 0                                         
                     AND PR.Fecha BETWEEN concat('${hiveconf:speriod}','-01') AND date_sub(add_months(concat('${hiveconf:speriod}','-01'),1), 1)
-                    AND PR.EntidadLegal_ID IN (SELECT EntidadLegal_ID FROM cp_view.v_entidadlegal_activas GROUP BY EntidadLegal_ID)                            
+                    AND PR.EntidadLegal_ID IN (SELECT EntidadLegal_ID FROM gb_mdl_mexico_costoproducir_views.v_entidadlegal_activas GROUP BY EntidadLegal_ID)                            
               GROUP BY substr(PR.Fecha,1,7),PR.EntidadLegal_ID,PR.MF_Organizacion_ID,PR.Planta_ID,PR.Linea_Prod_ID,TOT.Turnos_Planta_Asignados,TOT.Turnos_Planta_Produccion,TOT.Turnos_Default
               HAVING COUNT(DISTINCT PR.Turno_ID) <> 0          
           ) T 
@@ -1024,4 +1024,4 @@ FROM
      AND PR.Linea_Prod_ID = T.Linea_Prod_ID;
 
 -- Compactacion de la tabla, para quedarnos con los registros de ultima carga con las agrupaciones definidas.
-insert overwrite table cp_app_costoproducir.cp_medidas_prorrateo partition(entidadlegal_id) select tmp.* from cp_app_costoproducir.cp_medidas_prorrateo tmp join (select periodo, entidadlegal_id, mf_organizacion_id, planta_id, linea_prod_id, turno_id, mf_producto_id, tipomedida_id, max(storeday) as first_record from cp_app_costoproducir.cp_medidas_prorrateo group by periodo, entidadlegal_id, mf_organizacion_id, planta_id, linea_prod_id, turno_id, mf_producto_id, tipomedida_id) sec on tmp.periodo = sec.periodo and tmp.entidadlegal_id = sec.entidadlegal_id and tmp.mf_organizacion_id = sec.mf_organizacion_id and tmp.planta_id = sec.planta_id and tmp.linea_prod_id = sec.linea_prod_id and tmp.turno_id = sec.turno_id and tmp.mf_producto_id = sec.mf_producto_id and tmp.tipomedida_id = sec.tipomedida_id and tmp.storeday = sec.first_record;
+insert overwrite table gb_smntc_mexico_costoproducir.cp_medidas_prorrateo partition(entidadlegal_id) select tmp.* from gb_smntc_mexico_costoproducir.cp_medidas_prorrateo tmp join (select periodo, entidadlegal_id, mf_organizacion_id, planta_id, linea_prod_id, turno_id, mf_producto_id, tipomedida_id, max(storeday) as first_record from gb_smntc_mexico_costoproducir.cp_medidas_prorrateo group by periodo, entidadlegal_id, mf_organizacion_id, planta_id, linea_prod_id, turno_id, mf_producto_id, tipomedida_id) sec on tmp.periodo = sec.periodo and tmp.entidadlegal_id = sec.entidadlegal_id and tmp.mf_organizacion_id = sec.mf_organizacion_id and tmp.planta_id = sec.planta_id and tmp.linea_prod_id = sec.linea_prod_id and tmp.turno_id = sec.turno_id and tmp.mf_producto_id = sec.mf_producto_id and tmp.tipomedida_id = sec.tipomedida_id and tmp.storeday = sec.first_record;
