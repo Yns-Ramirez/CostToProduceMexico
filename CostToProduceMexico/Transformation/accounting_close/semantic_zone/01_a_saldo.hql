@@ -38,4 +38,4 @@ and tmp.JuegoLibros_ID=sec.JuegoLibros_ID
 and tmp.Marca_ID=sec.Marca_ID
 and tmp.Presupuesto=sec.Presupuesto
 and tmp.storeday=sec.first_record
-where tmp.entidadlegal_id in ('100','101');
+where tmp.entidadlegal_id in ('100','101','125');

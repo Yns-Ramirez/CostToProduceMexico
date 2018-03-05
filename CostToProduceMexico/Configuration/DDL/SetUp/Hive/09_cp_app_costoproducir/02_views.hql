@@ -27,6 +27,8 @@ AND
 (a_saldo.entidadlegal_id = '100' AND a_saldo.juegolibros_id IN (141,161))
 OR
 (a_saldo.entidadlegal_id = '101' AND a_saldo.juegolibros_id IN (141,161))
+OR
+(a_saldo.entidadlegal_id = '125' AND a_saldo.juegolibros_id IN (141,161))
 )
 ) SLD,
 (
@@ -50,7 +52,7 @@ AND vdw_a_reporte_financiero.linea_id IN (25,30,45,95)
 WHERE rf.linea_id = rfd.linea_id 
 AND rf.reporte_id = rfd.reporte_id
 ) FSG 
-WHERE  sld.entidadlegal_id IN ('100','101') 
+WHERE  sld.entidadlegal_id IN ('100','101','125') 
 AND sld.presupuesto = 0
 AND sld.areanegocio_id BETWEEN fsg.i_areanegocio_idd AND fsg.f_areanegocio_idd
 AND sld.cuentanatural_id BETWEEN fsg.i_cuentanatural_idd AND fsg.f_cuentanatural_idd

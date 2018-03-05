@@ -73,7 +73,7 @@ OR (A.TRANSACTION_TYPE_ID = 44 AND A.TRANSACTION_SOURCE_TYPE_ID = 5))
 AND A.TRANSACTION_DATE BETWEEN '${hiveconf:V_PRIMER_DIA}' AND '${hiveconf:V_ULTIMO_DIA}') 
 AND C.ITEM_TYPE LIKE 'PT%'
 AND  B.EntidadLegal_ID IN (SELECT EntidadLegal_ID 
-FROM gb_mdl_mexico_costoproducir_views.v_entidadeslegales_activas_for WHERE TRIM(Aplicacion)='FORMULAS' AND EntidadLegal_ID in ('100','101') GROUP BY EntidadLegal_ID) 
+FROM gb_mdl_mexico_costoproducir_views.v_entidadeslegales_activas_for WHERE TRIM(Aplicacion)='FORMULAS' AND EntidadLegal_ID in ('100','101','125') GROUP BY EntidadLegal_ID) 
 ) B
 WHERE ((A.TRANSACTION_SET_ID=B.TranSet_ID 
 AND A.ORGANIZATION_ID=B.Planta_ID)
@@ -86,7 +86,7 @@ AND (((A.TRANSACTION_TYPE_ID = 35 AND A.TRANSACTION_SOURCE_TYPE_ID = 5)
 WHERE A.Planta_ID = B.mf_organizacion_id
 AND (B.EntidadLegal_ID IN (SELECT EntidadLegal_ID 
 FROM gb_mdl_mexico_costoproducir_views.v_entidadeslegales_activas_for 
-WHERE TRIM(Aplicacion) = 'FORMULAS' AND EntidadLegal_ID IN ('100','101') GROUP BY EntidadLegal_ID)) 
+WHERE TRIM(Aplicacion) = 'FORMULAS' AND EntidadLegal_ID IN ('100','101','125') GROUP BY EntidadLegal_ID)) 
 AND A.InvItem_PT <> A.InvItem_Hijos
 GROUP BY A.Periodo, B.EntidadLegal_ID,A.Planta_ID,A.InvItem_Hijos,A.InvItem_PT,A.TranUOM
 ) T
@@ -174,7 +174,7 @@ AND TRIM(SUBSTRING(A.TRANSACTION_DATE,1,7))=B.Periodo)
 ) C, gb_mdl_mexico_manufactura.MF_Plantas B
 WHERE C.Planta_ID=B.MF_Organizacion_ID
 AND (B.EntidadLegal_ID IN (SELECT EntidadLegal_ID FROM gb_mdl_mexico_costoproducir_views.v_entidadeslegales_activas_for WHERE TRIM(Aplicacion) = 'FORMULAS' 
-AND EntidadLegal_ID IN ('100','101') GROUP BY EntidadLegal_ID)) 
+AND EntidadLegal_ID IN ('100','101','125') GROUP BY EntidadLegal_ID)) 
 GROUP BY C.SubEnsamble_ID, TRIM(C.TranUOM),C.Planta_ID, C.Ingrediente_ID, C.Periodo, TRIM(B.EntidadLegal_ID)
 ) T
 LEFT JOIN gb_mdl_mexico_manufactura.mf_producto_organizacion P
@@ -668,7 +668,7 @@ FROM gb_mdl_mexico_costoproducir_views.V_FORM_All_SubEns
 WHERE subensamble_id <> ingrediente_id
 GROUP BY Periodo,EntidadLegal_ID,Planta_ID,SubEnsamble_ID_Ori,SubEnsamble_ID,Ingrediente_ID) b
 WHERE a.subensamble_id <> a.ingrediente_id
-AND a.EntidadLegal_ID IN (SELECT EntidadLegal_ID FROM gb_mdl_mexico_costoproducir.gx_control_entidades_app WHERE TRIM(Aplicacion) = 'FORMULAS' AND EntidadLegal_ID IN ('100','101') GROUP BY EntidadLegal_ID)
+AND a.EntidadLegal_ID IN (SELECT EntidadLegal_ID FROM gb_mdl_mexico_costoproducir.gx_control_entidades_app WHERE TRIM(Aplicacion) = 'FORMULAS' AND EntidadLegal_ID IN ('100','101','125') GROUP BY EntidadLegal_ID)
 AND a.Periodo=b.Periodo
 AND a.EntidadLegal_ID=b.EntidadLegal_ID
 AND a.Planta_ID=b.Planta_ID
@@ -1000,13 +1000,13 @@ FROM (SELECT A.Periodo, A.EntidadLegal_ID, A.Planta_ID, A.Producto_ID, SUM(Canti
  ON A.EntidadLegal_ID=C.EntidadLegal_ID
  AND a.Periodo= '${hiveconf:V_PERIODO}' 
  AND TRIM(c.Cadena) = 'MF' 
--- AND C.EntidadLegal_ID IN ('100','101')
+-- AND C.EntidadLegal_ID IN ('100','101','125')
  AND c.Aplicacion = 'FORMULAS' 
  AND c.Objeto = 'Deflactacion' 
  AND c.Campo = 'Deflactacion' 
  AND c.Condicion = 'A'
  WHERE ((B.Descripcion LIKE '%MOLIDO%') OR (B.Descripcion LIKE '%TOSTAD%'))
-AND C.EntidadLegal_ID IN ('100','101')
+AND C.EntidadLegal_ID IN ('100','101','125')
 GROUP BY A.Periodo, A.EntidadLegal_ID, A.Planta_ID, A.Producto_ID) Z 
 LEFT OUTER JOIN
 (SELECT Periodo, EntidadLegal_ID, Planta_ID, Producto_ID, SUM(Cantidad* CostoEstandar) sumcosto
