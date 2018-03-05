@@ -280,7 +280,7 @@ CREATE TABLE IF NOT EXISTS cp_flat_files.e_puesto(
   ,descpuesto string
   ,storeday string)
   PARTITIONED BY ( 
-  lgl_ent_id string);
+  lgl_ent_id string)
 row format delimited fields terminated by '\t' lines terminated by '\n' stored as textfile;
 
 CREATE TABLE IF NOT EXISTS cp_flat_files.e_empleado_posicion(
