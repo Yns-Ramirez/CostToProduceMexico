@@ -1,100 +1,87 @@
-#!/bin/bash
+#Example sh ./loadTablesToExportOracle.sh --periodo 2017-07 --periodo2 JUL-2017
 
+#!/bin/bash
 BASEDIR=$(dirname $0)
+# Read the host impala
 HADOOP_ENV_PROPS=~/CostToProduceMexico/Configuration/Properties/hadoop_env.properties
-INSERT_DB_JEDOX_FROM_DATA_LAKE=$BASEDIR/../Export/parameters_script.hql
+. $HADOOP_ENV_PROPS 2>/dev/null
+echo "impala host:  $impala_host"
+echo "jdbc_url:  $jdbc_url"
+
+# Creating connection with Beeline
+BEELINE="beeline -u '$jdbc_url' "
+echo $BEELINE
+
+INSERT_DB_JEDOX_FROM_DATA_LAKE=$BASEDIR/parameters_script.hql
 echo "$INSERT_DB_JEDOX_FROM_DATA_LAKE"
 
-SQOOP_TRUNCATE_ORACLE_TABLES=$BASEDIR/../Export/sqoopTruncateOracleJedoxTables.sh
-echo "$SQOOP_TRUNCATE_ORACLE_TABLES"
-
-SQOOP_EXPORT_ORACLE=$BASEDIR/../Export/sqoopExportOracle.sh
-echo "$SQOOP_EXPORT_ORACLE"
-
-# Querys for stats.
-GET_LAST_STATUS_BY_PROCESS_QUERY=$BASEDIR/../../Transformation/process/hql_utils/get_last_status_by_process.hql
-
-# Constants
-SUCCESS="SUCCESS"
-NA="NA"
-TYPE_EXEC_TRANS_FLAT_FILES="transformation_flat_files"
 
 processArgs() {
-    usage="--entidadLegal name --fechaInicio name --fechaFin name --periodo name --periodo2 name --anio name --mes name"
-    while (( "$#" )); do 
-    if [ $1 = "--entidadLegal" ] ; then
-        shift ; entidadLegal=$1 ; shift ;
-    elif [ $1 = "--fechaInicio" ] ; then
-        shift ; fechaInicio=$1 ; shift ;
-    elif [ $1 = "--fechaFin" ] ; then
-                shift ; fechaFin=$1 ; shift ;
-    elif [ $1 = "--periodo" ] ; then
-                shift ; periodo=$1 ; shift ;
-    elif [ $1 = "--periodo2" ] ; then
-                shift ; periodo2=$1 ; shift ;
-    elif [ $1 = "--anio" ] ; then
-                shift ; anio=$1 ; shift ;
-    elif [ $1 = "--mes" ] ; then
-                shift ; mes=$1 ; shift ;
-    else
-        echo "invalid argument: " $1
-        echo "$0: $usage"
-        exit 1
-    fi
+  usage=" --periodo name --periodo2 name "
+  while (( "$#" )); do 
+  if [ $1 = "--periodo" ] ; then
+    shift ; periodo=$1 ; shift ;
+  elif [ $1 = "--periodo2" ] ; then
+    shift ; periodo2=$1 ; shift ;
+  else
+    echo "invalid argument: " $1
+    echo "$0: $usage"
+    exit 1
+  fi
 
-    done
+  done
 
-    if [ -z $entidadLegal ] || [ -z $fechaInicio ] || [ -z $fechaFin ] || [ -z $periodo ] || [ -z $periodo2 ] || [ -z $anio ] || [ -z $mes ] ; then
-        echo "$0 : bad/insufficent arguments"
-        echo "$0 : $usage"
-        echo "entidadLegal = $entidadLegal"
-        echo "fechaInicio = $fechaInicio"
-        echo "fechaFin = $fechaFin"
-        echo "periodo = $periodo"
-        echo "periodo2 = $periodo2"
-        echo "anio = $anio"
-        echo "mes = $mes"
-        exit 1
-    fi
+  if [ -z $periodo ] || [ -z $periodo2 ] ; then
+    echo "$0 : bad/insufficent arguments"
+    echo "$0 : $usage"
+    echo "periodo = $periodo"
+    echo "periodo2 = $periodo2"
+    exit 1
+  fi
 }
 
 processArgs $*
+
+
+PERIODO_ANTERIOR=$periodo
+echo "******** PERIODO ANTERIOR: $PERIODO_ANTERIOR ***********"
+
+PERIODO_PRIMER_DIA=`$BEELINE --silent=true --outputformat=csv2 --showHeader=false -e "select concat('$PERIODO_ANTERIOR','-01');" | grep -v '0: jdbc'`
+echo "******** PRIMER DIA DEL PERIODO: $PERIODO_PRIMER_DIA ***********"
+
+PERIODO_ULTIMO_DIA=`$BEELINE --silent=true --outputformat=csv2 --showHeader=false -e "select last_day(concat('$PERIODO_ANTERIOR','-01'));" | grep -v '0: jdbc'`
+echo "******** ULTIMO DIA DEL PERIODOD: $PERIODO_ULTIMO_DIA ***********"
+
+ANIO=${periodo:0:4}
+echo "******** ANIO PERIODO: $ANIO ***********"
+
+MES=${periodo:5:2}
+echo "******** MES PERIODO: $MES ***********"
+
+NOMBREPER=$periodo2
+
+echo "********** NOMBRE PERIODO: $NOMBREPER ***********"
+
+
 
 echo "-----------------------------------------------------"
 echo "--------------------PARAMETROS-----------------------"
 echo "-----------------------------------------------------"
 
-echo "  Entidad(es) Legales: $entidadLegal "
-echo "  Fecha Inicio Periodo: $fechaInicio "
-echo "  Fecha Fin Periodo: $fechaFin "
+echo "  fechaInicio = $PERIODO_PRIMER_DIA"
+echo "  fechaFin = $PERIODO_ULTIMO_DIA"
 echo "  Periodo(YYYY-MM): $periodo "
-echo "  Periodo2(MES-YY): $periodo2 "
-echo "  Anio: $anio "
-echo "  Mes: $mes "
+echo "  Periodo2(MES-YYYY): $periodo2 "
+echo "  Anio(YYYY): $ANIO"
+echo "  Mes(MM): $MES"
+    
 
-. $HADOOP_ENV_PROPS 2>/dev/null
-echo "impala host:  $impala_host"
-echo "kerberos_user= $kerberos_user"
-echo "kerberos_keytab= $kerberos_keytab"
-
-# renew kerberos ticket
-kinit -k -t $kerberos_keytab $kerberos_user@CLOUDERA
-
-STATUS_LAST_PROCESS=`impala-shell -i "$impala_host" -f "$GET_LAST_STATUS_BY_PROCESS_QUERY" --var=type_exec=$TYPE_EXEC_TRANS_FLAT_FILES --var=type_process="$NA" -B`
-if [ "$STATUS_LAST_PROCESS" != "$SUCCESS" ]; then
-    echo "The before process 'transformation flat files' has finished with status failed."
-    echo ">>> end process";
-    exit 0;
-fi
-
-echo "starting querys final and export results"
-if impala-shell -i "$impala_host" -f "$INSERT_DB_JEDOX_FROM_DATA_LAKE" --var=VAR_EL="$entidadLegal" --var=VAR_FECHA_INICIO="$fechaInicio" --var=VAR_FECHA_FIN="$fechaFin" --var=VAR_PERIODO="$periodo" --var=VAR_PERIODO2="$periodo2" --var=VAR_ANIO="$anio" --var=VAR_MES="$mes"
+if impala-shell -i "$impala_host" -f "$INSERT_DB_JEDOX_FROM_DATA_LAKE" --var=VAR_FECHA_INICIO="$PERIODO_PRIMER_DIA" --var=VAR_FECHA_FIN="$PERIODO_ULTIMO_DIA" --var=VAR_PERIODO="$PERIODO_ANTERIOR" --var=VAR_PERIODO2="$NOMBREPER" --var=VAR_ANIO="$ANIO" --var=VAR_MES="$MES"
      then
-          echo "------- Borrar informacion en las tablas destino en Oracle BD ------------"
-          #$SQOOP_TRUNCATE_ORACLE_TABLES
-          echo "------- Ejecutar export a las tablas destino en Oracle BD ------------"
-          $SQOOP_EXPORT_ORACLE
+          echo "------- Carga de tablas a Impala completada ------------"
 else
-     echo "Falló al generar tablas en impala"
+     echo ">>>> Falló al generar tablas en impala"
+     exit 1;
 fi
+
 
