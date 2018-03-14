@@ -51,7 +51,7 @@ HQL_FILE="mf_turnos_procedure"
 
 echo *****"mf_turnos_procedure_step1.hql"
 if ! $BEELINE -f $BASEDIR/hql/mf_turnos_procedure_step1.hql
-    exit 1;
+    then exit 1;
 fi
 
 # echo *****"initialize_loop.hql"
@@ -70,6 +70,6 @@ fi
 
 echo *****"mf_turnos_procedure_step3.hql"
 if ! $BEELINE -f $BASEDIR/hql/mf_turnos_procedure_step3.hql
-    exit 1;
+    then exit 1;
 fi
 
