@@ -1396,10 +1396,10 @@ CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mf_transferencia
 from gb_mdl_mexico_costoproducir.mtl_transaccion_materiales b, gb_mdl_mexico_costoproducir_views.v_fechas_extraccion tbl_ftro  
      join gb_mdl_mexico_costoproducir.mtl_catalogo_materiales a on b.organization_id  = a.organization_id  and b.inventory_item_id=a.inventory_item_id
      left outer join gb_mdl_mexico_manufactura.mf_unidad_medida um on um.host_codigo = trim(b.transaction_uom)
-     left outer join gb_mdl_mexico_manufactura.mf_plantas c on b.organization_id = c.mf_organizacion_id 
+     left outer join gb_mdl_mexico_manufactura.mf_plantas c on b.organization_id = c.mf_organizacion_id and lower(c.sistema_fuente) = lower('CP')
      join (select veamf.entidadlegal_id from gb_mdl_mexico_costoproducir_views.v_entidadeslegales_activas_mf veamf group by veamf.entidadlegal_id) elat on 
      c.entidadlegal_id = elat.entidadlegal_id
-     left outer join gb_mdl_mexico_manufactura.mf_plantas d on b.transfer_organization_id = d.mf_organizacion_id
+     left outer join gb_mdl_mexico_manufactura.mf_plantas d on b.transfer_organization_id = d.mf_organizacion_id and lower(d.sistema_fuente) = lower('CP')
      left outer join 
           (
                select 
@@ -1420,8 +1420,8 @@ where
      ((b.transaction_source_type_id = 13  and b.transaction_type_id = 21)  or  (b.transaction_source_type_id = 8 and b.transaction_type_id = 62)) 
      and (lower(a.item_type) like 'semi%'  or lower(a.item_type) like 'phan%'  or lower(a.item_type) like '%pt%')
      and lower(b.subinventory_code) not in ('contenedor', 'barredura', 'dev')
-     and lower(c.sistema_fuente) = lower('CP')
-     and lower(d.sistema_fuente) = lower('CP')
+     
+     
 group by
      concat(substr(regexp_replace( b.transaction_date, '/', '-'),1,7), '-01')
      ,coalesce(c.entidadlegal_id,'s/i')

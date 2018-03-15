@@ -28,7 +28,7 @@ AND
 OR
 (a_saldo.entidadlegal_id = '101' AND a_saldo.juegolibros_id IN (141,161))
 OR
-(a_saldo.entidadlegal_id = '125' AND a_saldo.juegolibros_id IN (141,161))
+(EntidadLegal_ID = '125' AND JuegoLibros_ID = 641)
 )
 ) SLD,
 (
