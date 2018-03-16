@@ -17,9 +17,11 @@ echo "$INSERT_DB_JEDOX_FROM_DATA_LAKE"
 
 
 processArgs() {
-  usage=" --periodo name --periodo2 name "
-  while (( "$#" )); do 
-  if [ $1 = "--periodo" ] ; then
+  usage="--entidadLegal name --periodo name --periodo2 name "
+  while (( "$#" )); do
+  if [ $1 = "--entidadLegal" ] ; then
+      shift ; entidadLegal=$1 ; shift ;
+  elif [ $1 = "--periodo" ] ; then
     shift ; periodo=$1 ; shift ;
   elif [ $1 = "--periodo2" ] ; then
     shift ; periodo2=$1 ; shift ;
@@ -31,9 +33,10 @@ processArgs() {
 
   done
 
-  if [ -z $periodo ] || [ -z $periodo2 ] ; then
+  if [ -z $entidadLegal ] || [ -z $periodo ] || [ -z $periodo2 ] ; then
     echo "$0 : bad/insufficent arguments"
     echo "$0 : $usage"
+    echo "entidadLegal = $entidadLegal"
     echo "periodo = $periodo"
     echo "periodo2 = $periodo2"
     exit 1
@@ -76,7 +79,7 @@ echo "  Anio(YYYY): $ANIO"
 echo "  Mes(MM): $MES"
     
 
-if impala-shell -i "$impala_host" -f "$INSERT_DB_JEDOX_FROM_DATA_LAKE" --var=VAR_FECHA_INICIO="$PERIODO_PRIMER_DIA" --var=VAR_FECHA_FIN="$PERIODO_ULTIMO_DIA" --var=VAR_PERIODO="$PERIODO_ANTERIOR" --var=VAR_PERIODO2="$NOMBREPER" --var=VAR_ANIO="$ANIO" --var=VAR_MES="$MES"
+if impala-shell -i "$impala_host" -f "$INSERT_DB_JEDOX_FROM_DATA_LAKE" --var=VAR_EL="$entidadLegal" --var=VAR_FECHA_INICIO="$PERIODO_PRIMER_DIA" --var=VAR_FECHA_FIN="$PERIODO_ULTIMO_DIA" --var=VAR_PERIODO="$PERIODO_ANTERIOR" --var=VAR_PERIODO2="$NOMBREPER" --var=VAR_ANIO="$ANIO" --var=VAR_MES="$MES"
      then
           echo "------- Carga de tablas a Impala completada ------------"
 else
