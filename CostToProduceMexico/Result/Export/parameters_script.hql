@@ -355,7 +355,7 @@ FROM
   SELECT * 
   FROM    gb_mdl_mexico_costoproducir.A_SALDO 
   WHERE  Presupuesto = 0
-  AND EntidadLegal_ID in (${VAR:VAR_EL}) AND JuegoLibros_ID IN (141,161)
+  AND EntidadLegal_ID in (${VAR:VAR_EL}) AND JuegoLibros_ID IN (141,161,641)
                 ) SLD
      INNER JOIN jedoxMexico.ext_big_data_41y42_fsg_2_fsg FSG ON 
                (SLD.AreaNegocio_ID           BETWEEN I_AreaNegocio_IDD     AND F_AreaNegocio_IDD
