@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.fa_deprn_detail_per(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fa_deprn_detail_per(
   addition_cost_to_clear double, 
   asset_id double, 
   bonus_deprn_adjustment_amount double, 
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.fa_deprn_detail_per(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/fa_deprn_detail_per';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.gl_code_combinations_fa_brio(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.gl_code_combinations_fa_brio(
   account_type string, 
   allocation_create_flag string, 
   attribute1 string, 
@@ -143,7 +143,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.gl_code_combinations_fa_brio(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/gl_code_combinations_fa_brio';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.bom_resources(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.bom_resources(
   absorption_account double, 
   allow_costs_flag double, 
   attribute_category string, 
@@ -205,7 +205,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.bom_resources(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/bom_resources';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.cst_item_cost_details(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.cst_item_cost_details(
   activity_context string, 
   activity_id double, 
   activity_units double, 
@@ -262,7 +262,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.cst_item_cost_details(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/cst_item_cost_details';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.cst_item_cost_type_v(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.cst_item_cost_type_v(
   allow_updates_flag double, 
   attribute_category string, 
   attribute1 string, 
@@ -323,7 +323,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.cst_item_cost_type_v(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/cst_item_cost_type_v';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.fa_distribution_history_brio(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fa_distribution_history_brio(
   asset_id double, 
   assigned_to double, 
   book_type_code string, 
@@ -343,7 +343,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.fa_distribution_history_brio(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/fa_distribution_history_brio';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.fnd_flex_value_norm_hierarchy(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fnd_flex_value_norm_hierarchy(
   flex_value_set_id double, 
   parent_flex_value string, 
   range_attribute string, 
@@ -363,7 +363,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.fnd_flex_value_norm_hierarchy(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/fnd_flex_value_norm_hierarchy';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.fnd_flex_values_tl(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fnd_flex_values_tl(
   flex_value_id double, 
   language string, 
   last_update_date string, 
@@ -379,7 +379,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.fnd_flex_values_tl(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/fnd_flex_values_tl';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.fnd_flex_values_vl(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fnd_flex_values_vl(
   row_id string, 
   flex_value_set_id string, 
   flex_value_id int, 
@@ -459,7 +459,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.fnd_flex_values_vl(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/fnd_flex_values_vl';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.fnd_id_flex_segments(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fnd_id_flex_segments(
   application_id double, 
   id_flex_code string, 
   id_flex_num double, 
@@ -490,7 +490,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.fnd_id_flex_segments(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/fnd_id_flex_segments';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.fnd_lookup_values(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fnd_lookup_values(
   attribute_category string, 
   attribute1 string, 
   attribute10 string, 
@@ -532,7 +532,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.fnd_lookup_values(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/fnd_lookup_values';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.fnd_lookup_values_vl(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fnd_lookup_values_vl(
   attribute10 string, 
   attribute11 string, 
   attribute12 string, 
@@ -572,7 +572,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.fnd_lookup_values_vl(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/fnd_lookup_values_vl';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.fnd_lookups(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fnd_lookups(
   lookup_type string, 
   lookup_code string, 
   meaning string, 
@@ -586,7 +586,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.fnd_lookups(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/fnd_lookups';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.gl_balances(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.gl_balances(
   set_of_books_id double, 
   code_combination_id double, 
   currency_code string, 
@@ -628,7 +628,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.gl_balances(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/gl_balances';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.gl_code_combinations(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.gl_code_combinations(
   account_type string, 
   allocation_create_flag string, 
   attribute1 string, 
@@ -744,7 +744,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.gl_code_combinations(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/gl_code_combinations';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.gl_daily_rates(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.gl_daily_rates(
   from_currency string, 
   to_currency string, 
   conversion_date string, 
@@ -779,7 +779,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.gl_daily_rates(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/gl_daily_rates';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.gl_je_headers(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.gl_je_headers(
   accrual_rev_change_sign_flag string, 
   accrual_rev_effective_date string, 
   accrual_rev_effective_date_h string, 
@@ -869,7 +869,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.gl_je_headers(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/gl_je_headers';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.gl_je_lines(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.gl_je_lines(
   accounted_cr double, 
   accounted_dr double, 
   amount_includes_tax_flag string, 
@@ -971,7 +971,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.gl_je_lines(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/gl_je_lines';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.gl_sets_of_books(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.gl_sets_of_books(
   set_of_books_id double, 
   name string, 
   short_name string, 
@@ -1045,7 +1045,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.gl_sets_of_books(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/gl_sets_of_books';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.hr_all_organization_units(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.hr_all_organization_units(
   attribute_category string, 
   attribute1 string, 
   attribute10 string, 
@@ -1098,7 +1098,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.hr_all_organization_units(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/hr_all_organization_units';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.hr_locations_all(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.hr_locations_all(
   address_line_1 string, 
   address_line_2 string, 
   address_line_3 string, 
@@ -1173,7 +1173,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.hr_locations_all(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/hr_locations_all';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4sar_h_convenio(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sar_h_convenio(
   id_organization string, 
   std_id_hr string, 
   std_or_hr_period double, 
@@ -1188,7 +1188,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4sar_h_convenio(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/m4sar_h_convenio';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4sar_h_hr_c_costo(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sar_h_hr_c_costo(
   id_organization string, 
   sco_id_hr string, 
   sco_or_hr_role double, 
@@ -1203,7 +1203,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4sar_h_hr_c_costo(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/m4sar_h_hr_c_costo';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4scb_h_hr_conveni(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4scb_h_hr_conveni(
   id_organization string, 
   std_id_hr string, 
   std_or_hr_period double, 
@@ -1218,7 +1218,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4scb_h_hr_conveni(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/m4scb_h_hr_conveni';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4scb_h_hr_rol_cc(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4scb_h_hr_rol_cc(
   id_organization string, 
   sco_id_hr string, 
   sco_or_hr_role double, 
@@ -1233,7 +1233,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4scb_h_hr_rol_cc(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/m4scb_h_hr_rol_cc';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_legent(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_legent(
   id_organization string, 
   std_id_hr string, 
   std_or_hr_period double, 
@@ -1249,7 +1249,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_legent(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/m4sco_h_hr_legent';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_pos(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_pos(
   id_organization string, 
   sco_id_hr string, 
   sco_dt_start string, 
@@ -1262,7 +1262,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_pos(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/m4sco_h_hr_pos';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_ro_time(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_ro_time(
   id_organization string, 
   sco_id_hr string, 
   sco_dt_start string, 
@@ -1279,7 +1279,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_ro_time(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/m4sco_h_hr_ro_time';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_sal_pl(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_sal_pl(
   id_organization string, 
   sco_id_hr string, 
   sco_dt_start string, 
@@ -1295,7 +1295,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_sal_pl(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/m4sco_h_hr_sal_pl';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_wloc(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_wloc(
   id_organization string, 
   sco_id_hr string, 
   sco_dt_start string, 
@@ -1310,7 +1310,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_wloc(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/m4sco_h_hr_wloc';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4sco_hr_role(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sco_hr_role(
   id_organization string, 
   sco_id_hr string, 
   sco_or_hr_role double, 
@@ -1339,7 +1339,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4sco_hr_role(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/m4sco_hr_role';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4sco_position(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sco_position(
   id_organization string, 
   sco_id_position string, 
   sco_nm_positionbra string, 
@@ -1375,7 +1375,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4sco_position(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/m4sco_position';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4sgb_h_hr_categor(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sgb_h_hr_categor(
   id_organization string, 
   sco_id_hr string, 
   sco_or_hr_role double, 
@@ -1389,7 +1389,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4sgb_h_hr_categor(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/m4sgb_h_hr_categor';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4ssp_h_cent_cos(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4ssp_h_cent_cos(
   id_organization string, 
   sco_id_hr string, 
   sco_or_hr_role double, 
@@ -1404,7 +1404,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4ssp_h_cent_cos(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/m4ssp_h_cent_cos';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4ssp_h_convenios(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4ssp_h_convenios(
   id_organization string, 
   ssp_id_hr string, 
   std_or_hr_period double, 
@@ -1419,7 +1419,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4ssp_h_convenios(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/m4ssp_h_convenios';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4t_contabilidad_dwh(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4t_contabilidad_dwh(
   id_tipo_nomina string, 
   id_empleado string, 
   fecha_pago string, 
@@ -1438,7 +1438,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.m4t_contabilidad_dwh(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/m4t_contabilidad_dwh';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_categories_b(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_categories_b(
   category_id double, 
   created_by double, 
   creation_date string, 
@@ -1487,7 +1487,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_categories_b(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/mtl_categories_b';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_category_sets_tl(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_category_sets_tl(
   category_set_id double, 
   category_set_name string, 
   created_by string, 
@@ -1503,7 +1503,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_category_sets_tl(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/mtl_category_sets_tl';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_cross_references(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_cross_references(
   inventory_item_id double, 
   organization_id double, 
   cross_reference_type string, 
@@ -1541,7 +1541,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_cross_references(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/mtl_cross_references';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_item_categories(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_item_categories(
   category_id double, 
   category_set_id double, 
   created_by double, 
@@ -1563,7 +1563,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_item_categories(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/mtl_item_categories';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_item_flexfields(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_item_flexfields(
   acceptable_early_days double, 
   acceptable_rate_decrease double, 
   acceptable_rate_increase double, 
@@ -1871,7 +1871,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_item_flexfields(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/mtl_item_flexfields';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_item_sub_inventories(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_item_sub_inventories(
   attribute_category string, 
   attribute1 string, 
   attribute10 string, 
@@ -1921,7 +1921,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_item_sub_inventories(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/mtl_item_sub_inventories';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_material_transactions(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_material_transactions(
   acct_period_id double, 
   actual_cost double, 
   attribute_category string, 
@@ -1969,7 +1969,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_material_transactions(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/mtl_material_transactions';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_onhand_quantities_detail(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_onhand_quantities_detail(
   inventory_item_id double, 
   organization_id double, 
   date_received string, 
@@ -2009,7 +2009,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_onhand_quantities_detail(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/mtl_onhand_quantities_detail';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_parameters(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_parameters(
   allocate_serial_flag string, 
   ap_accrual_account double, 
   attribute_category string, 
@@ -2189,7 +2189,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_parameters(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/mtl_parameters';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_system_items_b(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_system_items_b(
   acceptable_early_days double, 
   acceptable_rate_decrease double, 
   acceptable_rate_increase double, 
@@ -2499,7 +2499,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_system_items_b(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/mtl_system_items_b';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_transaction_accounts(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_transaction_accounts(
   accounting_line_type double, 
   activity_id double, 
   base_transaction_value double, 
@@ -2542,7 +2542,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_transaction_accounts(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/mtl_transaction_accounts';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_transaction_types(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_transaction_types(
   attribute_category string, 
   attribute1 string, 
   attribute10 string, 
@@ -2580,7 +2580,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_transaction_types(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/mtl_transaction_types';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_txn_source_types(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_txn_source_types(
   attribute_category string, 
   attribute1 string, 
   attribute10 string, 
@@ -2621,7 +2621,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_txn_source_types(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/mtl_txn_source_types';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_units_of_measure_tl(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_units_of_measure_tl(
   attribute_category string, 
   attribute1 string, 
   attribute10 string, 
@@ -2663,7 +2663,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_units_of_measure_tl(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/mtl_units_of_measure_tl';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_uom_conversions(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_uom_conversions(
   conversion_rate double, 
   created_by double, 
   creation_date string, 
@@ -2691,7 +2691,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.mtl_uom_conversions(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/mtl_uom_conversions';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.rg_lookups(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.rg_lookups(
   lookup_type string, 
   lookup_code string, 
   meaning string, 
@@ -2703,7 +2703,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.rg_lookups(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/rg_lookups';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.rg_report_axes(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.rg_report_axes(
   after_axis_string string, 
   amount_id double, 
   application_id double, 
@@ -2764,7 +2764,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.rg_report_axes(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/rg_report_axes';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.rg_report_axis_contents(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.rg_report_axis_contents(
   application_id double, 
   attribute1 string, 
   attribute10 string, 
@@ -3012,7 +3012,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.rg_report_axis_contents(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/rg_report_axis_contents';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.rg_report_standard_axes(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.rg_report_standard_axes(
   application_id double, 
   axis1_operator string, 
   axis2_operator string, 
@@ -3038,7 +3038,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.rg_report_standard_axes(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/rg_report_standard_axes';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.std_country(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_country(
   id_organization string, 
   std_id_country string, 
   std_n_countrybra string, 
@@ -3066,7 +3066,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.std_country(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/std_country';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.std_hr_period(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_hr_period(
   id_organization string, 
   std_id_hr string, 
   std_or_hr_period double, 
@@ -3119,7 +3119,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.std_hr_period(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/std_hr_period';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.std_ht_job_def(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_ht_job_def(
   id_organization string, 
   std_id_job_code string, 
   std_dt_start string, 
@@ -3142,7 +3142,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.std_ht_job_def(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/std_ht_job_def';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.std_job(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_job(
   id_organization string, 
   std_id_job_code string, 
   std_n_job_codebra string, 
@@ -3170,7 +3170,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.std_job(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/std_job';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.std_leg_ent(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_leg_ent(
   id_organization string, 
   std_id_leg_ent string, 
   std_n_leg_ent string, 
@@ -3224,7 +3224,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.std_leg_ent(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/std_leg_ent';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.std_person(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_person(
   id_organization string, 
   std_id_person string, 
   std_n_fam_name_1 string, 
@@ -3283,7 +3283,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.std_person(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/std_person';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.std_rel_work_loc(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_rel_work_loc(
   id_organization string, 
   std_id_wl_child string, 
   std_dt_start string, 
@@ -3297,7 +3297,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.std_rel_work_loc(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/std_rel_work_loc';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.std_work_location(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_work_location(
   id_organization string, 
   std_id_work_locat string, 
   sco_url_ref_plan string, 
@@ -3333,7 +3333,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.std_work_location(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/std_work_location';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.wip_flow_schedules(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.wip_flow_schedules(
   allocated_flag string, 
   alternate_bom_designator string, 
   alternate_routing_designator string, 
@@ -3405,7 +3405,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.wip_flow_schedules(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/wip_flow_schedules';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.wip_lines(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.wip_lines(
   atp_rule_id double, 
   attribute_category string, 
   created_by double, 
@@ -3438,7 +3438,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.wip_lines(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/wip_lines';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.wip_repetitive_items(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.wip_repetitive_items(
   alternate_bom_designator string, 
   alternate_routing_designator string, 
   attribute1 string, 
@@ -3471,7 +3471,7 @@ CREATE TABLE IF NOT EXISTS erp_mexico_sz.wip_repetitive_items(
   storeday string) STORED AS PARQUET LOCATION 's3a://prod-cloudera-s3/user/hive/warehouse/erp_mexico_sz.db/wip_repetitive_items';
 
 
-CREATE TABLE IF NOT EXISTS erp_mexico_sz.wip_transactions(
+CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.wip_transactions(
   acct_period_id double, 
   activity_id double, 
   actual_resource_rate double, 
