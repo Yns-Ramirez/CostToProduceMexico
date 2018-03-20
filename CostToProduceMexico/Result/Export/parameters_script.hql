@@ -207,8 +207,18 @@ SELECT
 N.EntidadLegal_id, 
 N.Centrocostos_id, 
 N.Areanegocio_id, 
-sum(montodebito)-Sum(montocredito) as Monto
-FROM gb_smntc_mexico_costoproducir.A_Saldo_Nomina N 
+sum(coalesce(montodebito,0))-Sum(coalesce(montocredito,0)) as Monto
+FROM gb_smntc_mexico_costoproducir.A_Saldo_Nomina N
+INNER JOIN (
+        SELECT
+         EntidadLegal_ID,
+         TRIM(lower(Condicion)) AS  Condicion 
+         FROM gb_smntc_mexico_costoproducir.cp_parametros 
+        WHERE EntidadLegal_ID IN (${VAR:VAR_EL}) 
+           AND Objeto = 'A_SALDO_NOMINA' 
+           AND Campo = 'HDR_JE_Source' 
+           AND Subrubro_ID IN (31,32,33,34) GROUP BY 1,2
+        )P ON P.entidadLegal_ID = N.entidadlegal_id and lower(p.Condicion) = lower(N.Hdr_je_source)
 INNER JOIN 
 (
 SELECT LC.EntidadLegal_Id, LC.Planta_ID, LC.CentroCostos_ID, LC.DL
@@ -229,8 +239,8 @@ AND ML.Medida_Linea <> 0 and LC.DL in (0,1)
 GROUP BY 1,2,3,4
 ) LINEAS
 ON N.EntidadLegal_ID = LINEAS.EntidadLegal_ID and N.AreaNegocio_ID = LINEAS.Planta_ID And N.CentroCostos_ID = LINEAS.CentroCostos_ID 
-WHERE N.Hdr_je_source in ('22','104') 
-and (N.Cuentanatural_ID BETWEEN '6300' AND '6399' OR N.Cuentanatural_ID = '6997') 
+WHERE 
+(N.Cuentanatural_ID BETWEEN '6300' AND '6399' OR N.Cuentanatural_ID = '6997') 
 and N.EntidadLegal_ID in (${VAR:VAR_EL}) and N.periodo = '${VAR:VAR_PERIODO2}'
 GROUP BY 1,2,3,4;
 
