@@ -1,16 +1,16 @@
 CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_transaction_accounts AS select
     mtl_transaction_accounts.transaction_id            
     ,mtl_transaction_accounts.reference_account  
-    ,regexp_replace(mtl_transaction_accounts.last_update_date, '-', '/')        
+    ,regexp_replace(mtl_transaction_accounts.last_update_date, '-', '/') as last_update_date        
     ,mtl_transaction_accounts.last_update_date_h        
     ,mtl_transaction_accounts.last_updated_by           
-    ,regexp_replace(mtl_transaction_accounts.creation_date, '-', '/') 
+    ,regexp_replace(mtl_transaction_accounts.creation_date, '-', '/') as creation_date
     ,mtl_transaction_accounts.creation_date_h           
     ,mtl_transaction_accounts.created_by                
     ,mtl_transaction_accounts.last_update_login         
     ,mtl_transaction_accounts.inventory_item_id         
     ,mtl_transaction_accounts.organization_id  
-    ,regexp_replace(mtl_transaction_accounts.transaction_date, '-', '/')          
+    ,regexp_replace(mtl_transaction_accounts.transaction_date, '-', '/') as transaction_date
     ,mtl_transaction_accounts.transaction_date_h        
     ,mtl_transaction_accounts.transaction_source_id     
     ,mtl_transaction_accounts.transaction_source_type_id
@@ -26,14 +26,14 @@ CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_transaction_
     ,mtl_transaction_accounts.cost_element_id           
     ,mtl_transaction_accounts.activity_id               
     ,mtl_transaction_accounts.currency_code
-    ,regexp_replace(mtl_transaction_accounts.currency_conversion_date, '-', '/')              
+    ,regexp_replace(mtl_transaction_accounts.currency_conversion_date, '-', '/') as currency_conversion_date
     ,mtl_transaction_accounts.currency_conversion_date_h
     ,mtl_transaction_accounts.currency_conversion_type  
     ,mtl_transaction_accounts.currency_conversion_rate  
     ,mtl_transaction_accounts.request_id                
     ,mtl_transaction_accounts.program_application_id    
     ,mtl_transaction_accounts.program_id                
-    ,regexp_replace(mtl_transaction_accounts.program_update_date, '-', '/') 
+    ,regexp_replace(mtl_transaction_accounts.program_update_date, '-', '/') as program_update_date
     ,mtl_transaction_accounts.program_update_date_h     
     ,mtl_transaction_accounts.encumbrance_type_id       
     ,mtl_transaction_accounts.repetitive_schedule_id    
