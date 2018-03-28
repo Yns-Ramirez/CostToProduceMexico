@@ -414,7 +414,7 @@ N.periodo AS Periodo
 FROM gb_smntc_mexico_costoproducir.A_SALDO_NOMINA  N      
 INNER JOIN  gb_smntc_mexico_costoproducir.V_MF_Plantas b ON N.EntidadLegal_ID = B.EntidadLegal_ID AND N.AreaNegocio_ID = B.Planta_ID     
 WHERE  N.periodo = '${VAR:VAR_PERIODO2}'
-AND N.Cuentanatural_ID like '642%'      
+AND (N.Cuentanatural_ID like '642%' OR (N.Cuentanatural_ID = '6401' AND N.EntidadLegal_ID = '125'))
 AND N.EntidadLegal_ID IN (${VAR:VAR_EL}) 
  AND N.centrocostos_id NOT IN ('0051', '0402', '0404', '0405')
  AND b.Planta_ID NOT IN ('0001')  
@@ -505,6 +505,8 @@ and FSG.CentroCostos_ID between '0151' and '0259'
 AND (FSG.CuentaNatural_ID < '6300' OR  FSG.CuentaNatural_ID > '6599')
 AND NOT (FSG.CuentaNatural_ID = '6997')
 AND NOT (FSG.CuentaNatural_ID = '6717' AND FSG.CentroCostos_ID= '0153')
+--and ((FSG.CuentaNatural_ID <> '6401' AND FSG.EntidadLegal_ID = '125') OR (FSG.EntidadLegal_ID <> '125'))
+--and ((FSG.AreaNegocio_ID = '1731' and FSG.EntidadLegal_id='125') OR (FSG.EntidadLegal_id<>'125'))
 AND FSG.EntidadLegal_id IN (${VAR:VAR_EL})
 AND FSG.AnioSaldo =  ${VAR:VAR_ANIO}
 AND FSG.MesSaldo = ${VAR:VAR_MES}
