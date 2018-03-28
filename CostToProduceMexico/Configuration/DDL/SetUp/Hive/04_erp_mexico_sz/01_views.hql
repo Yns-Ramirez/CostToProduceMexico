@@ -1,4 +1,4 @@
-CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_transaction_accounts AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_transaction_accounts AS select
     mtl_transaction_accounts.transaction_id            
     ,mtl_transaction_accounts.reference_account  
     ,regexp_replace(mtl_transaction_accounts.last_update_date, '-', '/') as last_update_date        
@@ -42,7 +42,7 @@ CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_transaction_
 from erp_mexico_sz.mtl_transaction_accounts;
 
 
-CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_transaccion_materiales AS select mtl_material_transactions.transaction_id,  
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_transaccion_materiales AS select mtl_material_transactions.transaction_id,  
     mtl_material_transactions.last_update_date,
     mtl_material_transactions.last_update_date_h,  
     mtl_material_transactions.creation_date,
@@ -58,7 +58,7 @@ CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_transaccion_
     mtl_material_transactions.transaction_uom,     
     mtl_material_transactions.primary_quantity,
     mtl_material_transactions.transaction_date,
-    substr(trim(mtl_material_transactions.transaction_date_h),1,8),
+    substr(trim(mtl_material_transactions.transaction_date_h),1,8) as transaction_date_h,
     mtl_material_transactions.transaction_reference,
     mtl_material_transactions.actual_cost,         
     mtl_material_transactions.transaction_cost,    
@@ -90,7 +90,7 @@ CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_transaccion_
 from erp_mexico_sz.mtl_material_transactions;
 
 
-CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_categorias AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_categorias AS select
 mtl_categories_b.category_id 
 ,mtl_categories_b.structure_id 
 ,mtl_categories_b.description 
@@ -140,21 +140,21 @@ mtl_categories_b.category_id
 from erp_mexico_sz.MTL_CATEGORIES_b;
 
 
-CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_flexfields_materiales AS SELECT   mtl_item_flexfields.item_id                       
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_flexfields_materiales AS SELECT   mtl_item_flexfields.item_id                       
 , mtl_item_flexfields.inventory_item_id             
 , mtl_item_flexfields.organization_id         
-,regexp_replace(substr(mtl_item_flexfields.last_update_date, 3, 10), '-', '/')       
+,regexp_replace(substr(mtl_item_flexfields.last_update_date, 3, 10), '-', '/') as last_update_date
 , mtl_item_flexfields.last_update_date_h            
 , mtl_item_flexfields.last_updated_by               
-,regexp_replace(substr(mtl_item_flexfields.creation_date, 3, 10), '-', '/') 
+,regexp_replace(substr(mtl_item_flexfields.creation_date, 3, 10), '-', '/') as creation_date
 , mtl_item_flexfields.creation_date_h               
 , mtl_item_flexfields.created_by                    
 , mtl_item_flexfields.last_update_login             
 , mtl_item_flexfields.summary_flag                  
 , mtl_item_flexfields.enabled_flag                  
-,regexp_replace(substr(mtl_item_flexfields.start_date_active, 3, 10), '-', '/') 
+,regexp_replace(substr(mtl_item_flexfields.start_date_active, 3, 10), '-', '/') as start_date_active
 , mtl_item_flexfields.start_date_active_h           
-,regexp_replace(substr(mtl_item_flexfields.end_date_active, 3, 10), '-', '/') 
+,regexp_replace(substr(mtl_item_flexfields.end_date_active, 3, 10), '-', '/') as end_date_active
 , mtl_item_flexfields.end_date_active_h             
 , mtl_item_flexfields.description                   
 , mtl_item_flexfields.buyer_id                      
@@ -326,7 +326,7 @@ CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_flexfields_m
 , mtl_item_flexfields.negative_measurement_error    
 , mtl_item_flexfields.engineering_ecn_code          
 , mtl_item_flexfields.engineering_item_id           
-,regexp_replace(substr(mtl_item_flexfields.engineering_date, 3, 10), '-', '/') 
+,regexp_replace(substr(mtl_item_flexfields.engineering_date, 3, 10), '-', '/') as engineering_date
 , mtl_item_flexfields.engineering_date_h            
 , mtl_item_flexfields.service_starting_delay        
 , mtl_item_flexfields.vendor_warranty_flag          
@@ -357,7 +357,7 @@ CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_flexfields_m
 , mtl_item_flexfields.request_id                    
 , mtl_item_flexfields.program_application_id        
 , mtl_item_flexfields.program_id                    
-,regexp_replace(substr(mtl_item_flexfields.program_update_date, 3, 10), '-', '/')     
+,regexp_replace(substr(mtl_item_flexfields.program_update_date, 3, 10), '-', '/')  as program_update_date
 , mtl_item_flexfields.program_update_date_h         
 , mtl_item_flexfields.outside_operation_flag        
 , mtl_item_flexfields.outside_operation_uom_type    
@@ -447,17 +447,17 @@ CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_flexfields_m
 FROM erp_mexico_sz.MTL_ITEM_FLEXFIELDS;
 
 
-CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_catalogo_materiales AS select mtl_system_items_b.inventory_item_id   
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_catalogo_materiales AS select mtl_system_items_b.inventory_item_id   
 , mtl_system_items_b.organization_id
-,regexp_replace(mtl_system_items_b.last_update_date, '-', '/')      
+,regexp_replace(mtl_system_items_b.last_update_date, '-', '/') as last_update_date
 , mtl_system_items_b.last_updated_by
-,regexp_replace(mtl_system_items_b.creation_date, '-', '/')      
+,regexp_replace(mtl_system_items_b.creation_date, '-', '/') as creation_date
 , mtl_system_items_b.created_by          
 , mtl_system_items_b.last_update_login   
 , mtl_system_items_b.summary_flag        
 , mtl_system_items_b.enabled_flag
-,regexp_replace(mtl_system_items_b.start_date_active, '-', '/')         
-,regexp_replace(mtl_system_items_b.end_date_active, '-', '/')    
+,regexp_replace(mtl_system_items_b.start_date_active, '-', '/') as start_date_active
+,regexp_replace(mtl_system_items_b.end_date_active, '-', '/') as end_date_active
 , mtl_system_items_b.description         
 , mtl_system_items_b.buyer_id            
 , mtl_system_items_b.accounting_rule_id  
@@ -625,7 +625,7 @@ CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_catalogo_mat
 , mtl_system_items_b.negative_measurement_error
 , mtl_system_items_b.engineering_ecn_code
 , mtl_system_items_b.engineering_item_id 
-,regexp_replace(mtl_system_items_b.engineering_date, '-', '/') 
+,regexp_replace(mtl_system_items_b.engineering_date, '-', '/') as engineering_date
 , mtl_system_items_b.service_starting_delay
 , mtl_system_items_b.vendor_warranty_flag
 , mtl_system_items_b.serviceable_component_flag
@@ -655,7 +655,7 @@ CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_catalogo_mat
 , mtl_system_items_b.request_id          
 , mtl_system_items_b.program_application_id
 , mtl_system_items_b.program_id   
-,regexp_replace(mtl_system_items_b.program_update_date, '-', '/')        
+,regexp_replace(mtl_system_items_b.program_update_date, '-', '/') as program_update_date
 , mtl_system_items_b.outside_operation_flag
 , mtl_system_items_b.outside_operation_uom_type
 , mtl_system_items_b.safety_stock_bucket_days
@@ -677,7 +677,7 @@ CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_catalogo_mat
 , mtl_system_items_b.minimum_fill_percent
 , mtl_system_items_b.container_type_code 
 , mtl_system_items_b.internal_volume    
-,regexp_replace(mtl_system_items_b.wh_update_date, '-', '/')  
+,regexp_replace(mtl_system_items_b.wh_update_date, '-', '/') as wh_update_date
 , mtl_system_items_b.product_family_item_id
 , mtl_system_items_b.purchasing_tax_code 
 , mtl_system_items_b.overcompletion_tolerance_type
@@ -757,7 +757,7 @@ CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_catalogo_mat
 from erp_mexico_sz.MTL_SYSTEM_ITEMS_B;
 
 
-CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_categoria_materiales AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_categoria_materiales AS select
 mtl_item_categories.inventory_item_id 
 ,mtl_item_categories.organization_id 
 ,mtl_item_categories.category_set_id 
@@ -781,19 +781,19 @@ from erp_mexico_sz.MTL_ITEM_CATEGORIES;
 
 
 
-CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_unidad_medida AS SELECT   mtl_units_of_measure_tl.unit_of_measure       
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_unidad_medida AS SELECT   mtl_units_of_measure_tl.unit_of_measure       
 , mtl_units_of_measure_tl.uom_code              
 , mtl_units_of_measure_tl.uom_class             
 , mtl_units_of_measure_tl.base_uom_flag         
 , mtl_units_of_measure_tl.unit_of_measure_tl  
-,regexp_replace(substr(mtl_units_of_measure_tl.last_update_date, 3, 10), '-', '/')
+,regexp_replace(substr(mtl_units_of_measure_tl.last_update_date, 3, 10), '-', '/') as last_update_date
 , mtl_units_of_measure_tl.last_update_date_h    
 , mtl_units_of_measure_tl.last_updated_by       
 , mtl_units_of_measure_tl.created_by       
-,regexp_replace(substr(mtl_units_of_measure_tl.creation_date, 3, 10), '-', '/')        
+,regexp_replace(substr(mtl_units_of_measure_tl.creation_date, 3, 10), '-', '/') as creation_date      
 , mtl_units_of_measure_tl.creation_date_h       
 , mtl_units_of_measure_tl.last_update_login  
-,regexp_replace(substr(mtl_units_of_measure_tl.disable_date, 3, 10), '-', '/')      
+,regexp_replace(substr(mtl_units_of_measure_tl.disable_date, 3, 10), '-', '/') as disable_date
 , mtl_units_of_measure_tl.disable_date_h        
 , mtl_units_of_measure_tl.description           
 , mtl_units_of_measure_tl.languages             
@@ -817,30 +817,30 @@ CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_unidad_medid
 , mtl_units_of_measure_tl.request_id            
 , mtl_units_of_measure_tl.program_application_id
 , mtl_units_of_measure_tl.program_id    
-,regexp_replace(substr(mtl_units_of_measure_tl.program_update_date, 3, 10), '-', '/')           
+,regexp_replace(substr(mtl_units_of_measure_tl.program_update_date, 3, 10), '-', '/') as program_update_date
 , mtl_units_of_measure_tl.program_update_date_h, mtl_units_of_measure_tl.storeday
 FROM erp_mexico_sz.MTL_UNITS_OF_MEASURE_TL;
 
 
-CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_conversiones_udm AS SELECT   mtl_uom_conversions.unit_of_measure        
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_conversiones_udm AS SELECT   mtl_uom_conversions.unit_of_measure        
 , mtl_uom_conversions.uom_code               
 , mtl_uom_conversions.uom_class              
 , mtl_uom_conversions.inventory_item_id      
 , mtl_uom_conversions.conversion_rate        
 , mtl_uom_conversions.default_conversion_flag
-,regexp_replace(substr(mtl_uom_conversions.last_update_date, 3, 10), '-', '/') 
+,regexp_replace(substr(mtl_uom_conversions.last_update_date, 3, 10), '-', '/') as last_update_date
 , mtl_uom_conversions.last_update_date_h     
 , mtl_uom_conversions.last_updated_by                   
-,regexp_replace(substr(mtl_uom_conversions.creation_date, 3, 10), '-', '/') 
+,regexp_replace(substr(mtl_uom_conversions.creation_date, 3, 10), '-', '/') as creation_date
 , mtl_uom_conversions.creation_date_h        
 , mtl_uom_conversions.created_by             
 , mtl_uom_conversions.last_update_login      
-,regexp_replace(substr(mtl_uom_conversions.disable_date, 3, 10), '-', '/') 
+,regexp_replace(substr(mtl_uom_conversions.disable_date, 3, 10), '-', '/') as disable_date
 , mtl_uom_conversions.disable_date_h         
 , mtl_uom_conversions.request_id             
 , mtl_uom_conversions.program_application_id 
 , mtl_uom_conversions.program_id             
-,regexp_replace(substr(mtl_uom_conversions.program_update_date, 3, 10), '-', '/') 
+,regexp_replace(substr(mtl_uom_conversions.program_update_date, 3, 10), '-', '/') as program_update_date
 , mtl_uom_conversions.program_update_date_h  
 , mtl_uom_conversions.length                 
 , mtl_uom_conversions.width                  
@@ -849,7 +849,7 @@ CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_mtl_conversiones
 FROM erp_mexico_sz.MTL_UOM_CONVERSIONS;
 
 
-CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_hr_location AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir.hr_location AS select
 hr_locations_all.location_id 
 ,hr_locations_all.location_code 
 ,hr_locations_all.business_group_id 
@@ -863,7 +863,7 @@ hr_locations_all.location_id
 ,hr_locations_all.designated_receiver_id 
 ,hr_locations_all.inventory_organization_id 
 ,hr_locations_all.tax_name
-,regexp_replace(hr_locations_all.inactive_date, '-', '/')
+,regexp_replace(hr_locations_all.inactive_date, '-', '/') as inactive_date
 ,hr_locations_all.inactive_date_h 
 ,hr_locations_all.style 
 ,hr_locations_all.address_line_1 
@@ -885,12 +885,12 @@ hr_locations_all.location_id
 ,hr_locations_all.loc_information17 
 ,hr_locations_all.attribute_category 
 ,hr_locations_all.attribute1 
-,regexp_replace(hr_locations_all.last_update_date, '-', '/')
+,regexp_replace(hr_locations_all.last_update_date, '-', '/') as last_update_date
 ,hr_locations_all.last_update_date_h 
 ,hr_locations_all.last_updated_by 
 ,hr_locations_all.last_update_login 
 ,hr_locations_all.created_by
-,regexp_replace(hr_locations_all.creation_date, '-', '/')
+,regexp_replace(hr_locations_all.creation_date, '-', '/') as creation_date
 ,hr_locations_all.creation_date_h 
 ,hr_locations_all.entered_by 
 ,hr_locations_all.tp_header_id 
@@ -902,19 +902,19 @@ hr_locations_all.location_id
 from  erp_mexico_sz.HR_LOCATIONS_ALL;
 
 
-CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_bom_resources AS SELECT 
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir.bom_resources AS SELECT 
 bom_resources.resource_id                   
 ,bom_resources.resource_code                 
 ,bom_resources.organization_id
-,regexp_replace(bom_resources.last_update_date, '-', '/')                         
+,regexp_replace(bom_resources.last_update_date, '-', '/') as last_update_date
 ,bom_resources.last_update_date_h            
 ,bom_resources.last_updated_by               
-,regexp_replace(bom_resources.creation_date, '-', '/')              
+,regexp_replace(bom_resources.creation_date, '-', '/') as creation_date
 ,bom_resources.creation_date_h               
 ,bom_resources.created_by                    
 ,bom_resources.last_update_login             
 ,bom_resources.description
-,regexp_replace(bom_resources.disable_date, '-', '/')                   
+,regexp_replace(bom_resources.disable_date, '-', '/') as disable_date
 ,bom_resources.disable_date_h                
 ,bom_resources.cost_element_id               
 ,bom_resources.purchase_item_id              
@@ -949,7 +949,7 @@ bom_resources.resource_id
 ,bom_resources.request_id                    
 ,bom_resources.program_application_id        
 ,bom_resources.program_id
-,regexp_replace(bom_resources.program_update_date, '-', '/')                          
+,regexp_replace(bom_resources.program_update_date, '-', '/') as program_update_date
 ,bom_resources.program_update_date_h         
 ,bom_resources.batchable                     
 ,bom_resources.max_batch_capacity            
@@ -965,23 +965,23 @@ bom_resources.resource_id
 FROM erp_mexico_sz.BOM_RESOURCES;
 
 
-CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_hr_organizacion AS select 
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir.hr_organizacion AS select 
 hr_all_organization_units.organization_id 
-,regexp_replace(hr_all_organization_units.last_update_date, '-', '/')
+,regexp_replace(hr_all_organization_units.last_update_date, '-', '/') as last_update_date
 ,hr_all_organization_units.last_update_date_h 
 ,hr_all_organization_units.last_updated_by 
 ,hr_all_organization_units.created_by
-,regexp_replace(hr_all_organization_units.creation_date, '-', '/')
+,regexp_replace(hr_all_organization_units.creation_date, '-', '/') as creation_date
 ,hr_all_organization_units.creation_date_h 
 ,hr_all_organization_units.business_group_id 
 ,hr_all_organization_units.cost_allocation_keyflex_id 
 ,hr_all_organization_units.location_id 
 ,hr_all_organization_units.soft_coding_keyflex_id 
-,regexp_replace(hr_all_organization_units.date_from, '-', '/') 
+,regexp_replace(hr_all_organization_units.date_from, '-', '/') as date_from
 ,hr_all_organization_units.date_from_h 
 ,hr_all_organization_units.name 
 ,hr_all_organization_units.comments
-,regexp_replace(hr_all_organization_units.date_to, '-', '/') 
+,regexp_replace(hr_all_organization_units.date_to, '-', '/') as date_to
 ,hr_all_organization_units.date_to_h 
 ,hr_all_organization_units.internal_external_flag 
 ,hr_all_organization_units.internal_address_line 
@@ -989,7 +989,7 @@ hr_all_organization_units.organization_id
 ,hr_all_organization_units.request_id 
 ,hr_all_organization_units.program_application_id 
 ,hr_all_organization_units.program_id
-,regexp_replace(hr_all_organization_units.program_update_date, '-', '/')
+,regexp_replace(hr_all_organization_units.program_update_date, '-', '/') as program_update_date
 ,hr_all_organization_units.program_update_date_h 
 ,hr_all_organization_units.attribute_category 
 ,hr_all_organization_units.attribute1 
@@ -1012,10 +1012,10 @@ else
 mtl_cross_references.cross_reference
 end as cross_reference
 ,mtl_cross_references.last_update_date
-,mtl_cross_references.last_update_date_h
+,substring(trim(mtl_cross_references.last_update_date_h),1,8) as last_update_date_h
 ,mtl_cross_references.last_updated_by
 ,mtl_cross_references.creation_date
-,mtl_cross_references.creation_date_h
+,substring(trim(mtl_cross_references.creation_date_h),1,8) as creation_date_h
 ,mtl_cross_references.created_by
 ,mtl_cross_references.last_update_login
 ,mtl_cross_references.description
@@ -1024,7 +1024,7 @@ end as cross_reference
 ,mtl_cross_references.program_application_id
 ,mtl_cross_references.program_id
 ,mtl_cross_references.program_update_date
-,mtl_cross_references.program_update_date_h
+,substring(trim(mtl_cross_references.program_update_date_h),1,8) as program_update_date_h
 ,mtl_cross_references.attribute1
 ,mtl_cross_references.attribute2
 ,mtl_cross_references.attribute3
@@ -1045,7 +1045,7 @@ end as cross_reference
 from erp_mexico_sz.mtl_cross_references;
 
 
-CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_wip_lineas AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir.wip_lineas AS select
 wip_lines.line_id
 ,wip_lines.organization_id
 ,substr(wip_lines.last_update_date, 3, 10) as LAST_UPDATE_DATE
@@ -1079,7 +1079,7 @@ wip_lines.line_id
 from erp_mexico_sz.WIP_LINES;
 
 
-CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_wip_flow_schedules AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir.wip_flow_schedules AS select
 wip_flow_schedules.scheduled_flag
 , wip_flow_schedules.wip_entity_id
 , wip_flow_schedules.organization_id
@@ -1283,7 +1283,7 @@ LEFT OUTER JOIN erp_mexico_sz.fnd_lookups LK6 ON lk6.lookup_code = rx.page_break
 LEFT OUTER JOIN erp_mexico_sz.fnd_lookups LK7 ON lk7.lookup_code = rx.page_break_after_flag AND lk7.lookup_type = 'YES_NO';
 
 
-CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_gl_je_headers AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir.gl_je_headers AS select
 gl_je_headers.je_header_id                  
 ,gl_je_headers.last_update_date              
 ,gl_je_headers.last_update_date_h            
@@ -1374,7 +1374,7 @@ gl_je_headers.je_header_id
 from erp_mexico_sz.gl_je_headers;
 
 
-CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_gl_je_lines AS select 
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir.gl_je_lines AS select 
       gl_je_lines.je_header_id                  
      ,gl_je_lines.je_line_num                   
      ,gl_je_lines.last_update_date              
@@ -2029,9 +2029,9 @@ CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_a_pago_empleado 
      ,m4t_contabilidad_dwh.storeday as storeday
 from erp_mexico_sz.m4t_contabilidad_dwh;
 
-CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_gl_estructura_contable AS select
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir.gl_estructura_contable AS select
 gl_code_combinations.code_combination_id 
-,regexp_replace(gl_code_combinations.last_update_date, '-', '/')
+,regexp_replace(gl_code_combinations.last_update_date, '-', '/') as last_update_date
 ,gl_code_combinations.last_update_date_h 
 ,gl_code_combinations.last_updated_by 
 ,gl_code_combinations.chart_of_accounts_id 
@@ -2054,9 +2054,9 @@ gl_code_combinations.code_combination_id
 ,gl_code_combinations.description 
 ,gl_code_combinations.template_id 
 ,gl_code_combinations.allocation_create_flag 
-,regexp_replace(gl_code_combinations.start_date_active, '-', '/') 
+,regexp_replace(gl_code_combinations.start_date_active, '-', '/') as start_date_active
 ,gl_code_combinations.start_date_active_h 
-,regexp_replace(gl_code_combinations.end_date_active, '-', '/') 
+,regexp_replace(gl_code_combinations.end_date_active, '-', '/') as end_date_active
 ,gl_code_combinations.end_date_active_h
 ,gl_code_combinations.storeday 
 from erp_mexico_sz.gl_code_combinations;
