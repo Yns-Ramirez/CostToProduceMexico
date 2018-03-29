@@ -23,7 +23,6 @@ and sec.COST_TYPE_ID is null;
 -- insert data with the field FECHA_ACTUALIZACION with the last date of the month is closing
 insert overwrite table gb_mdl_mexico_costoproducir.CST_ITEM_COST_DETAILS_HIST partition(fecha_actualizacion)
 SELECT
-  ---CURRENT_DATE-1
   cd.INVENTORY_ITEM_ID
   ,cd.ORGANIZATION_ID
   ,cd.COST_TYPE_ID
