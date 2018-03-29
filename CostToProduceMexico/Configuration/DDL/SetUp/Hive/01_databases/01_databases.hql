@@ -1,4 +1,4 @@
-create database if not exists cp_stg_src_mxprod;
+--create database if not exists cp_stg_src_mxprod;
 create database if not exists cp_sys_calendar;
 create database if not exists cp_flat_files;
 create database if not exists gb_mdl_mexico_costoproducir;

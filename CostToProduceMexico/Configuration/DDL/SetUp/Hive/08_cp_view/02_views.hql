@@ -152,7 +152,7 @@ cst_item_cost_details_hist.fecha_actualizacion
 ,cst_item_cost_details_hist.allocation_percent
 ,cst_item_cost_details_hist.vendor_site_id
 ,cst_item_cost_details_hist.ship_method
-from gb_mdl_mexico_costoproducir.CST_ITEM_COST_DETAILS_HIST;
+from gb_mdl_mexico_erp.cst_item_cost_details_hist;
 
 
 CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.v_mf_turno_default_dia AS select  

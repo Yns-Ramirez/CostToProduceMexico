@@ -1,27 +1,29 @@
--- ================== gb_mdl_mexico_costoproducir.CST_ITEM_COST_DETAILS_HIST monthly ==================
+-- ================== gb_mdl_mexico_erp.cst_item_cost_details_hist monthly ==================
 -- Author / Autor             : Francisco Martinez
 -- Date / Fecha               : December 2016
 -- Project /Proyecto          : Costo Producir-Big Data
--- Objective / Objetivo       : Update information monthly, table gb_mdl_mexico_costoproducir.CST_ITEM_COST_DETAILS_HIST
+-- Objective / Objetivo       : Update information monthly, table gb_mdl_mexico_erp.cst_item_cost_details_hist
 -- Subject Area / Area Sujeto :
 
 -- delete data with the field FECHA_ACTUALIZACION related with the month is closing
-INSERT OVERWRITE table gb_mdl_mexico_costoproducir.CST_ITEM_COST_DETAILS_HIST partition(fecha_actualizacion)
-SELECT tmp.* FROM gb_mdl_mexico_costoproducir.CST_ITEM_COST_DETAILS_HIST tmp 
-left outer join (SELECT a.FECHA_ACTUALIZACION,a.INVENTORY_ITEM_ID,a.ORGANIZATION_ID,a.COST_TYPE_ID 
-FROM gb_mdl_mexico_costoproducir.CST_ITEM_COST_DETAILS_HIST a
-WHERE a.FECHA_ACTUALIZACION between (add_months(FROM_UNIXTIME(UNIX_TIMESTAMP()),1) -1) and FROM_UNIXTIME(UNIX_TIMESTAMP())-1) sec 
-on tmp.FECHA_ACTUALIZACION=sec.FECHA_ACTUALIZACION
-and tmp.INVENTORY_ITEM_ID=sec.INVENTORY_ITEM_ID
-and tmp.ORGANIZATION_ID=sec.ORGANIZATION_ID
-and tmp.COST_TYPE_ID=sec.COST_TYPE_ID
-where sec.FECHA_ACTUALIZACION is null
-and sec.INVENTORY_ITEM_ID is null
-and sec.ORGANIZATION_ID is null
-and sec.COST_TYPE_ID is null;
+
+-- 
+-- INSERT OVERWRITE table gb_mdl_mexico_erp.cst_item_cost_details_hist partition(fecha_actualizacion)
+-- SELECT tmp.* FROM gb_mdl_mexico_erp.cst_item_cost_details_hist tmp 
+-- left outer join (SELECT a.FECHA_ACTUALIZACION,a.INVENTORY_ITEM_ID,a.ORGANIZATION_ID,a.COST_TYPE_ID 
+-- FROM gb_mdl_mexico_erp.cst_item_cost_details_hist a
+-- WHERE a.FECHA_ACTUALIZACION between (add_months(FROM_UNIXTIME(UNIX_TIMESTAMP()),1) -1) and FROM_UNIXTIME(UNIX_TIMESTAMP())-1) sec 
+-- on tmp.FECHA_ACTUALIZACION=sec.FECHA_ACTUALIZACION
+-- and tmp.INVENTORY_ITEM_ID=sec.INVENTORY_ITEM_ID
+-- and tmp.ORGANIZATION_ID=sec.ORGANIZATION_ID
+-- and tmp.COST_TYPE_ID=sec.COST_TYPE_ID
+-- where sec.FECHA_ACTUALIZACION is null
+-- and sec.INVENTORY_ITEM_ID is null
+-- and sec.ORGANIZATION_ID is null
+-- and sec.COST_TYPE_ID is null;
 
 -- insert data with the field FECHA_ACTUALIZACION with the last date of the month is closing
-insert overwrite table gb_mdl_mexico_costoproducir.CST_ITEM_COST_DETAILS_HIST partition(fecha_actualizacion)
+insert overwrite table gb_mdl_mexico_erp.CST_ITEM_COST_DETAILS_HIST partition(fecha_actualizacion)
 SELECT
   cd.INVENTORY_ITEM_ID
   ,cd.ORGANIZATION_ID

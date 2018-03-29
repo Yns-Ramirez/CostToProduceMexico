@@ -1,4 +1,4 @@
-drop database if exists cp_stg_src_mxprod;
+--drop database if exists cp_stg_src_mxprod;
 drop database if exists cp_sys_calendar;
 drop database if exists cp_flat_files;
 drop database if exists gb_mdl_mexico_costoproducir;
