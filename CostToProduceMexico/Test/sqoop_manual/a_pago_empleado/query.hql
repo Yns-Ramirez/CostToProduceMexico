@@ -1,4 +1,4 @@
-insert overwrite table gb_smntc_mexico_costoproducir.a_pago_empleado
+insert overwrite table gb_mdl_mexico_erp.a_pago_empleado
     select 
         tiponomina_id
         ,empleado_id

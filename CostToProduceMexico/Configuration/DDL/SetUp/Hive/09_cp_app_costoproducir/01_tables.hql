@@ -1,19 +1,19 @@
 
-CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.a_pago_empleado(
-  tiponomina_id string, 
-  empleado_id string, 
-  fechapago string, 
-  cuentanatural_id string, 
-  analisislocal_id string, 
-  concepto_id int, 
-  region_id string, 
-  montopago float, 
-  tipomoneda_id int, 
-  sistemafuente string, 
-  usuarioetl string, 
-  fechacarga string, 
-  fechacambio string, 
-  storeday string);
+-- CREATE TABLE IF NOT EXISTS gb_mdl_mexico_erp.a_pago_empleado(
+--   tiponomina_id string, 
+--   empleado_id string, 
+--   fechapago string, 
+--   cuentanatural_id string, 
+--   analisislocal_id string, 
+--   concepto_id int, 
+--   region_id string, 
+--   montopago float, 
+--   tipomoneda_id int, 
+--   sistemafuente string, 
+--   usuarioetl string, 
+--   fechacarga string, 
+--   fechacambio string, 
+--   storeday string);
 
 
 CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.a_saldo_nomina(

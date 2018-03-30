@@ -595,7 +595,7 @@ a_pago_empleado.tiponomina_id
 ,a_pago_empleado.montopago       
 ,a_pago_empleado.tipomoneda_id
 ,a_pago_empleado.storeday
-from gb_smntc_mexico_costoproducir.a_pago_empleado;
+from gb_mdl_mexico_erp.a_pago_empleado;
 
 CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.v_a_pago_empleado AS select
 ae1.tiponomina_id

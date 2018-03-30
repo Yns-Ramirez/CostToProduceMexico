@@ -1,11 +1,10 @@
 -- ======================================================
 --  a_pago_empleado
 
-insert overwrite table gb_smntc_mexico_costoproducir.a_pago_empleado
+insert overwrite table gb_mdl_mexico_erp.a_pago_empleado
      select
           tmp.tiponomina_id,
           tmp.empleado_id,
-          tmp.fechapago,
           tmp.cuentanatural_id,
           tmp.analisislocal_id,
           tmp.concepto_id,
@@ -16,6 +15,7 @@ insert overwrite table gb_smntc_mexico_costoproducir.a_pago_empleado
           tmp.usuarioetl,
           tmp.fechacarga,
           tmp.fechacambio,
-          from_unixtime(unix_timestamp())
+          from_unixtime(unix_timestamp()),
+          substr(tmp.fechapago,1,10) as fechapago
      from gb_mdl_mexico_costoproducir_views.vdw_a_pago_empleado tmp, gb_mdl_mexico_costoproducir_views.v_fechas_extraccion vfe
      where tmp.fechapago >= vfe.fechaini;

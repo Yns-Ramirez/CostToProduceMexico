@@ -332,7 +332,7 @@ year(wip_repetitive_items_hist.fecha_actualizacion) as aniobimbo
 ,wip_repetitive_items_hist.attribute1                    
 ,wip_repetitive_items_hist.attribute6
 ,wip_repetitive_items_hist.storeday                    
-from gb_mdl_mexico_costoproducir.wip_repetitive_items_hist;
+from gb_mdl_mexico_erp.wip_repetitive_items_hist;
 
 
 CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_a_saldo AS SELECT  

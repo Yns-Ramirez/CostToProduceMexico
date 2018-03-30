@@ -127,7 +127,16 @@ SELECT
   ,cd.VENDOR_SITE_ID        
   ,cd.SHIP_METHOD
   ,cd.storeday
-  ,date_sub(add_months(concat(vfe.fechaini),1), 1) as fecha
-FROM erp_mexico_sz.CST_ITEM_COST_DETAILS cd, gb_mdl_mexico_costoproducir_views.v_fechas_extraccion_hist vfe
-WHERE cd.USAGE_RATE_OR_AMOUNT NOT LIKE '-2e-5'
-and cd.storeday between to_date(date_add(vfe.fechaini,1)) and vfe.fechafin;
+  ,to_date(date_sub(add_months(concat(substr(exec.new_date,1,7),'-01'),1), 1)) as fecha_actualizacion
+FROM erp_mexico_sz.CST_ITEM_COST_DETAILS cd, 
+(select 
+    exec.exec_date as exec_date
+    ,case 
+        when day(exec.exec_date) = 1 then to_date(date_sub(exec.exec_date,1))
+        else exec.exec_date
+    end as new_date
+    from(
+        select to_date(from_unixtime(unix_timestamp())) as exec_date
+    )exec
+)exec
+WHERE cd.USAGE_RATE_OR_AMOUNT NOT LIKE '-2e-5';

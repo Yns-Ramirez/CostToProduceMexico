@@ -12,11 +12,11 @@ Running init script /home/proyectos2/BDP_COMMONS/config/hive_init.hql
 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> No rows affected (0.002 seconds)
 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> No rows affected (0.002 seconds)
 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> 
-INFO  : Compiling command(queryId=hive_20170725130404_ec6ce078-2b83-4f2e-b196-a5138dbe9b02): truncate table gb_smntc_mexico_costoproducir.a_pago_empleado
+INFO  : Compiling command(queryId=hive_20170725130404_ec6ce078-2b83-4f2e-b196-a5138dbe9b02): truncate table gb_mdl_mexico_erp.a_pago_empleado
 INFO  : Semantic Analysis Completed
 INFO  : Returning Hive schema: Schema(fieldSchemas:null, properties:null)
 INFO  : Completed compiling command(queryId=hive_20170725130404_ec6ce078-2b83-4f2e-b196-a5138dbe9b02); Time taken: 0.101 seconds
-INFO  : Executing command(queryId=hive_20170725130404_ec6ce078-2b83-4f2e-b196-a5138dbe9b02): truncate table gb_smntc_mexico_costoproducir.a_pago_empleado
+INFO  : Executing command(queryId=hive_20170725130404_ec6ce078-2b83-4f2e-b196-a5138dbe9b02): truncate table gb_mdl_mexico_erp.a_pago_empleado
 INFO  : Starting task [Stage-0:DDL] in serial mode
 INFO  : Completed executing command(queryId=hive_20170725130404_ec6ce078-2b83-4f2e-b196-a5138dbe9b02); Time taken: 0.062 seconds
 INFO  : OK
@@ -325,7 +325,7 @@ Running init script /home/proyectos2/BDP_COMMONS/config/hive_init.hql
 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> No rows affected (0.002 seconds)
 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> No rows affected (0.002 seconds)
 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> 0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> 
-0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> INFO  : Compiling command(queryId=hive_20170725140101_e5291bb1-5cbd-41a9-bc63-8d3a285e910c): insert overwrite table gb_smntc_mexico_costoproducir.a_pago_empleado
+0: jdbc:hive2://edge-01.bimbo.dev:10000/defau> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> . . . . . . . . . . . . . . . . . . . . . . .> INFO  : Compiling command(queryId=hive_20170725140101_e5291bb1-5cbd-41a9-bc63-8d3a285e910c): insert overwrite table gb_mdl_mexico_erp.a_pago_empleado
     select 
         tiponomina_id
         ,empleado_id
@@ -345,7 +345,7 @@ Running init script /home/proyectos2/BDP_COMMONS/config/hive_init.hql
 INFO  : Semantic Analysis Completed
 INFO  : Returning Hive schema: Schema(fieldSchemas:[FieldSchema(name:_col0, type:string, comment:null), FieldSchema(name:_col1, type:string, comment:null), FieldSchema(name:_col2, type:string, comment:null), FieldSchema(name:_col3, type:string, comment:null), FieldSchema(name:_col4, type:string, comment:null), FieldSchema(name:_col5, type:int, comment:null), FieldSchema(name:_col6, type:string, comment:null), FieldSchema(name:_col7, type:float, comment:null), FieldSchema(name:_col8, type:int, comment:null), FieldSchema(name:_col9, type:string, comment:null), FieldSchema(name:_col10, type:string, comment:null), FieldSchema(name:_col11, type:string, comment:null), FieldSchema(name:_col12, type:string, comment:null), FieldSchema(name:_col13, type:string, comment:null)], properties:null)
 INFO  : Completed compiling command(queryId=hive_20170725140101_e5291bb1-5cbd-41a9-bc63-8d3a285e910c); Time taken: 0.106 seconds
-INFO  : Executing command(queryId=hive_20170725140101_e5291bb1-5cbd-41a9-bc63-8d3a285e910c): insert overwrite table gb_smntc_mexico_costoproducir.a_pago_empleado
+INFO  : Executing command(queryId=hive_20170725140101_e5291bb1-5cbd-41a9-bc63-8d3a285e910c): insert overwrite table gb_mdl_mexico_erp.a_pago_empleado
     select 
         tiponomina_id
         ,empleado_id
@@ -390,9 +390,9 @@ INFO  : Stage-5 is filtered out by condition resolver.
 INFO  : Starting task [Stage-4:MOVE] in serial mode
 INFO  : Moving data to: hdfs://HdfsHA/user/hive/warehouse/gb_smntc_mexico_costoproducir.db/a_pago_empleado/.hive-staging_hive_2017-07-25_14-01-51_470_3099458258067903793-2102/-ext-10000 from hdfs://HdfsHA/user/hive/warehouse/gb_smntc_mexico_costoproducir.db/a_pago_empleado/.hive-staging_hive_2017-07-25_14-01-51_470_3099458258067903793-2102/-ext-10002
 INFO  : Starting task [Stage-0:MOVE] in serial mode
-INFO  : Loading data to table gb_smntc_mexico_costoproducir.a_pago_empleado from hdfs://HdfsHA/user/hive/warehouse/gb_smntc_mexico_costoproducir.db/a_pago_empleado/.hive-staging_hive_2017-07-25_14-01-51_470_3099458258067903793-2102/-ext-10000
+INFO  : Loading data to table gb_mdl_mexico_erp.a_pago_empleado from hdfs://HdfsHA/user/hive/warehouse/gb_smntc_mexico_costoproducir.db/a_pago_empleado/.hive-staging_hive_2017-07-25_14-01-51_470_3099458258067903793-2102/-ext-10000
 INFO  : Starting task [Stage-2:STATS] in serial mode
-INFO  : Table gb_smntc_mexico_costoproducir.a_pago_empleado stats: [numFiles=6, numRows=9030084, totalSize=1284113668, rawDataSize=1275083584]
+INFO  : Table gb_mdl_mexico_erp.a_pago_empleado stats: [numFiles=6, numRows=9030084, totalSize=1284113668, rawDataSize=1275083584]
 INFO  : MapReduce Jobs Launched: 
 INFO  : Stage-Stage-1: Map: 6   Cumulative CPU: 69.92 sec   HDFS Read: 1104069609 HDFS Write: 1284114248 SUCCESS
 INFO  : Total MapReduce CPU Time Spent: 1 minutes 9 seconds 920 msec

@@ -1,7 +1,7 @@
 create database if not exists gb_mdl_mexico_erp LOCATION '${hiveconf:paths3}/gb_mdl_mexico_erp.db';
 
 
-CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.cst_item_cost_details_hist(
+CREATE EXTERNAL TABLE IF NOT EXISTS gb_mdl_mexico_erp.cst_item_cost_details_hist(
   inventory_item_id decimal(18,0), 
   organization_id decimal(18,0), 
   cost_type_id int, 
@@ -59,3 +59,61 @@ CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.cst_item_cost_details_his
 PARTITIONED BY ( 
   fecha_actualizacion string)
 LOCATION '${hiveconf:paths3}/gb_mdl_mexico_erp.db/cst_item_cost_details_hist';
+
+
+
+
+CREATE EXTERNAL TABLE IF NOT EXISTS gb_mdl_mexico_erp.wip_repetitive_items_hist(
+  fecha_actualizacion string, 
+  wip_entity_id int, 
+  line_id int, 
+  organization_id int, 
+  last_update_date string, 
+  last_update_date_h string, 
+  last_updated_by float, 
+  creation_date string, 
+  creation_date_h string, 
+  created_by float, 
+  last_update_login float, 
+  request_id int, 
+  program_application_id int, 
+  program_id int, 
+  program_update_date string, 
+  program_update_date_h string, 
+  primary_item_id int, 
+  alternate_bom_designator string, 
+  alternate_routing_designator string, 
+  class_code string, 
+  wip_supply_type float, 
+  completion_subinventory string, 
+  completion_locator_id int, 
+  load_distribution_priority float, 
+  primary_line_flag float, 
+  production_line_rate float, 
+  overcompletion_tolerance_type float, 
+  overcompletion_tolerance_value float, 
+  attribute1 string, 
+  attribute6 string)
+PARTITIONED BY ( 
+  storeday string)
+LOCATION '${hiveconf:paths3}/gb_mdl_mexico_erp.db/wip_repetitive_items_hist';
+
+
+
+CREATE EXTERNAL TABLE IF NOT EXISTS gb_mdl_mexico_erp.a_pago_empleado(
+  tiponomina_id string, 
+  empleado_id string, 
+  cuentanatural_id string, 
+  analisislocal_id string, 
+  concepto_id int, 
+  region_id string, 
+  montopago float, 
+  tipomoneda_id int, 
+  sistemafuente string, 
+  usuarioetl string, 
+  fechacarga string, 
+  fechacambio string, 
+  storeday string)
+PARTITIONED BY(fechapago string)
+LOCATION '${hiveconf:paths3}/gb_mdl_mexico_erp.db/a_pago_empleado';
+

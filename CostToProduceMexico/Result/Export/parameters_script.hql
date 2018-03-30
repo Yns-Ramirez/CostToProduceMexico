@@ -638,7 +638,7 @@ when  po.puesto_id in ('0600', '0601', '0610', '0612', '0615', '0618', '0642') a
 when  po.puesto_id not in ('0600', '0601', '0610', '0612', '0615', '0618', '0642') and po.centrocosto_id = '0251' then '55' 
 when po.centrocosto_id not in  ('0151',  '0251')  then '57'
 else 'otro' end) as tipo, sum(PA.montopago) as montopago
-from gb_smntc_mexico_costoproducir.a_pago_empleado PA
+from gb_mdl_mexico_erp.a_pago_empleado PA
 inner join gb_smntc_mexico_costoproducir.e_empleado_posicion ep on pa.empleado_id = ep.empleado_id
 inner join gb_smntc_mexico_costoproducir.e_posicion po on ep.posicion_id = po.posicion_id 
 inner join gb_smntc_mexico_costoproducir.e_puesto pu on po.puesto_id = pu.puesto_id and po.entidadlegal_id = pu.entidadlegal_id 
