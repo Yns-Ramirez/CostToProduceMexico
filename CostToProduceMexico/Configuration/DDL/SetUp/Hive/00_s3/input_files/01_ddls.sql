@@ -64,7 +64,7 @@ LOCATION '${hiveconf:paths3}/gb_mdl_mexico_erp.db/cst_item_cost_details_hist';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS gb_mdl_mexico_erp.wip_repetitive_items_hist(
-  fecha_actualizacion string, 
+  
   wip_entity_id int, 
   line_id int, 
   organization_id int, 
@@ -93,9 +93,10 @@ CREATE EXTERNAL TABLE IF NOT EXISTS gb_mdl_mexico_erp.wip_repetitive_items_hist(
   overcompletion_tolerance_type float, 
   overcompletion_tolerance_value float, 
   attribute1 string, 
-  attribute6 string)
-PARTITIONED BY ( 
+  attribute6 string,
   storeday string)
+PARTITIONED BY ( 
+  fecha_actualizacion string)
 LOCATION '${hiveconf:paths3}/gb_mdl_mexico_erp.db/wip_repetitive_items_hist';
 
 

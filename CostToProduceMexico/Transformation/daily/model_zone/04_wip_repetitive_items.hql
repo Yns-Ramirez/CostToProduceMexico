@@ -4,7 +4,7 @@
 -- Project / Proyecto         : Transformations ERP
 -- Parameters / Parametros    : 
 
-INSERT overwrite TABLE gb_mdl_mexico_erp.wip_repetitive_items_hist partition(storeday)
+INSERT overwrite TABLE gb_mdl_mexico_erp.wip_repetitive_items_hist partition(fecha_actualizacion)
 SELECT 
        wri.wip_entity_id ,
        wri.line_id ,
@@ -36,7 +36,7 @@ SELECT
        wri.attribute1 ,
        wri.attribute6 ,
        wri.storeday,
-       to_date(date_sub(add_months(concat(substr(exec.new_date,1,7),'-01'),1), 1)) as fecha
+       to_date(date_sub(add_months(concat(substr(exec.new_date,1,7),'-01'),1), 1)) as fecha_actualizacion
 FROM erp_mexico_sz.wip_repetitive_items wri,
      (select 
     exec.exec_date as exec_date
