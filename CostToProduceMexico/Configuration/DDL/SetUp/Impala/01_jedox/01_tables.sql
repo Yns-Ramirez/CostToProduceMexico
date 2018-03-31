@@ -1,3 +1,5 @@
+invalidate metadata;
+
 create database if not exists jedoxMexico;
 
 CREATE TABLE IF NOT EXISTS jedoxMexico.ext_big_data_12_importes(

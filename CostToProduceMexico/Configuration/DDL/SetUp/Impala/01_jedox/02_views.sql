@@ -1,5 +1,3 @@
-invalidate metadata;
-
 CREATE VIEW IF NOT EXISTS jedoxMexico.v_validate_exec AS Select
 substr(dt.periodo,1,4) as anio,
 substr(dt.periodo,6,2) as mes,
