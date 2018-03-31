@@ -42,7 +42,7 @@ do
         fi
 
     elif [[ $INPUT_FILE == *.sh ]]; then
-        if ! $INPUT_FILE $LEGALENTITY_ID; then
+        if ! $INPUT_FILE --hiveconf paths3=$buckets3_warehouse; then
             echo "FAILED: Error to run the Shell $INPUT_FILE"
             exit 1;
         fi
