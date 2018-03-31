@@ -30,7 +30,7 @@ do
     echo *****$INPUT_FILE
 
     if [[ $INPUT_FILE == *.hql ]]; then
-        if ! $BEELINE -f $INPUT_FILE
+        if ! $BEELINE --hiveconf paths3=$buckets3_warehouse -f $INPUT_FILE
             then echo "FAILED: Error to run the HQL file on hive $INPUT_FILE"
             exit 1;
         fi
@@ -42,7 +42,7 @@ do
         fi
 
     elif [[ $INPUT_FILE == *.sh ]]; then
-        if ! $INPUT_FILE --hiveconf paths3=$buckets3_warehouse; then
+        if ! $INPUT_FILE; then
             echo "FAILED: Error to run the Shell $INPUT_FILE"
             exit 1;
         fi
