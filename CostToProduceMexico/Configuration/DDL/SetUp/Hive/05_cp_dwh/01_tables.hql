@@ -3198,7 +3198,7 @@ CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.wrkt_empleado_posicion(
   storeday string);
 
 
-CREATE TABLE gb_mdl_mexico_costoproducir.a_reporte_financiero_dtl(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.a_reporte_financiero_dtl(
   reporte_id int, 
   linea_id int, 
   signo string, 
@@ -3225,7 +3225,7 @@ CREATE TABLE gb_mdl_mexico_costoproducir.a_reporte_financiero_dtl(
 
 
 
-CREATE TABLE gb_mdl_mexico_costoproducir.a_reporte_financiero(
+CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.a_reporte_financiero(
   reporte_id int, 
   linea_id int, 
   codigoconcepto string, 
