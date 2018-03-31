@@ -52,4 +52,4 @@ do
     fi
 done
 
-echo "SUCCESS: The create objects HIVE in S3 has finished correctly."
+echo "SUCCESS: The create objects IMPALA in S3 has finished correctly."
