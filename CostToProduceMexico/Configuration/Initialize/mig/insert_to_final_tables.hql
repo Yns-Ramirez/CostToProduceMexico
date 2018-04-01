@@ -1,0 +1,24 @@
+set hive.exec.dynamic.partition.mode=nonstrict;
+
+insert overwrite table gb_mdl_mexico_costoproducir.cp_control_entidadeslegales select * from mig.cp_control_entidadeslegales;
+insert overwrite table gb_mdl_mexico_costoproducir.gx_control_el_peoplenet select * from mig.gx_control_el_peoplenet;
+insert overwrite table gb_mdl_mexico_costoproducir.gx_control_entidades_app select * from mig.gx_control_entidades_app;
+insert overwrite table gb_mdl_mexico_costoproducir.gx_control_entidadeslegales select * from mig.gx_control_entidadeslegales;
+insert overwrite table gb_mdl_mexico_costoproducir.g_organizacion_geografica select * from mig.g_organizacion_geografica;
+insert overwrite table gb_mdl_mexico_manufactura.mf_turno_default select * from mig.mf_turno_default;
+insert overwrite table gb_smntc_mexico_costoproducir.mf_tipo_costo select * from mig.mf_tipo_costo;
+insert overwrite table cp_flat_files.cp_factores select * from mig.cp_factores;
+insert overwrite table cp_flat_files.ft_jer_producto select * from mig.ft_jer_producto;
+insert overwrite table cp_flat_files.ft_producto select * from mig.ft_producto;
+insert overwrite table cp_flat_files.ic_calendario_dim select * from mig.ic_calendario_dim;
+insert overwrite table cp_flat_files.v_organizacion_inactiva_mf select * from mig.v_organizacion_inactiva_mf;
+insert overwrite table gb_smntc_mexico_costoproducir.cp_parametros partition(entidadlegal_id) select * from mig.cp_parametros;
+insert overwrite table cp_sys_calendar.calendar select * from mig.calendar;
+insert overwrite table gb_mdl_mexico_costoproducir.wip_repetitive_items select * from mig.wip_repetitive_items;
+insert overwrite table gb_mdl_mexico_costoproducir.mtl_referencia_cruzada_mat select * from mig.mtl_referencia_cruzada_mat;
+insert overwrite table gb_mdl_mexico_manufactura.mf_unidad_medida select * from mig.mf_unidad_medida;
+insert overwrite table gb_mdl_mexico_manufactura.mf_linea select * from mig.mf_linea;
+insert overwrite table gb_mdl_mexico_manufactura.mf_marca select * from mig.mf_marca;
+insert overwrite table gb_mdl_mexico_manufactura.mf_presentacion select * from mig.mf_presentacion;
+insert overwrite table gb_mdl_mexico_manufactura.mf_categoria select * from mig.mf_categoria;
+insert overwrite table gb_mdl_mexico_manufactura.mf_sublinea select * from mig.mf_sublinea;

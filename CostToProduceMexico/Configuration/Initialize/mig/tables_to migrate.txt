@@ -1,0 +1,33 @@
+TABLES TO MIGRATE
+==============================================
+
+Configuration
+----------------------------------------------
+gb_mdl_mexico_costoproducir.cp_control_entidadeslegales
+gb_mdl_mexico_costoproducir.gx_control_el_peoplenet
+gb_mdl_mexico_costoproducir.gx_control_entidades_app
+gb_mdl_mexico_costoproducir.gx_control_entidadeslegales
+gb_mdl_mexico_costoproducir.g_organizacion_geografica
+gb_mdl_mexico_manufactura.mf_turno_default
+gb_smntc_mexico_costoproducir.mf_tipo_costo
+cp_flat_files.cp_factores
+cp_flat_files.ft_jer_producto
+cp_flat_files.ft_producto
+cp_flat_files.ic_calendario_dim
+cp_flat_files.v_organizacion_inactiva_mf
+gb_smntc_mexico_costoproducir.cp_parametros
+cp_sys_calendar.calendar
+
+
+
+Information Historical
+----------------------------------------------
+gb_mdl_mexico_costoproducir.wip_repetitive_items
+gb_mdl_mexico_costoproducir.mtl_referencia_cruzada_mat
+gb_mdl_mexico_manufactura.mf_unidad_medida
+gb_mdl_mexico_manufactura.mf_linea
+gb_mdl_mexico_manufactura.mf_marca
+gb_mdl_mexico_manufactura.mf_presentacion
+gb_mdl_mexico_manufactura.mf_categoria
+gb_mdl_mexico_manufactura.mf_sublinea
+gb_smntc_mexico_costoproducir.a_pago_empleado
