@@ -479,7 +479,7 @@ FROM
                ,uno.turno_id                                                    AS Turno_ID
                ,COALESCE(TM.TipoMoneda_ID,-1)                                   AS TipoMoneda_ID
                ,COALESCE(
-                          case when (uno.transaction_date between CREF.pe_fechaini and CREF.pe_fechafin and uno.transaction_date between CREF.pvm_fechaini and CREF.pvm_fechafin and uno.transaction_date between vfe.fechaini and vfe.fechafin) 
+                         case when (uno.transaction_date between CREF.pvm_fechaini and CREF.pvm_fechafin and uno.transaction_date between vfe.fechaini and vfe.fechafin)
                             then CREF.CROSS_REFERENCE_PVM_FL
                             else null
                           end
@@ -495,7 +495,7 @@ FROM
                ,Uno.PT_ProductoEmbarcado                                        AS Total_Embarcado
                ,Uno.PT_Bajas                                                    AS Bajas
                ,Uno.PT_ProductoRegistrado * 
-                                            case when ((uno.transaction_date between CREF.pe_fechaini and CREF.pe_fechafin or uno.transaction_date between CREF.pvm_fechaini and CREF.pvm_fechafin) and uno.transaction_date between vfe.fechaini and vfe.fechafin) 
+                                            case when (uno.transaction_date between CREF.pvm_fechaini and CREF.pvm_fechafin and uno.transaction_date between vfe.fechaini and vfe.fechafin)
                                               then CREF.CROSS_REFERENCE_PVM_FL
                                               else null
                                               end                               AS Valor_Produccion
@@ -503,7 +503,7 @@ FROM
                ,Uno.PT_CostoProduccionReal                                      AS Costo_Prod_Real
                ,Uno.PT_Valor_Produccion                                         AS Costo_Actual
                ,Uno.PT_ProductoRegistrado * 
-                                            case when ((uno.transaction_date between CREF.pe_fechaini and CREF.pe_fechafin or uno.transaction_date between CREF.pvm_fechaini and CREF.pvm_fechafin) and uno.transaction_date between vfe.fechaini and vfe.fechafin) 
+                                            case when ( uno.transaction_date between CREF.pe_fechaini and CREF.pe_fechafin and uno.transaction_date between CREF.pvm_fechaini and CREF.pvm_fechafin and uno.transaction_date between vfe.fechaini and vfe.fechafin)
                                               then CREF.CROSS_REFERENCE_PE_FL
                                               else null
                                               end                               AS Toneladas
