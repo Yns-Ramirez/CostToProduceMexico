@@ -1,7 +1,7 @@
 -- ======================================================
 --  a_pago_empleado
 
-insert overwrite table gb_mdl_mexico_erp.a_pago_empleado
+insert overwrite table gb_mdl_mexico_erp.a_pago_empleado partition(fechapago)
      select
           tmp.tiponomina_id,
           tmp.empleado_id,
