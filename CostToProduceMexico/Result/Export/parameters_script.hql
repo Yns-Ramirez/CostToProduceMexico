@@ -7,7 +7,7 @@ SELECT
 P.EntidadLegal_ID,
 PL.PLANTA_ID,
 P.Producto_ID,
-SUM(T.PRIMARY_QUANTITY*T.Actual_cost) AS monto 
+cast(SUM(T.PRIMARY_QUANTITY*T.Actual_cost) as DECIMAL(38,10)) AS monto 
 FROM gb_mdl_mexico_costoproducir.MTL_TRANSACCION_MATERIALES T
 LEFT OUTER JOIN gb_mdl_mexico_costoproducir.MTL_CATALOGO_MATERIALES M ON  t.inventory_item_id = m.inventory_item_id and t.organization_id = m.organization_id
 LEFT OUTER JOIN gb_mdl_mexico_manufactura.MF_PLANTAS PL ON T.ORGANIZATION_ID = PL.MF_ORGANIZACION_ID AND PL.sistema_fuente = 'CP'
@@ -124,7 +124,7 @@ CASE WHEN CUENTANATURAL_ID = '5116' THEN 26 WHEN CUENTANATURAL_ID = '5117' THEN 
 FROM gb_smntc_mexico_costoproducir.A_Saldo_Nomina SN
 WHERE PERIODO = '${VAR:VAR_PERIODO2}' AND ENTIDADLEGAL_ID in (${VAR:VAR_EL}) AND CUENTANATURAL_ID IN ('5117','5116','5118')
 AND HDR_STATUS = 'P'
-GROUP BY SN.Entidadlegal_ID,SN.Areanegocio_id,CAST('-1' as int),CUENTANATURAL_ID
+GROUP BY 1,2,3,5
 
 UNION ALL
 
