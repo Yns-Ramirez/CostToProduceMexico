@@ -50,9 +50,18 @@ insert overwrite table gb_mdl_mexico_costoproducir.mtl_onhand_diario partition (
     tmp.max_last_update_date,
     tmp.prim_transaction_quantity,
     tmp.storeday,
-    date_sub(add_months(concat(vfe.fechaini),1), 1) as fecha
-    from gb_mdl_mexico_costoproducir_views.vdw_mtl_onhand_diario tmp, gb_mdl_mexico_costoproducir_views.v_fechas_extraccion_hist vfe join (select  fecha, organization_id, inventory_item_id, subinventory_code ,  max(storeday) as first_record from gb_mdl_mexico_costoproducir_views.vdw_mtl_onhand_diario group by fecha, organization_id, inventory_item_id, subinventory_code) sec on tmp.fecha = sec.fecha and tmp.organization_id = sec.organization_id and tmp.inventory_item_id = sec.inventory_item_id and tmp.subinventory_code = sec.subinventory_code  and tmp.storeday = sec.first_record
-    where tmp.storeday between to_date(date_add(vfe.fechaini,1)) and vfe.fechafin;
+    to_date(date_sub(add_months(concat(substr(exec.new_date,1,7),'-01'),1), 1)) as fecha
+    from gb_mdl_mexico_costoproducir_views.vdw_mtl_onhand_diario tmp,
+        (select 
+        exec.exec_date as exec_date
+        ,case 
+            when day(exec.exec_date) = 1 then to_date(date_sub(exec.exec_date,1))
+            else exec.exec_date
+        end as new_date
+        from(
+            select to_date(from_unixtime(unix_timestamp())) as exec_date
+        )exec
+    )exec;
 -- ======================================================
 --  gb_mdl_mexico_costoproducir.a_centro_costos
 truncate table gb_mdl_mexico_costoproducir.a_centro_costos;
