@@ -6,14 +6,17 @@ INPUT_FILES_DIRECTORY=$BASEDIR/input_files
 
 # initialize clients 
 HADOOP_ENV_PROPS=$HOME/CostToProduceMexico/Configuration/Properties/hadoop_env.properties
+BUCKETS_S3_PROPS=$HOME/CostToProduceMexico/Configuration/Properties/buckets_s3.properties
 HIVE_INIT=$HOME/CostToProduceMexico/Configuration/Properties/hive_init.hql
 
 . $HADOOP_ENV_PROPS 2>/dev/null
+. $BUCKETS_S3_PROPS 2>/dev/null
 echo "impala host:  $impala_host"
 echo "jdbc_url:  $jdbc_url"
 echo "kerberos_user= $kerberos_user"
 echo "kerberos_keytab= $kerberos_keytab"
-echo "buckets3_warehouse: $buckets3_warehouse"
+echo "bucket_mexico_costoproducir_mdl: $bucket_mexico_costoproducir_mdl"
+echo "bucket_mexico_costoproducir_app: $bucket_mexico_costoproducir_app"
 
 BEELINE="beeline -u '$jdbc_url' -i $HIVE_INIT"
 BEELINE_SIMPLE="beeline -u '$jdbc_url'"
@@ -30,7 +33,7 @@ do
     echo *****$INPUT_FILE
 
     if [[ $INPUT_FILE == *.hql ]]; then
-        if ! $BEELINE --hiveconf paths3=$buckets3_warehouse -f $INPUT_FILE
+        if ! $BEELINE --hiveconf bucket_mexico_costoproducir_mdl=$bucket_mexico_costoproducir_mdl --hiveconf bucket_mexico_costoproducir_app=$bucket_mexico_costoproducir_app -f $INPUT_FILE
             then echo "FAILED: Error to run the HQL file on hive $INPUT_FILE"
             exit 1;
         fi

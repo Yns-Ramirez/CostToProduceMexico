@@ -1,4 +1,4 @@
-create database if not exists gb_mdl_mexico_erp LOCATION '${hiveconf:paths3}/gb_mdl_mexico_erp.db';
+create database if not exists gb_mdl_mexico_erp;
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS gb_mdl_mexico_erp.cst_item_cost_details_hist(
@@ -58,7 +58,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS gb_mdl_mexico_erp.cst_item_cost_details_hist
   storeday string)
 PARTITIONED BY ( 
   fecha_actualizacion string)
-LOCATION '${hiveconf:paths3}/gb_mdl_mexico_erp.db/cst_item_cost_details_hist';
+LOCATION '${hiveconf:bucket_mexico_costoproducir_mdl}/cst_item_cost_details_hist';
 
 
 
@@ -97,7 +97,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS gb_mdl_mexico_erp.wip_repetitive_items_hist(
   storeday string)
 PARTITIONED BY ( 
   fecha_actualizacion string)
-LOCATION '${hiveconf:paths3}/gb_mdl_mexico_erp.db/wip_repetitive_items_hist';
+LOCATION '${hiveconf:bucket_mexico_costoproducir_mdl}/wip_repetitive_items_hist';
 
 
 
@@ -116,5 +116,16 @@ CREATE EXTERNAL TABLE IF NOT EXISTS gb_mdl_mexico_erp.a_pago_empleado(
   fechacambio string, 
   storeday string)
 PARTITIONED BY(fechapago string)
-LOCATION '${hiveconf:paths3}/gb_mdl_mexico_erp.db/a_pago_empleado';
+LOCATION '${hiveconf:bucket_mexico_costoproducir_mdl}/a_pago_empleado';
 
+
+
+CREATE EXTERNAL TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_onhand_diario(
+  organization_id int, 
+  inventory_item_id int, 
+  subinventory_code string, 
+  max_last_update_date string, 
+  primary_transaction_quantity float,
+  storeday string)
+PARTITIONED BY (fecha string)
+LOCATION '${hiveconf:bucket_mexico_costoproducir_mdl}/mtl_onhand_diario';

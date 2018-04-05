@@ -2122,17 +2122,6 @@ PARTITIONED BY (
   storeday string);
 
 
-CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_onhand_diario(
-  organization_id int, 
-  inventory_item_id int, 
-  subinventory_code string, 
-  max_last_update_date string, 
-  primary_transaction_quantity float,
-  storeday string)
-PARTITIONED BY ( 
-  fecha string);
-
-
 
 CREATE TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_parameters(
   organization_id int, 
