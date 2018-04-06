@@ -29,8 +29,13 @@
 -- truncate table gb_mdl_mexico_costoproducir.hr_organizacion;
 --  insert overwrite table gb_mdl_mexico_costoproducir.hr_organizacion partition (storeday) select tmp.* from gb_mdl_mexico_costoproducir_views.vdw_hr_organizacion tmp join (select  organization_id ,  max(storeday) as first_record from gb_mdl_mexico_costoproducir_views.vdw_hr_organizacion group by organization_id) sec on tmp.organization_id = sec.organization_id  and tmp.storeday = sec.first_record;
 -- gb_mdl_mexico_costoproducir.mtl_referencia_cruzada_mat en dwh.
-insert into table gb_mdl_mexico_costoproducir.mtl_referencia_cruzada_mat select tmp.* from gb_mdl_mexico_costoproducir_views.vdw_mtl_referencia_cruzada_mat tmp;
-insert overwrite table gb_mdl_mexico_costoproducir.mtl_referencia_cruzada_mat select tmp.* from gb_mdl_mexico_costoproducir.mtl_referencia_cruzada_mat tmp join (select inventory_item_id, organization_id, cross_reference_type, cross_reference, last_update_date, last_update_date_h, max(storeday) as first_record from gb_mdl_mexico_costoproducir.mtl_referencia_cruzada_mat group by inventory_item_id, organization_id, cross_reference_type, cross_reference, last_update_date, last_update_date_h) sec on coalesce(tmp.inventory_item_id,0) = coalesce(sec.inventory_item_id,0) and coalesce(tmp.organization_id,0) = coalesce(sec.organization_id,0) and coalesce(tmp.cross_reference_type,0) = coalesce(sec.cross_reference_type,0) and coalesce(tmp.cross_reference,0) = coalesce(sec.cross_reference,0) and coalesce(tmp.last_update_date,0) = coalesce(sec.last_update_date,0) and coalesce(tmp.last_update_date_h,0) = coalesce(sec.last_update_date_h,0) and coalesce(tmp.storeday,0) = coalesce(sec.first_record,0);
+insert into table gb_mdl_mexico_costoproducir.mtl_referencia_cruzada_mat 
+    select tmp.* 
+    from gb_mdl_mexico_costoproducir_views.vdw_mtl_referencia_cruzada_mat tmp,
+    (select max(substr(concat(last_update_date,last_update_date_h),1,19)) as last_update_date
+        from gb_mdl_mexico_costoproducir.mtl_referencia_cruzada_mat
+    )mat
+    where concat(tmp.last_update_date,tmp.last_update_date_h) > mat.last_update_date;
 -- gb_mdl_mexico_costoproducir.wip_lineas
 -- truncate table gb_mdl_mexico_costoproducir.wip_lineas;
 -- insert overwrite table gb_mdl_mexico_costoproducir.wip_lineas partition (storeday) select tmp.* from gb_mdl_mexico_costoproducir_views.vdw_wip_lineas tmp join (select  line_id, line_code, organization_id, max(storeday) as first_record from gb_mdl_mexico_costoproducir_views.vdw_wip_lineas group by line_id, line_code, organization_id) sec on tmp.line_id = sec.line_id and tmp.line_code = sec.line_code and tmp.organization_id = sec.organization_id and tmp.storeday = sec.first_record;

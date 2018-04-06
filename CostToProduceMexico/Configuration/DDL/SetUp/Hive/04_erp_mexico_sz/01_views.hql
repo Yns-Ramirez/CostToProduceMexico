@@ -1012,10 +1012,10 @@ else
 mtl_cross_references.cross_reference
 end as cross_reference
 ,mtl_cross_references.last_update_date
-,substring(trim(mtl_cross_references.last_update_date_h),1,8) as last_update_date_h
+,substr(mtl_cross_references.last_update_date_h,1,9) as last_update_date_h
 ,mtl_cross_references.last_updated_by
 ,mtl_cross_references.creation_date
-,substring(trim(mtl_cross_references.creation_date_h),1,8) as creation_date_h
+,substr(mtl_cross_references.creation_date_h,1,9) as creation_date_h
 ,mtl_cross_references.created_by
 ,mtl_cross_references.last_update_login
 ,mtl_cross_references.description
@@ -1024,7 +1024,7 @@ end as cross_reference
 ,mtl_cross_references.program_application_id
 ,mtl_cross_references.program_id
 ,mtl_cross_references.program_update_date
-,substring(trim(mtl_cross_references.program_update_date_h),1,8) as program_update_date_h
+,substr(mtl_cross_references.program_update_date_h,1,9) as program_update_date_h
 ,mtl_cross_references.attribute1
 ,mtl_cross_references.attribute2
 ,mtl_cross_references.attribute3
