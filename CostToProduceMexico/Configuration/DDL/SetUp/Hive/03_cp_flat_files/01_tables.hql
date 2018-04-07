@@ -265,7 +265,7 @@ row format delimited fields terminated by '\t' lines terminated by '\n' stored a
 
 CREATE TABLE IF NOT EXISTS cp_flat_files.cp_puestos (  
   entidadlegal_id string, 
-  codigo_planta int, 
+  codigoplanta int, 
   puesto_id string,
   perfil string,  
   subrubro_id int, 
