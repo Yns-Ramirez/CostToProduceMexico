@@ -1,6 +1,6 @@
 invalidate metadata;
 
-create database if not exists erp_mexico_sz LOCATION '${var:paths3}/erp_mexico_sz.db';
+create database if not exists erp_mexico_sz;
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fa_deprn_detail_per(
   addition_cost_to_clear double, 
@@ -31,7 +31,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fa_deprn_detail_per(
   reval_reserve_je_line_num double, 
   ytd_deprn double, 
   ytd_reval_deprn_expense double,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/fa_deprn_detail_per';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/fa_deprn_detail_per';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.gl_code_combinations_fa_brio(
@@ -144,7 +144,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.gl_code_combinations_fa_brio(
   start_date_active string, 
   summary_flag string, 
   template_id double,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/gl_code_combinations_fa_brio';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/gl_code_combinations_fa_brio';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.bom_resources(
@@ -206,7 +206,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.bom_resources(
   resource_type double, 
   standard_rate_flag double, 
   unit_of_measure string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/bom_resources';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/bom_resources';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.cst_item_cost_details(
@@ -263,7 +263,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.cst_item_cost_details(
   vendor_id double, 
   vendor_site_id double, 
   yielded_cost double,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/cst_item_cost_details';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/cst_item_cost_details';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.cst_item_cost_type_v(
@@ -324,7 +324,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.cst_item_cost_type_v(
   resource_cost double, 
   sales_account double, 
   shrinkage_rate double,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/cst_item_cost_type_v';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/cst_item_cost_type_v';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fa_distribution_history_brio(
@@ -344,7 +344,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fa_distribution_history_brio(
   transaction_header_id_out double, 
   transaction_units double, 
   units_assigned double,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/fa_distribution_history_brio';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/fa_distribution_history_brio';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fnd_flex_value_norm_hierarchy(
@@ -364,7 +364,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fnd_flex_value_norm_hierarchy(
   start_date_active_h string, 
   end_date_active string, 
   end_date_active_h string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/fnd_flex_value_norm_hierarchy';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/fnd_flex_value_norm_hierarchy';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fnd_flex_values_tl(
@@ -380,7 +380,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fnd_flex_values_tl(
   description string, 
   source_lang string, 
   flex_value_meaning string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/fnd_flex_values_tl';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/fnd_flex_values_tl';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fnd_flex_values_vl(
@@ -460,7 +460,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fnd_flex_values_vl(
   flex_value_meaning string, 
   description string, 
   attribute_sort_order int,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/fnd_flex_values_vl';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/fnd_flex_values_vl';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fnd_id_flex_segments(
@@ -491,7 +491,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fnd_id_flex_segments(
   default_value string, 
   runtime_property_function string, 
   additional_where_clause string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/fnd_id_flex_segments';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/fnd_id_flex_segments';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fnd_lookup_values(
@@ -533,7 +533,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fnd_lookup_values(
   tag string, 
   territory_code string, 
   view_application_id double,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/fnd_lookup_values';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/fnd_lookup_values';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fnd_lookup_values_vl(
@@ -573,7 +573,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fnd_lookup_values_vl(
   attribute7 string, 
   attribute8 string, 
   attribute9 string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/fnd_lookup_values_vl';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/fnd_lookup_values_vl';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fnd_lookups(
@@ -587,7 +587,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.fnd_lookups(
   end_date_active string, 
   end_date_active_h string, 
   leaf_node string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/fnd_lookups';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/fnd_lookups';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.gl_balances(
@@ -629,7 +629,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.gl_balances(
   quarter_to_date_cr_beq double, 
   project_to_date_dr_beq double, 
   project_to_date_cr_beq double,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/gl_balances';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/gl_balances';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.gl_code_combinations(
@@ -745,7 +745,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.gl_code_combinations(
   start_date_active_h string, 
   summary_flag string, 
   template_id double,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/gl_code_combinations';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/gl_code_combinations';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.gl_daily_rates(
@@ -780,7 +780,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.gl_daily_rates(
   attribute14 string, 
   attribute15 string, 
   rate_source_code string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/gl_daily_rates';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/gl_daily_rates';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.gl_je_headers(
@@ -870,7 +870,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.gl_je_headers(
   tax_status_code string, 
   unique_date string, 
   ussgl_transaction_code string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/gl_je_headers';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/gl_je_headers';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.gl_je_lines(
@@ -972,7 +972,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.gl_je_lines(
   tax_type_code string, 
   taxable_line_flag string, 
   ussgl_transaction_code string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/gl_je_lines';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/gl_je_lines';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.gl_sets_of_books(
@@ -1046,7 +1046,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.gl_sets_of_books(
   track_entered_func_curr_flag string, 
   enable_secondary_track_flag string, 
   enable_reval_ss_track_flag string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/gl_sets_of_books';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/gl_sets_of_books';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.hr_all_organization_units(
@@ -1099,7 +1099,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.hr_all_organization_units(
   request_id double, 
   soft_coding_keyflex_id double, 
   type_x string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/hr_all_organization_units';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/hr_all_organization_units';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.hr_locations_all(
@@ -1174,7 +1174,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.hr_locations_all(
   timezone_code string, 
   town_or_city string, 
   tp_header_id double,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/hr_locations_all';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/hr_locations_all';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sar_h_convenio(
@@ -1189,7 +1189,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sar_h_convenio(
   id_approle string, 
   id_secuser string, 
   dt_last_update string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/m4sar_h_convenio';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/m4sar_h_convenio';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sar_h_hr_c_costo(
@@ -1204,7 +1204,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sar_h_hr_c_costo(
   id_approle string, 
   id_secuser string, 
   dt_last_update string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/m4sar_h_hr_c_costo';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/m4sar_h_hr_c_costo';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4scb_h_hr_conveni(
@@ -1219,7 +1219,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4scb_h_hr_conveni(
   id_approle string, 
   id_secuser string, 
   dt_last_update string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/m4scb_h_hr_conveni';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/m4scb_h_hr_conveni';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4scb_h_hr_rol_cc(
@@ -1234,7 +1234,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4scb_h_hr_rol_cc(
   id_approle string, 
   id_secuser string, 
   dt_last_update string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/m4scb_h_hr_rol_cc';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/m4scb_h_hr_rol_cc';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_legent(
@@ -1250,7 +1250,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_legent(
   id_approle string, 
   id_secuser string, 
   dt_last_update string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/m4sco_h_hr_legent';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/m4sco_h_hr_legent';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_pos(
@@ -1263,7 +1263,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_pos(
   dt_last_update string, 
   id_secuser string, 
   id_approle string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/m4sco_h_hr_pos';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/m4sco_h_hr_pos';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_ro_time(
@@ -1280,7 +1280,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_ro_time(
   id_approle string, 
   id_secuser string, 
   dt_last_update string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/m4sco_h_hr_ro_time';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/m4sco_h_hr_ro_time';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_sal_pl(
@@ -1296,7 +1296,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_sal_pl(
   dt_last_update string, 
   sco_comment string, 
   id_approle string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/m4sco_h_hr_sal_pl';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/m4sco_h_hr_sal_pl';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_wloc(
@@ -1311,7 +1311,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sco_h_hr_wloc(
   id_approle string, 
   id_secuser string, 
   sco_comment string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/m4sco_h_hr_wloc';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/m4sco_h_hr_wloc';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sco_hr_role(
@@ -1340,7 +1340,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sco_hr_role(
   sgb_puesto_recibo string, 
   id_secuser string, 
   dt_last_update string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/m4sco_hr_role';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/m4sco_hr_role';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sco_position(
@@ -1376,7 +1376,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sco_position(
   sco_key_position string, 
   id_secuser string, 
   dt_last_update string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/m4sco_position';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/m4sco_position';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sgb_h_hr_categor(
@@ -1390,7 +1390,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4sgb_h_hr_categor(
   id_approle string, 
   id_secuser string, 
   dt_last_update string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/m4sgb_h_hr_categor';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/m4sgb_h_hr_categor';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4ssp_h_cent_cos(
@@ -1405,7 +1405,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4ssp_h_cent_cos(
   id_approle string, 
   id_secuser string, 
   dt_last_update string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/m4ssp_h_cent_cos';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/m4ssp_h_cent_cos';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4ssp_h_convenios(
@@ -1420,7 +1420,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4ssp_h_convenios(
   id_approle string, 
   id_secuser string, 
   dt_last_update string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/m4ssp_h_convenios';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/m4ssp_h_convenios';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4t_contabilidad_dwh(
@@ -1439,7 +1439,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.m4t_contabilidad_dwh(
   id_concepto double, 
   id_usuario string, 
   fec_ult_actualizacion string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/m4t_contabilidad_dwh';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/m4t_contabilidad_dwh';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_categories_b(
@@ -1488,7 +1488,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_categories_b(
   summary_flag string, 
   supplier_enabled_flag string, 
   web_status string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/mtl_categories_b';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/mtl_categories_b';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_category_sets_tl(
@@ -1504,7 +1504,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_category_sets_tl(
   last_update_login string, 
   last_updated_by string, 
   source_lang string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/mtl_category_sets_tl';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/mtl_category_sets_tl';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_cross_references(
@@ -1542,7 +1542,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_cross_references(
   attribute14 string, 
   attribute15 string, 
   attribute_category string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/mtl_cross_references';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/mtl_cross_references';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_item_categories(
@@ -1564,7 +1564,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_item_categories(
   request_id double, 
   wh_update_date string, 
   wh_update_date_h string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/mtl_item_categories';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/mtl_item_categories';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_item_flexfields(
@@ -1872,7 +1872,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_item_flexfields(
   wip_supply_locator_id double, 
   wip_supply_subinventory string, 
   wip_supply_type double,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/mtl_item_flexfields';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/mtl_item_flexfields';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_item_sub_inventories(
@@ -1922,7 +1922,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_item_sub_inventories(
   source_organization_id double, 
   source_subinventory string, 
   source_type double,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/mtl_item_sub_inventories';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/mtl_item_sub_inventories';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_material_transactions(
@@ -1970,7 +1970,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_material_transactions(
   transaction_uom string, 
   transfer_organization_id double, 
   transfer_subinventory string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/mtl_material_transactions';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/mtl_material_transactions';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_onhand_quantities_detail(
@@ -2010,7 +2010,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_onhand_quantities_detail(
   secondary_transaction_quantity double, 
   is_consigned double, 
   lpn_id double,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/mtl_onhand_quantities_detail';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/mtl_onhand_quantities_detail';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_parameters(
@@ -2190,7 +2190,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_parameters(
   wip_overpick_enabled string, 
   wms_enabled_flag string, 
   wsm_enabled_flag string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/mtl_parameters';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/mtl_parameters';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_system_items_b(
@@ -2500,7 +2500,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_system_items_b(
   wip_supply_locator_id double, 
   wip_supply_subinventory string, 
   wip_supply_type double,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/mtl_system_items_b';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/mtl_system_items_b';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_transaction_accounts(
@@ -2543,7 +2543,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_transaction_accounts(
   transaction_source_id double, 
   transaction_source_type_id double, 
   transaction_value double,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/mtl_transaction_accounts';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/mtl_transaction_accounts';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_transaction_types(
@@ -2581,7 +2581,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_transaction_types(
   transaction_type_name string, 
   type_class double, 
   user_defined_flag string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/mtl_transaction_types';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/mtl_transaction_types';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_txn_source_types(
@@ -2622,7 +2622,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_txn_source_types(
   transaction_source_type_name string, 
   user_defined_flag string, 
   validated_flag string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/mtl_txn_source_types';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/mtl_txn_source_types';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_units_of_measure_tl(
@@ -2664,7 +2664,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_units_of_measure_tl(
   unit_of_measure_tl string, 
   uom_class string, 
   uom_code string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/mtl_units_of_measure_tl';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/mtl_units_of_measure_tl';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_uom_conversions(
@@ -2692,7 +2692,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.mtl_uom_conversions(
   uom_class string, 
   uom_code string, 
   width double,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/mtl_uom_conversions';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/mtl_uom_conversions';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.rg_lookups(
@@ -2704,7 +2704,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.rg_lookups(
   start_date_active_h string, 
   end_date_active string, 
   end_date_active_h string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/rg_lookups';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/rg_lookups';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.rg_report_axes(
@@ -2765,7 +2765,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.rg_report_axes(
   transaction_flag string, 
   unit_of_measure_id string, 
   widthx double,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/rg_report_axes';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/rg_report_axes';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.rg_report_axis_contents(
@@ -3013,7 +3013,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.rg_report_axis_contents(
   segment9_type string, 
   set_of_books_id double, 
   sign string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/rg_report_axis_contents';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/rg_report_axis_contents';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.rg_report_standard_axes(
@@ -3039,7 +3039,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.rg_report_standard_axes(
   standard_axis1_id double, 
   standard_axis2_id double, 
   variance_flag string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/rg_report_standard_axes';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/rg_report_standard_axes';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_country(
@@ -3067,7 +3067,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_country(
   id_approle string, 
   id_secuser string, 
   dt_last_update string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/std_country';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/std_country';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_hr_period(
@@ -3120,7 +3120,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_hr_period(
   id_secuser string, 
   dt_last_update string, 
   sgb_chk_certif string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/std_hr_period';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/std_hr_period';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_ht_job_def(
@@ -3143,7 +3143,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_ht_job_def(
   id_approle string, 
   id_secuser string, 
   dt_last_update string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/std_ht_job_def';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/std_ht_job_def';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_job(
@@ -3171,7 +3171,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_job(
   id_approle string, 
   id_secuser string, 
   dt_last_update string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/std_job';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/std_job';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_leg_ent(
@@ -3225,7 +3225,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_leg_ent(
   sar_id_art string, 
   sme_fec_pres_dim string, 
   sme_folio_operac string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/std_leg_ent';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/std_leg_ent';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_person(
@@ -3284,7 +3284,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_person(
   sme_rfc string, 
   sme_curp string, 
   sbr_cpf string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/std_person';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/std_person';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_rel_work_loc(
@@ -3298,7 +3298,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_rel_work_loc(
   id_approle string, 
   id_secuser string, 
   sco_comment string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/std_rel_work_loc';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/std_rel_work_loc';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_work_location(
@@ -3334,7 +3334,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.std_work_location(
   sar_id_zona_dgi string, 
   sar_cod_suc_afip string, 
   sar_id_ms_act string,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/std_work_location';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/std_work_location';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.wip_flow_schedules(
@@ -3406,7 +3406,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.wip_flow_schedules(
   synch_schedule_num string, 
   task_id double, 
   wip_entity_id double,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/wip_flow_schedules';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/wip_flow_schedules';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.wip_lines(
@@ -3439,7 +3439,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.wip_lines(
   seq_fix_sequence_type double, 
   start_time double, 
   stop_time double,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/wip_lines';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/wip_lines';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.wip_repetitive_items(
@@ -3472,7 +3472,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.wip_repetitive_items(
   request_id double, 
   wip_entity_id double, 
   wip_supply_type double,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/wip_repetitive_items';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/wip_repetitive_items';
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.wip_transactions(
@@ -3552,5 +3552,5 @@ CREATE EXTERNAL TABLE IF NOT EXISTS erp_mexico_sz.wip_transactions(
   transaction_uom string, 
   usage_rate_or_amount double, 
   wip_entity_id double,
-  storeday string) STORED AS PARQUET LOCATION '${var:paths3}/erp_mexico_sz.db/wip_transactions';
+  storeday string) STORED AS PARQUET LOCATION '${var:bucket_mexico_costoproducir_source}/erp_mexico_sz/wip_transactions';
 
