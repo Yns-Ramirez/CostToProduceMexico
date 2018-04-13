@@ -1,4 +1,5 @@
 create database if not exists gb_mdl_mexico_erp;
+create database if not exists jedox;
 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS gb_mdl_mexico_erp.cst_item_cost_details_hist(
@@ -129,3 +130,59 @@ CREATE EXTERNAL TABLE IF NOT EXISTS gb_mdl_mexico_costoproducir.mtl_onhand_diari
   storeday string)
 PARTITIONED BY (fecha string)
 LOCATION '${hiveconf:bucket_mexico_costoproducir_mdl}/mtl_onhand_diario';
+
+
+
+CREATE EXTERNAL TABLE IF NOT EXISTS jedox.cp_data_detalle(
+  execution_date string, 
+  organizacion_id string, 
+  pais_id string, 
+  planta_id string, 
+  lineas_id string, 
+  turno_id string, 
+  producto_id string, 
+  rubro_id string, 
+  value string, 
+  tmoneda_id string, 
+  storeday string)
+PARTITIONED BY ( 
+  entidadlegal_id string, 
+  periodo string)
+STORED AS PARQUET
+LOCATION '${hiveconf:bucket_mexico_costoproducir_app}/cp_data_detalle';
+
+
+CREATE EXTERNAL TABLE IF NOT EXISTS jedox.cp_data_piezas(
+  execution_date string, 
+  planta_id string, 
+  lineas_id string, 
+  turno_id string, 
+  producto_id string, 
+  concepto string, 
+  cantidad string, 
+  storeday string)
+PARTITIONED BY ( 
+  entidadlegal_id string, 
+  periodo string)
+STORED AS PARQUET
+LOCATION '${hiveconf:bucket_mexico_costoproducir_app}/cp_data_piezas';
+
+
+CREATE EXTERNAL TABLE IF NOT EXISTS jedox.cp_data_sumario(
+  execution_date string, 
+  organizacion_id string, 
+  pais_id string, 
+  planta_id string, 
+  lineas_id string, 
+  turno_id string, 
+  producto_id string, 
+  rubro_id string, 
+  tipo_costo string, 
+  value string, 
+  tmoneda_id string, 
+  storeday string)
+PARTITIONED BY ( 
+  entidadlegal_id string, 
+  periodo string)
+STORED AS PARQUET
+LOCATION '${hiveconf:bucket_mexico_costoproducir_app}/cp_data_sumario';
