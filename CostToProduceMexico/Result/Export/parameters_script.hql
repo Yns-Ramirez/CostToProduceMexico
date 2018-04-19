@@ -1331,7 +1331,7 @@ Der.ingrediente_id as ingredientes,
  sum(Importe) as Importe,
 CAST ('29' as INT) as concepto
 FROM gb_smntc_mexico_costoproducir.CP_Derivados_Fin Der
-left join gb_mdl_mexico_manufactura.mf_producto_organizacion poi on   
+left join gb_smntc_mexico_costoproducir.V_mf_producto_organizacion poi on   
         der.entidadlegal_id = poi.entidadlegal_id
         and  der.Planta_ID = poi.Planta_ID
         and  der.ingrediente_id = cast(poi.producto_id as int)
