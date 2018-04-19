@@ -137,8 +137,8 @@ CAST ('29' as int) as concepto
 FROM gb_smntc_mexico_costoproducir.CP_Derivados_Fin Der
 left join gb_smntc_mexico_costoproducir.V_mf_producto_organizacion poi on   
         der.entidadlegal_id = poi.entidadlegal_id
-        and  der.mf_organizacion_id = poi.mf_organizacion_id
-        and  der.ingrediente_id = poi.mf_producto_id
+        and  der.Planta_ID = poi.Planta_ID
+        and  der.ingrediente_id = cast(poi.producto_id as int)
 where Der.Periodo = '${VAR:VAR_PERIODO}' 
 and Der.EntidadLegal_id in (${VAR:VAR_EL})
 and Der.Fecha_Fin is null;
@@ -1326,15 +1326,15 @@ order by 1;
 insert overwrite jedoxMexico.ext_big_data_29_importestotal
 SELECT 
 Der.EntidadLegal_ID as entidadlegal,
- Der.Planta_ID as plantas,
- -1 as ingredientes,
+Der.Planta_ID as plantas,
+Der.ingrediente_id as ingredientes,
  sum(Importe) as Importe,
 CAST ('29' as INT) as concepto
 FROM gb_smntc_mexico_costoproducir.CP_Derivados_Fin Der
 left join gb_mdl_mexico_manufactura.mf_producto_organizacion poi on   
         der.entidadlegal_id = poi.entidadlegal_id
-        and  der.mf_organizacion_id = poi.mf_organizacion_id
-        and  der.ingrediente_id = poi.mf_producto_id
+        and  der.Planta_ID = poi.Planta_ID
+        and  der.ingrediente_id = cast(poi.producto_id as int)
 where Der.Periodo = '${VAR:VAR_PERIODO}' and Der.EntidadLegal_id in (${VAR:VAR_EL})
 and Der.Fecha_Fin is null
 group by 1,2,3;
