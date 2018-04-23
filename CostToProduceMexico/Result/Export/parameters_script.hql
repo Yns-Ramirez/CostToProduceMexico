@@ -494,7 +494,7 @@ FSG.EntidadLegal_ID
 FROM  gb_smntc_mexico_costoproducir.T_A_RUBROS_FSG FSG 
 INNER JOIN  gb_smntc_mexico_costoproducir.V_MF_Plantas P
 ON FSG.EntidadLegal_ID = P.EntidadLegal_ID AND FSG.AreaNegocio_ID = P.Planta_ID 
-LEFT OUTER JOIN  gb_smntc_mexico_costoproducir.CP_Factores_Prorrateo F ON   
+LEFT OUTER JOIN  (select distinct * from gb_smntc_mexico_costoproducir.CP_Factores_Prorrateo) F ON   
 FSG.EntidadLegal_ID = F.EntidadLegal_ID AND 
 FSG.CuentaNatural_ID = F.CuentaNatural_ID AND 
 FSG.AnalisisLocal_ID = F.AnalisisLocal_ID AND 
@@ -505,7 +505,6 @@ and FSG.CentroCostos_ID between '0151' and '0259'
 AND (FSG.CuentaNatural_ID < '6300' OR  FSG.CuentaNatural_ID > '6599')
 AND NOT (FSG.CuentaNatural_ID = '6997')
 AND NOT (FSG.CuentaNatural_ID = '6717' AND FSG.CentroCostos_ID= '0153')
---and ((FSG.CuentaNatural_ID <> '6401' AND FSG.EntidadLegal_ID = '125') OR (FSG.EntidadLegal_ID <> '125'))
 --and ((FSG.AreaNegocio_ID = '1731' and FSG.EntidadLegal_id='125') OR (FSG.EntidadLegal_id<>'125'))
 AND FSG.EntidadLegal_id IN (${VAR:VAR_EL})
 AND FSG.AnioSaldo =  ${VAR:VAR_ANIO}
