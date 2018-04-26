@@ -548,7 +548,7 @@ INNER JOIN  gb_smntc_mexico_costoproducir.V_MF_Plantas P
 ON FSG.EntidadLegal_ID = P.EntidadLegal_ID 
 AND FSG.AreaNegocio_ID = P.Planta_ID 
 WHERE FSG.Linea_Id IN (45)
-AND FSG.CuentaNatural_ID <> '6401'
+AND ((FSG.CuentaNatural_ID <> '6401' and FSG.entidadlegal_id <> '125') OR (FSG.entidadlegal_id = '125'))
 AND FSG.EntidadLegal_ID IN (${VAR:VAR_EL})
 AND FSG.AnioSaldo = ${VAR:VAR_ANIO}
 AND FSG.MesSaldo = ${VAR:VAR_MES}
