@@ -118,7 +118,7 @@ insert overwrite jedoxMexico.ext_big_data_26a29_importes
 SELECT 
 SN.Entidadlegal_ID as entidadlegal , 
 SN.Areanegocio_id as plantas,
-CAST('-1' as int) as ingredientes,
+'-1' as ingredientes,
 SUM(Coalesce(Montodebito,0) - Coalesce(Montocredito,0)) AS  Importe,
 CASE WHEN CUENTANATURAL_ID = '5116' THEN 26 WHEN CUENTANATURAL_ID = '5117' THEN 28 WHEN CUENTANATURAL_ID = '5118' THEN 27 ELSE 29 END AS concepto
 FROM gb_smntc_mexico_costoproducir.A_Saldo_Nomina SN
@@ -130,9 +130,9 @@ UNION ALL
 
 SELECT 
 Der.EntidadLegal_ID as entidadlegal,
- Der.Planta_ID as plantas,
-  cast(coalesce(poi.producto_id,'-1') as int) as ingredientes,
-   Importe,
+Der.Planta_ID as plantas,
+coalesce(poi.producto_id,'-1') as ingredientes,
+Importe,
 CAST ('29' as int) as concepto
 FROM gb_smntc_mexico_costoproducir.CP_Derivados_Fin Der
 left join gb_smntc_mexico_costoproducir.V_mf_producto_organizacion poi on   
@@ -1326,7 +1326,7 @@ insert overwrite jedoxMexico.ext_big_data_29_importestotal
 SELECT 
 Der.EntidadLegal_ID as entidadlegal,
 Der.Planta_ID as plantas,
-Der.ingrediente_id as ingredientes,
+poi.producto_id as ingredientes,
  sum(Importe) as Importe,
 CAST ('29' as INT) as concepto
 FROM gb_smntc_mexico_costoproducir.CP_Derivados_Fin Der

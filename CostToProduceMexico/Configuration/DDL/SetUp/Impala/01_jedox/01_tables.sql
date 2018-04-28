@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS jedoxMexico.ext_big_data_25_importes(
 CREATE TABLE IF NOT EXISTS jedoxMexico.ext_big_data_26a29_importes(
   entidadlegal string, 
   plantas string, 
-  ingredientes int, 
+  ingredientes string, 
   importe double, 
   concepto int);
 
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS jedoxMexico.ext_big_data_26a29_importes(
 CREATE TABLE IF NOT EXISTS jedoxMexico.ext_big_data_29_importestotal(
   entidadlegal string, 
   plantas string, 
-  ingredientes int, 
+  ingredientes string, 
   importe double, 
   concepto int);
 
