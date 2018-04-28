@@ -52,10 +52,10 @@ importTable(){
     table_impala="$hive_db.$hive_table"
     outputDirectory="/user/"$userHome"/oracletmp/JEDOXMX/$hive_table"
     
-
+    query="select * from "\""$table_oracle"\"""
     
-    SQOOP="sqoop import --connect jdbc:oracle:thin:@jedoxdb.cbow4jr7c6fx.us-east-1.rds.amazonaws.com:1521/ORCL --username Jedox2016 --password Jedox2016! --table $oracle_table --hive-import --hive-overwrite --hive-table $table_impala --m 1 --input-fields-terminated-by '\001' --input-lines-terminated-by '\\n' --input-null-string '\\\\N' --input-null-non-string '\\\\N' --delete-target-dir --verbose"
-#    SQOOP="sqoop import --connect jdbc:oracle:thin:@jedoxdb.cbow4jr7c6fx.us-east-1.rds.amazonaws.com:1521/ORCL --username Jedox2016 --password Jedox2016! --query --hive-import --hive-overwrite --hive-database $hive_db --hive-table $hive_table --m 1 --input-fields-terminated-by '\001' --input-lines-terminated-by '\\n' --null-string '\\\\N' --null-non-string '\\\\N' --target-dir $outputDirectory --delete-target-dir --verbose"
+#   SQOOP="sqoop import --connect jdbc:oracle:thin:@jedoxdb.cbow4jr7c6fx.us-east-1.rds.amazonaws.com:1521/ORCL --username Jedox2016 --password Jedox2016! --table $oracle_table --hive-import --hive-overwrite --hive-table $table_impala --m 1 --input-fields-terminated-by '\001' --input-lines-terminated-by '\\n' --input-null-string '\\\\N' --input-null-non-string '\\\\N' --delete-target-dir --verbose"
+    SQOOP="sqoop import --connect jdbc:oracle:thin:@jedoxdb.cbow4jr7c6fx.us-east-1.rds.amazonaws.com:1521/ORCL --username Jedox2016 --password Jedox2016! --query '$query WHERE \$CONDITIONS' --hive-import --hive-overwrite --hive-database $hive_db --hive-table $hive_table --m 1 --input-fields-terminated-by '\001' --input-lines-terminated-by '\\n' --null-string '\\\\N' --null-non-string '\\\\N' --target-dir $outputDirectory --delete-target-dir --verbose"
 
     echo "*** running sqoop..."
     echo "$SQOOP"
