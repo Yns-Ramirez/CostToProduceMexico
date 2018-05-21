@@ -24,3 +24,8 @@ AnioSaldo
 ,FROM_UNIXTIME(UNIX_TIMESTAMP()) as storeday
 ,EntidadLegal_ID
 FROM gb_smntc_mexico_costoproducir.A_RUBROS_FSG;
+
+
+
+INSERT overwrite table gb_smntc_mexico_costoproducir.rubros_fsg partition(entidadlegal_id) 
+SELECT * FROM gb_mdl_mexico_costoproducir_views.view_rubros_fsg;

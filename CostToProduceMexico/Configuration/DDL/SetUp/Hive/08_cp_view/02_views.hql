@@ -438,6 +438,7 @@ CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.vdw_a_saldo_gl AS SE
 , vasg.areanegocio_id AS areanegocio_id
 , vasg.cuentanatural_id AS cuentanatural_id
 , vasg.analisislocal_id AS analisislocal_id
+, vasg.segmentofiscal_id AS segmentofiscal_id
 , vasg.centrocostos_id AS centrocostos_id
 , vasg.intercost_id AS intercost_id
 , vasg.segment8 AS segment8
@@ -458,6 +459,7 @@ bal.period_year AS AnioSaldo
 ,cod.segment2 AS AreaNegocio_ID
 ,cod.segment3 AS CuentaNatural_ID
 ,cod.segment4 AS AnalisisLocal_ID
+,cod.segment5 AS SegmentoFiscal_ID
 ,cod.segment6 AS CentroCostos_ID
 ,cod.segment7 AS Intercost_ID
 ,COALESCE (cod.segment8, 0) AS Segment8

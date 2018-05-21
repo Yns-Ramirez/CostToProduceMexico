@@ -285,6 +285,22 @@ CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.t_a_rubros_fsg(
 PARTITIONED BY ( 
   entidadlegal_id string);
 
+CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.rubros_fsg(
+  aniosaldo int, 
+  messaldo int, 
+  linea_id int, 
+  nombreconcepto string, 
+  areanegocio_id string, 
+  cuentanatural_id string, 
+  analisislocal_id string,
+  segmentofiscal_id string,
+  centrocostos_id string,
+  intercost_id string,
+  tot_mactividaddelperiodo double, 
+  storeday string)
+PARTITIONED BY ( 
+  entidadlegal_id string);
+
 
 CREATE TABLE IF NOT EXISTS gb_smntc_mexico_costoproducir.v_rubro25_diferencia_inv(
   periodo string, 

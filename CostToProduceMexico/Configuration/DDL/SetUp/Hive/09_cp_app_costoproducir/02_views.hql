@@ -62,6 +62,78 @@ AND sld.analisislocal_id BETWEEN fsg.i_analisislocal_idd AND fsg.f_analisislocal
 GROUP BY sld.aniosaldo,sld.messaldo,sld.entidadlegal_id,fsg.linea_id,fsg.nombreconcepto,sld.areanegocio_id,sld.cuentanatural_id,sld.centrocostos_id,sld.analisislocal_id,sld.storeday;
 
 
+CREATE VIEW IF NOT EXISTS gb_mdl_mexico_costoproducir_views.view_rubros_fsg AS SELECT
+sld.aniosaldo
+,sld.messaldo
+,fsg.linea_id
+,fsg.nombreconcepto
+,sld.areanegocio_id
+,sld.cuentanatural_id
+,sld.analisislocal_id
+,sld.segmentofiscal_id
+,sld.centrocostos_id
+,sld.intercost_id
+,SUM(CASE WHEN fsg.signo = '-' 
+THEN (-1)*sld.actividaddelperiodo 
+ELSE sld.actividaddelperiodo END) TOT_mActividaddelPeriodo
+,FROM_UNIXTIME(UNIX_TIMESTAMP()) as storeday
+,sld.entidadlegal_id
+FROM 
+(
+SELECT a_saldo.aniosaldo, a_saldo.messaldo, a_saldo.areanegocio_id, a_saldo.cuentanatural_id, a_saldo.analisislocal_id, a_saldo.segmentofiscal_id, a_saldo.centrocostos_id, a_saldo.intercost_id, a_saldo.segment8, a_saldo.segment9, a_saldo.segment10, a_saldo.juegolibros_id, a_saldo.marca_id, a_saldo.presupuesto, a_saldo.balanceinicial, a_saldo.actividaddelperiodo, a_saldo.balancefinal, a_saldo.creditodelperiodo, a_saldo.debitodelperiodo, a_saldo.storeday, a_saldo.entidadlegal_id 
+FROM gb_mdl_mexico_costoproducir.A_SALDO 
+WHERE  a_saldo.presupuesto = 0
+AND 
+(
+(a_saldo.entidadlegal_id = '100' AND a_saldo.juegolibros_id IN (141,161))
+OR
+(a_saldo.entidadlegal_id = '101' AND a_saldo.juegolibros_id IN (141,161))
+OR
+(EntidadLegal_ID = '125' AND JuegoLibros_ID = 641)
+)
+) SLD,
+(
+SELECT
+rfd.reporte_id
+,rfd.linea_id
+,rf.nombreconcepto
+,rfd.signo
+,COALESCE(rfd.i_areanegocio_id,'0000') I_AreaNegocio_IDD, COALESCE(rfd.f_areanegocio_id,'9999') F_AreaNegocio_IDD
+,COALESCE(rfd.i_cuentanatural_id,'0000') I_CuentaNatural_IDD, COALESCE(rfd.f_cuentanatural_id,'9999') F_CuentaNatural_IDD
+,COALESCE(rfd.i_centrocostos_id,'0000') I_CentroCostos_IDD, COALESCE(rfd.f_centrocostos_id,'9999') F_CentroCostos_IDD
+,COALESCE(rfd.i_marca_id,'000') I_Marca_IDD, COALESCE(rfd.f_marca_id,'999') F_Marca_IDD
+,COALESCE(rfd.i_analisislocal_id,'0000') I_AnalisisLocal_IDD, COALESCE(rfd.f_analisislocal_id,'9999') F_AnalisisLocal_IDD
+FROM gb_mdl_mexico_costoproducir_views.VDW_A_REPORTE_FINANCIERO_DTL RFD, 
+(  SELECT vdw_a_reporte_financiero.reporte_id, vdw_a_reporte_financiero.linea_id, vdw_a_reporte_financiero.codigoconcepto, vdw_a_reporte_financiero.nombreconcepto, vdw_a_reporte_financiero.displayflag 
+FROM gb_mdl_mexico_costoproducir_views.VDW_A_REPORTE_FINANCIERO 
+WHERE TRIM(vdw_a_reporte_financiero.displayflag) = 'Y' 
+AND vdw_a_reporte_financiero.reporte_id = 10001
+AND vdw_a_reporte_financiero.linea_id IN (25,30,45,95)
+) RF 
+WHERE rf.linea_id = rfd.linea_id 
+AND rf.reporte_id = rfd.reporte_id
+) FSG 
+WHERE  sld.entidadlegal_id IN ('100','101','125') 
+AND sld.presupuesto = 0
+AND sld.areanegocio_id BETWEEN fsg.i_areanegocio_idd AND fsg.f_areanegocio_idd
+AND sld.cuentanatural_id BETWEEN fsg.i_cuentanatural_idd AND fsg.f_cuentanatural_idd
+AND sld.centrocostos_id BETWEEN fsg.i_centrocostos_idd AND fsg.f_centrocostos_idd
+AND sld.marca_id BETWEEN fsg.i_marca_idd AND fsg.f_marca_idd
+AND sld.analisislocal_id BETWEEN fsg.i_analisislocal_idd AND fsg.f_analisislocal_idd
+GROUP BY 
+sld.aniosaldo
+,sld.messaldo
+,fsg.linea_id
+,fsg.nombreconcepto
+,sld.areanegocio_id
+,sld.cuentanatural_id
+,sld.analisislocal_id
+,sld.segmentofiscal_id
+,sld.centrocostos_id
+,sld.intercost_id
+,sld.entidadlegal_id;
+
+
 CREATE VIEW IF NOT EXISTS gb_smntc_mexico_costoproducir.cs_gllines_sf_s3 AS select  
  c.je_source 
 ,c.name
