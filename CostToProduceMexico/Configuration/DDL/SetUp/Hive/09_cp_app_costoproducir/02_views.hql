@@ -108,7 +108,7 @@ FROM gb_mdl_mexico_costoproducir_views.VDW_A_REPORTE_FINANCIERO_DTL RFD,
 FROM gb_mdl_mexico_costoproducir_views.VDW_A_REPORTE_FINANCIERO 
 WHERE TRIM(vdw_a_reporte_financiero.displayflag) = 'Y' 
 AND vdw_a_reporte_financiero.reporte_id = 10001
-AND vdw_a_reporte_financiero.linea_id IN (25,30,45,95)
+--AND vdw_a_reporte_financiero.linea_id IN (25,30,45,95)
 ) RF 
 WHERE rf.linea_id = rfd.linea_id 
 AND rf.reporte_id = rfd.reporte_id
