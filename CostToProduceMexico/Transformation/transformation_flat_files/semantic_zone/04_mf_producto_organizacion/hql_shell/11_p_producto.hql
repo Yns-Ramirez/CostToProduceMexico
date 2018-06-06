@@ -40,3 +40,6 @@ from gb_mdl_mexico_costoproducir.P_PRODUCTO group by Producto_ID) sec
 on tmp.Producto_ID=sec.Producto_ID
 and tmp.storeday=sec.first_record;
 
+
+insert overwrite table gb_mdl_mexico_costoproducir.P_PRODUCTO
+    select distinct * from gb_mdl_mexico_costoproducir.P_PRODUCTO;
