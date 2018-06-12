@@ -62,7 +62,7 @@ A.INVENTORY_ITEM_ID AS Producto_ID,
 CAST(A.PRIMARY_QUANTITY AS FLOAT)  AS CantidadPzas,  
 TRIM(SUBSTRING(A.TRANSACTION_DATE,1,7)) AS Periodo
 FROM gb_mdl_mexico_costoproducir_views.v_MTL_TRANSACCION_MATERIALES A, 
-gb_mdl_mexico_manufactura.MF_Plantas B,
+gb_smntc_mexico_costoproducir.v_mf_plantas B,
 gb_mdl_mexico_costoproducir.mtl_catalogo_materiales C 
 WHERE A.ORGANIZATION_ID=B.MF_Organizacion_ID
 AND A.ORGANIZATION_ID=C.ORGANIZATION_ID 
@@ -82,7 +82,7 @@ AND (((A.TRANSACTION_TYPE_ID = 35 AND A.TRANSACTION_SOURCE_TYPE_ID = 5)
  OR (A.TRANSACTION_TYPE_ID = 43 AND A.TRANSACTION_SOURCE_TYPE_ID = 5 AND A.PRIMARY_QUANTITY < 0)) 
  OR ((A.TRANSACTION_TYPE_ID = 17 AND A.TRANSACTION_SOURCE_TYPE_ID = 5) 
  OR (A.TRANSACTION_TYPE_ID = 44 AND A.TRANSACTION_SOURCE_TYPE_ID = 5)))
-) A, gb_mdl_mexico_manufactura.mf_plantas B
+) A, gb_smntc_mexico_costoproducir.v_mf_plantas B
 WHERE A.Planta_ID = B.mf_organizacion_id
 AND (B.EntidadLegal_ID IN (SELECT EntidadLegal_ID 
 FROM gb_mdl_mexico_costoproducir_views.v_entidadeslegales_activas_for 
@@ -171,7 +171,7 @@ AND MTL.PRIMARY_QUANTITY > 0
 WHERE ((A.COMPLETION_TRANSACTION_ID = B.Tran_Comp_ID 
 AND A.ORGANIZATION_ID = B.Planta_ID) 
 AND TRIM(SUBSTRING(A.TRANSACTION_DATE,1,7))=B.Periodo)
-) C, gb_mdl_mexico_manufactura.MF_Plantas B
+) C, gb_smntc_mexico_costoproducir.v_mf_plantas B
 WHERE C.Planta_ID=B.MF_Organizacion_ID
 AND (B.EntidadLegal_ID IN (SELECT EntidadLegal_ID FROM gb_mdl_mexico_costoproducir_views.v_entidadeslegales_activas_for WHERE TRIM(Aplicacion) = 'FORMULAS' 
 AND EntidadLegal_ID IN ('100','101','125') GROUP BY EntidadLegal_ID)) 
